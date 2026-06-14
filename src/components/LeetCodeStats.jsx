@@ -6,18 +6,6 @@ import { ActivityCalendar } from "react-activity-calendar";
 const LC_USERNAME = "ibXDVQOY8i";
 const API = `https://alfa-leetcode-api.onrender.com/${LC_USERNAME}`;
 
-const fetchWithRetry = async (url, retries = 4, delayMs = 5000) => {
-  for (let i = 0; i < retries; i++) {
-    try {
-      const r = await fetch(url);
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      return await r.json();
-    } catch (e) {
-      if (i < retries - 1) await new Promise((res) => setTimeout(res, delayMs));
-      else throw e;
-    }
-  }
-};
 
 const buildCalendarResult = (raw) => {
   let submissionMap = {};
@@ -91,7 +79,8 @@ const LeetCodeStats = () => {
       .then((d) => { if (d.username) setProfile(d); })
       .catch(() => {});
 
-    fetchWithRetry(`${API}/calendar`)
+    fetch(`${API}/calendar`)
+      .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
       .then((d) => {
         // Set streak immediately — before any processing that could throw
         const streakNum = Number(d.streak) || 0;
