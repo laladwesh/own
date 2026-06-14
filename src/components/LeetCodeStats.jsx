@@ -130,33 +130,37 @@ const LeetCodeStats = () => {
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.08 }}
-            className="w-full lg:w-fit flex-shrink-0 rounded-2xl bg-[#0d0b1a] border border-gray-800 hover:border-purple-700 transition-colors duration-300 overflow-x-auto p-4"
+            className="w-full lg:w-fit flex-shrink-0 rounded-2xl bg-[#0d0b1a] border border-gray-800 hover:border-purple-700 transition-colors duration-300 p-4"
           >
             <p className="font-poppins text-[11px] text-gray-500 mb-3 whitespace-nowrap">
               Submission Heatmap · Last 12 months{activeDays ? ` · ${activeDays} active days` : ""}
             </p>
-            <ActivityCalendar
-              data={calData}
-              colorScheme="dark"
-              theme={{ dark: ["#1a1530", "#2e1065", "#4c1d95", "#6d28d9", "#a78bfa"] }}
-              style={{ color: "#9ca3af" }}
-              blockSize={10}
-              blockMargin={3}
-              fontSize={10}
-              renderBlock={(block, activity) =>
-                React.cloneElement(block, {
-                  onMouseEnter: (e) => { setTip(activity); setTipPos({ x: e.clientX, y: e.clientY }); },
-                  onMouseMove:  (e) => setTipPos({ x: e.clientX, y: e.clientY }),
-                  onMouseLeave: ()  => setTip(null),
-                  style: { cursor: "pointer" },
-                })
-              }
-            />
+            <div className="overflow-x-auto">
+              <div className="min-w-[500px]">
+                <ActivityCalendar
+                  data={calData}
+                  colorScheme="dark"
+                  theme={{ dark: ["#1a1530", "#2e1065", "#4c1d95", "#6d28d9", "#a78bfa"] }}
+                  style={{ color: "#9ca3af" }}
+                  blockSize={10}
+                  blockMargin={3}
+                  fontSize={10}
+                  renderBlock={(block, activity) =>
+                    React.cloneElement(block, {
+                      onMouseEnter: (e) => { setTip(activity); setTipPos({ x: e.clientX, y: e.clientY }); },
+                      onMouseMove:  (e) => setTipPos({ x: e.clientX, y: e.clientY }),
+                      onMouseLeave: ()  => setTip(null),
+                      style: { cursor: "pointer" },
+                    })
+                  }
+                />
+              </div>
+            </div>
           </motion.div>
         )}
 
-        {/* 3 stat cards — vertical stack beside heatmap */}
-        <div className="flex flex-row lg:flex-col gap-2 flex-shrink-0 w-full lg:w-[150px]">
+        {/* 3 stat cards — vertical on desktop, horizontal grid on mobile */}
+        <div className="grid grid-cols-3 lg:grid-cols-1 gap-2 flex-shrink-0 w-full lg:w-[150px]">
           {statItems.map((s, i) => (
             <StatCard key={s.label} label={s.label} value={s.value} delay={i * 0.05} />
           ))}

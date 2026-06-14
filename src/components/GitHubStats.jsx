@@ -24,17 +24,30 @@ const StatCard = ({ label, value, delay = 0 }) => (
   </motion.div>
 );
 
-const EmbedCard = ({ src, alt, delay = 0 }) => (
-  <motion.div
-    initial={{ y: 20, opacity: 0 }}
-    whileInView={{ y: 0, opacity: 1 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.45, delay }}
-    className="rounded-2xl overflow-hidden border border-gray-800 hover:border-purple-700 transition-colors duration-300 bg-[#0d0b1a]"
-  >
-    <img src={src} alt={alt} className="w-full h-auto" loading="lazy" />
-  </motion.div>
-);
+const EmbedCard = ({ src, alt, delay = 0 }) => {
+  const [failed, setFailed] = React.useState(false);
+  return (
+    <motion.div
+      initial={{ y: 20, opacity: 0 }}
+      whileInView={{ y: 0, opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.45, delay }}
+      className="rounded-2xl overflow-hidden border border-gray-800 hover:border-purple-700 transition-colors duration-300 bg-[#0d0b1a] min-h-[80px] flex items-center justify-center"
+    >
+      {failed ? (
+        <span className="font-poppins text-[12px] text-gray-600 p-4 text-center">{alt} unavailable</span>
+      ) : (
+        <img
+          src={src}
+          alt={alt}
+          className="w-full h-auto block"
+          loading="lazy"
+          onError={() => setFailed(true)}
+        />
+      )}
+    </motion.div>
+  );
+};
 
 const GitHubStats = () => {
   const [stats, setStats] = useState({
@@ -147,47 +160,48 @@ const GitHubStats = () => {
         <EmbedCard src={topLangsUrl} alt="Top Languages" delay={0.08} />
       </div>
 
-      <EmbedCard
-        src={activityGraphUrl}
-        alt="GitHub Activity Graph"
-        delay={0.1}
-      />
+      <div className="overflow-x-auto">
+        <div className="min-w-[500px]">
+          <EmbedCard src={activityGraphUrl} alt="GitHub Activity Graph" delay={0.1} />
+        </div>
+      </div>
 
-      {/* Contribution heatmap — card shrinks to calendar width, custom portal tooltip */}
+      {/* Contribution heatmap */}
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.12 }}
-        className="mt-4 overflow-x-auto"
+        className="mt-4 w-full rounded-2xl p-4 sm:p-6 bg-[#0d0b1a] border border-gray-800 hover:border-purple-700 transition-colors duration-300"
       >
-        {/* inline-block without min-w-full so card is exactly as wide as the calendar */}
-        <div className="inline-block rounded-2xl p-6 bg-[#0d0b1a] border border-gray-800 hover:border-purple-700 transition-colors duration-300">
-          <p className="font-poppins text-[13px] text-gray-500 mb-5">
-            Contribution Heatmap · Last 12 months
-          </p>
-          <GitHubCalendar
-            username={USERNAME}
-            colorScheme="dark"
-            theme={{
-              dark: ["#1a1530", "#2e1065", "#4c1d95", "#6d28d9", "#a78bfa"],
-            }}
-            style={{ color: "#9ca3af" }}
-            blockSize={13}
-            blockMargin={4}
-            fontSize={12}
-            renderBlock={(block, activity) =>
-              React.cloneElement(block, {
-                onMouseEnter: (e) => {
-                  setTip(activity);
-                  setTipPos({ x: e.clientX, y: e.clientY });
-                },
-                onMouseMove: (e) => setTipPos({ x: e.clientX, y: e.clientY }),
-                onMouseLeave: () => setTip(null),
-                style: { cursor: "pointer" },
-              })
-            }
-          />
+        <p className="font-poppins text-[13px] text-gray-500 mb-5">
+          Contribution Heatmap · Last 12 months
+        </p>
+        <div className="overflow-x-auto">
+          <div className="min-w-[600px]">
+            <GitHubCalendar
+              username={USERNAME}
+              colorScheme="dark"
+              theme={{
+                dark: ["#1a1530", "#2e1065", "#4c1d95", "#6d28d9", "#a78bfa"],
+              }}
+              style={{ color: "#9ca3af" }}
+              blockSize={13}
+              blockMargin={4}
+              fontSize={12}
+              renderBlock={(block, activity) =>
+                React.cloneElement(block, {
+                  onMouseEnter: (e) => {
+                    setTip(activity);
+                    setTipPos({ x: e.clientX, y: e.clientY });
+                  },
+                  onMouseMove: (e) => setTipPos({ x: e.clientX, y: e.clientY }),
+                  onMouseLeave: () => setTip(null),
+                  style: { cursor: "pointer" },
+                })
+              }
+            />
+          </div>
         </div>
       </motion.div>
 
