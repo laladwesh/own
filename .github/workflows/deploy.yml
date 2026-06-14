@@ -23,6 +23,9 @@ jobs:
           script: |
             set -e
 
+            if [ ! -d ~/portfolio ]; then
+              git clone https://github.com/laladwesh/own.git ~/portfolio
+            fi
             cd ~/portfolio
             echo "Pulling latest changes..."
             git fetch origin
