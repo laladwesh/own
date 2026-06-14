@@ -38,4 +38,10 @@ jobs:
             echo "Building..."
             npm run build
 
+            echo "Restarting PM2 server on port 6012..."
+            pm2 describe portfolio > /dev/null 2>&1 \
+              && pm2 reload portfolio \
+              || pm2 serve dist 6012 --spa --name portfolio
+            pm2 save
+
             echo "Deployment completed successfully!"
