@@ -59,12 +59,76 @@ const StatCard = ({ label, value, delay = 0 }) => (
   </motion.div>
 );
 
+const Donut = ({ value, total, label }) => {
+  const pct = total ? (value / total) * 100 : 0;
+  const r = 50, c = 2 * Math.PI * r;
+  const dash = (pct / 100) * c;
+  return (
+    <div className="relative w-[120px] h-[120px] flex-shrink-0">
+      <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
+        <circle cx="60" cy="60" r={r} fill="none" stroke="#1f1b2e" strokeWidth="9" />
+        <circle
+          cx="60" cy="60" r={r} fill="none"
+          stroke="#a78bfa" strokeWidth="9" strokeLinecap="round"
+          strokeDasharray={`${dash} ${c - dash}`}
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="font-poppins font-bold text-[24px] text-white leading-none">{value}</span>
+        <span className="font-poppins text-[9px] text-gray-500 mt-1">{label}</span>
+      </div>
+    </div>
+  );
+};
+
+const DiffBar = ({ label, solved, total, color }) => (
+  <div className="mb-3 last:mb-0">
+    <div className="flex justify-between mb-1">
+      <span className="font-poppins text-[12px] font-medium" style={{ color }}>{label}</span>
+      <span className="font-poppins text-[11px] text-gray-500">{solved} / {total ?? "…"}</span>
+    </div>
+    <div className="h-1.5 rounded-full bg-gray-800 overflow-hidden">
+      <div
+        className="h-full rounded-full"
+        style={{ width: `${total ? (solved / total) * 100 : 0}%`, background: color }}
+      />
+    </div>
+  </div>
+);
+
+const LeetCodeCard = ({ profile, solved, totals }) => (
+  <div className="rounded-2xl p-5 bg-[#0d0b1a] h-full flex flex-col">
+    <div className="flex items-center gap-2 mb-4">
+      {profile?.avatar && (
+        <img src={profile.avatar} alt="" className="w-8 h-8 rounded-full" />
+      )}
+      <div className="flex-1 min-w-0">
+        <p className="font-poppins text-[13px] text-white font-semibold leading-none truncate">
+          {profile?.username ?? "…"}
+        </p>
+        <p className="font-poppins text-[11px] text-gray-500 mt-1">
+          Rank #{profile?.ranking ? profile.ranking.toLocaleString() : "…"}
+        </p>
+      </div>
+    </div>
+    <div className="flex items-center gap-4 flex-1">
+      <Donut value={solved?.solvedProblem ?? 0} total={totals.all} label="Solved" />
+      <div className="flex-1 min-w-0">
+        <DiffBar label="Easy"   solved={solved?.easySolved ?? 0}   total={totals.easy}   color="#00b8a3" />
+        <DiffBar label="Medium" solved={solved?.mediumSolved ?? 0} total={totals.medium} color="#ffc01e" />
+        <DiffBar label="Hard"   solved={solved?.hardSolved ?? 0}   total={totals.hard}   color="#ff375f" />
+      </div>
+    </div>
+  </div>
+);
+
 const LeetCodeStats = () => {
   const [solved, setSolved]         = useState(null);
   const [profile, setProfile]       = useState(null);
   const [calData, setCalData]       = useState([]);
   const [activeDays, setActiveDays] = useState(null);
   const [maxStreak, setMaxStreak]   = useState(null);
+  const [totals, setTotals]         = useState({ easy: null, medium: null, hard: null, all: null });
   const [tip, setTip]               = useState(null);
   const [tipPos, setTipPos]         = useState({ x: 0, y: 0 });
 
@@ -72,6 +136,21 @@ const LeetCodeStats = () => {
     fetch(`${API}/solved`)
       .then((r) => r.json())
       .then((d) => { if (d.solvedProblem !== undefined) setSolved(d); })
+      .catch(() => {});
+
+    Promise.all(
+      ["EASY", "MEDIUM", "HARD"].map((diff) =>
+        fetch(`https://alfa-leetcode-api.onrender.com/problems?difficulty=${diff}&limit=1`).then((r) => r.json()),
+      ),
+    )
+      .then(([easy, medium, hard]) => {
+        setTotals({
+          easy: easy.totalQuestions ?? null,
+          medium: medium.totalQuestions ?? null,
+          hard: hard.totalQuestions ?? null,
+          all: (easy.totalQuestions || 0) + (medium.totalQuestions || 0) + (hard.totalQuestions || 0),
+        });
+      })
       .catch(() => {});
 
     fetch(API)
@@ -102,8 +181,6 @@ const LeetCodeStats = () => {
     { label: "Max Streak ", value: maxStreak !== null ? `${maxStreak}d` : null },
   ];
 
-  const lcCardUrl = `https://leetcard.jacoblin.cool/${LC_USERNAME}?theme=dark&font=Baloo+2&border=0&radius=12&background=0d0b1a`;
-
   return (
     <section id="leetcodeStats" className="mb-16">
       <h1 className="font-poppins font-semibold ss:text-[55px] text-[45px] text-white ss:leading-[80px] leading-[80px] mb-5">
@@ -120,7 +197,7 @@ const LeetCodeStats = () => {
           transition={{ duration: 0.5 }}
           className="w-full lg:w-[340px] flex-shrink-0 rounded-2xl overflow-hidden border border-gray-800 hover:border-purple-700 transition-colors duration-300 bg-[#0d0b1a]"
         >
-          <img src={lcCardUrl} alt="LeetCode Card" className="w-full h-full object-contain" loading="lazy" />
+          <LeetCodeCard profile={profile} solved={solved} totals={totals} />
         </motion.div>
 
         {/* Heatmap */}
