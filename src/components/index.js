@@ -15,6 +15,7 @@ import BlogPosts from "./BlogPosts";
 import Achievements from "./Achievements";
 import GitHubStats from "./GitHubStats";
 import LeetCodeStats from "./LeetCodeStats";
+import GitHubRepos from "./GitHubRepos";
 
 
 export {
@@ -33,4 +34,5 @@ export {
     Achievements,
     GitHubStats,
     LeetCodeStats,
+    GitHubRepos,
 };

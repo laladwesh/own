@@ -64,6 +64,7 @@ export const navLinks = [
   { id: "githubStats", title: "GitHub Stats" },
   { id: "leetcodeStats", title: "LeetCode Stats" },
   { id: "projects", title: "Projects" },
+  { id: "githubRepos", title: "Repositories" },
   { id: "openSource", title: "Open Source" },
   { id: "extraCurricular", title: "Extra Curricular" },
   { id: "contactMe", title: "Contact Me" },

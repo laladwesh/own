@@ -16,6 +16,7 @@ import {
   Achievements,
   GitHubStats,
   LeetCodeStats,
+  GitHubRepos,
 } from "./components";
 
 const App = () => {
@@ -68,6 +69,7 @@ const App = () => {
                 <GitHubStats />
                 <LeetCodeStats />
                 <Projects />
+                <GitHubRepos />
                 <BlogPosts enabled={false} />
                 <OpenSource />
                 <ExtraCurricular />
