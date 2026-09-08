@@ -3,6 +3,7 @@ import { projects } from "../constants";
 import { AiFillGithub } from "react-icons/ai";
 import { BsLink45Deg } from "react-icons/bs";
 import { SiGoogleplay, SiApple } from "react-icons/si";
+import { HiOutlineSquares2X2 } from "react-icons/hi2";
 import { LinkPreview } from "./LinkPreview";
 
 const Project = (props) => {
@@ -53,6 +54,13 @@ const Project = (props) => {
           <LinkPreview url={props.link}>
             <a href={props.link} target="_blank" rel="noopener noreferrer" title="Live Site">
               <BsLink45Deg size="2rem" className="text-white hover:text-purple-300" />
+            </a>
+          </LinkPreview>
+        )}
+        {props.hub && (
+          <LinkPreview url={props.hub}>
+            <a href={props.hub} target="_blank" rel="noopener noreferrer" title="Project Hub — all sub-projects">
+              <HiOutlineSquares2X2 size="1.8rem" className="text-white hover:text-purple-300" />
             </a>
           </LinkPreview>
         )}
