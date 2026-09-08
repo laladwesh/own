@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 import { GitHubCalendar } from "react-github-calendar";
-import { SectionHeading } from "./ui";
 
 const USERNAME = "laladwesh";
 const TOKEN = import.meta.env.VITE_GH_TOKEN;
@@ -375,15 +374,17 @@ const GitHubStats = () => {
 
   return (
     <section id="githubStats" className="mb-20 max-w-[1200px] mx-auto px-4 font-poppins">
-      <div className="mb-8">
-        <SectionHeading
-          index="04"
-          kicker="Open-source footprint"
-          title="GitHub"
-          accent="Architecture"
-          subtitle="A systematic breakdown of my open-source metrics — commits, languages, streaks and contribution history."
-        />
-      </div>
+      <motion.div 
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mb-8"
+      >
+        <h1 className="text-[32px] sm:text-[38px] font-semibold text-white leading-tight">
+          GitHub Architecture
+        </h1>
+        <p className="text-gray-400 mt-1 text-[14px]">Systematic breakdown of open-source metrics.</p>
+      </motion.div>
 
       {/* Main Grid Wrapper - strict gap-4 prevents ALL weird vertical spacing */}
       <div className="flex flex-col gap-4">

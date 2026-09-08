@@ -311,7 +311,7 @@ export const experiences = [
   {
     organisation: "Students' Web Committee, IIT Guwahati",
     logo: swc,
-    link: "https://swc.iitg.ac.in",
+    link: "https://swciitg.in",
     positions: [
       {
         title: "Senior Web Developer",
@@ -390,7 +390,6 @@ export const projects = [
     title: "Intern Portal CCD, IITG",
     github: "https://github.com/tnp-iitg/Intern-Portal-IITG/tree/dev/",
     link: "https://iitg.ac.in/intern",
-    hub: "https://ccd.avinashgupta.in",
     image: placeicon,
     content:
       "Full-stack internship management portal for IIT Guwahati's CCD workflow — replaces fragmented manual coordination with a unified platform for students, companies, coordinators, verifiers and logistics. Features Google OAuth, Microsoft/Outlook auth, JWT company login, PDF/Excel exports, CV verification, bulk uploads, role-based access, and Sentry monitoring.",
@@ -411,7 +410,7 @@ export const projects = [
     id: "project-nufab",
     title: "Nufab India — E-Commerce Platform",
     github: "https://github.com/laladwesh/client",
-    link: "",
+    link: "https://nufab.studio",
     image: placeicon,
     content:
       "Freelance full-stack e-commerce and operations platform for Nufab India — product browsing, cart, wishlist, coupons, checkout, order and refund management, Razorpay payments, Delhivery logistics (tracking, returns, exchanges), AWS S3 image storage, Google OAuth + OTP login, and an AdminJS dashboard for complete backend operations.",
@@ -434,7 +433,6 @@ export const projects = [
     title: "PIMS Evalu Pro",
     github: "https://github.com/laladwesh/copy-checker/",
     link: "https://prasadacademic.in/",
-    hub: "https://prasad.avinashgupta.in",
     image: placeicon,
     content:
       "Freelance exam copy management platform — converts uploaded PDFs to per-page images, generates processed PDFs, and syncs with Google Drive. Features Google OAuth + JWT auth, role-based examiner workflows, scheduled maintenance with node-cron, and Cloudinary/Firebase integrations.",
@@ -456,7 +454,6 @@ export const projects = [
     title: "Elective Enrollment Portal",
     github: "https://github.com/laladwesh/elective-portal",
     link: "https://elective.prasadacademic.in/",
-    hub: "https://prasad.avinashgupta.in",
     image: placeicon,
     content:
       "Full-stack elective course enrollment portal built for Prasad Academics — Google OAuth + JWT auth, role-based dashboards (Student/Admin), auto-activation of enrollment windows, bulk student upload via CSV/Excel, and PDF/Excel report generation with capacity management and batch-wise filtering.",
@@ -477,7 +474,6 @@ export const projects = [
     title: "EaseExit — Leave Management",
     github: "https://github.com/laladwesh/college-leave-backend",
     link: "https://easeexit.prasadacademic.in",
-    hub: "https://prasad.avinashgupta.in",
     playStore: "https://play.google.com/store/apps/details?id=com.pims.pims_app",
     appStore: "https://apps.apple.com/app/ease-exit/id6749087386",
     image: placeicon,
@@ -500,7 +496,6 @@ export const projects = [
     title: "Status & Infra Monitor",
     github: "https://github.com/laladwesh/status",
     link: "https://status.prasadacademic.in",
-    hub: "https://prasad.avinashgupta.in",
     image: placeicon,
     content:
       "Production-ready service status and infrastructure monitoring platform built for Prasad Academics (PIMS) — public dashboard with live health checks, incident tracking, WebSocket-powered real-time metrics, Prometheus-style endpoints, email alerts on threshold breaches, JWT-secured admin panel, and automated MongoDB backups to Google Drive for disaster recovery.",
@@ -521,7 +516,6 @@ export const projects = [
     title: "D-Day Live Placement Portal",
     github: "https://github.com/laladwesh/live-placement-ccd/",
     link: "https://iitg.ac.in/dday",
-    hub: "https://ccd.avinashgupta.in",
     image: placeicon,
     content:
       "Real-time campus placement portal for IIT Guwahati — WebSocket-enabled live dashboards with role-based access (Admin/POC/Student), JWT auth, PDF report generation, intelligent student blocking to prevent duplicate offers, and bulk CSV/XLSX import. Supports 1500+ students and 150+ companies.",
@@ -594,7 +588,7 @@ export const projects = [
     id: "project-onawie",
     title: "Onawie — Mini PaaS",
     github: "https://github.com/laladwesh/place-gfaad",
-    link: "",
+    link: "https://onawie.avinashgupta.in",
     image: placeicon,
     content:
       "Self-hosted mini PaaS inspired by Vercel/Render — sign in with GitHub OAuth, select a repo, configure build settings, and ship to a live subdomain in one flow. Runs a Docker-based deployment pipeline with webhook-triggered redeploys, PR preview environments, deployment logs, rollbacks, project-level env variables, GitHub commit status updates, encrypted token storage, and optional Gemini-powered deployment insights. Hosted on Oracle VM, managed with PM2, routed via NGINX.",

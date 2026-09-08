@@ -17,7 +17,6 @@ import { DiCss3 } from "react-icons/di";
 import { FaAws, FaServer } from "react-icons/fa";
 import { FaGolang } from "react-icons/fa6";
 import projectsData from "../data/github-projects.json";
-import { SectionHeading } from "./ui";
 
 // ── Tech icon map ─────────────────────────────────────────────────────────────
 const TECH_MAP = {
@@ -475,15 +474,20 @@ const GitHubRepos = () => {
   return (
     <section id="githubRepos" className="overflow-hidden mb-16">
       {/* Heading */}
-      <div className="mb-6">
-        <SectionHeading
-          index="07"
-          kicker="Everything I've built"
-          title="All"
-          accent="Repositories"
-          subtitle={`${projectsData.length} public repositories · AI-summarized`}
-        />
-      </div>
+      <motion.div
+        initial={{ y: 16, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.45 }}
+        className="mb-6"
+      >
+        <h1 className="font-poppins font-semibold ss:text-[55px] text-[45px] text-white ss:leading-[80px] leading-[80px]">
+          All Repositories
+        </h1>
+        <p className="font-poppins font-normal text-dimWhite text-[15px] -mt-1">
+          {projectsData.length} public repos · AI-summarized
+        </p>
+      </motion.div>
 
       {/* Category filter */}
       <div className="flex flex-wrap gap-2 mb-5">

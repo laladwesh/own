@@ -1,10 +1,8 @@
-import { layout } from "../style";
+import styles, { layout } from "../style";
 import { educationList } from "../constants";
 import Lottie from "react-lottie-player";
 import animationData from "../lotties/quiz-mode-teal-dark.json";
-import { SectionHeading, TiltCard, Reveal } from "./ui";
-import { HiOutlineAcademicCap } from "react-icons/hi2";
-import { FaRegCalendarAlt } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 // lottie config
 const defaultOptions = {
@@ -16,31 +14,6 @@ const defaultOptions = {
   },
 };
 
-// small diamond bullet marker
-const DiamondMarker = () => (
-  <svg
-    viewBox="0 0 12 12"
-    className="mt-[7px] h-[10px] w-[10px] shrink-0 drop-shadow-[0_0_6px_rgba(232,121,249,0.5)]"
-    aria-hidden="true"
-  >
-    <defs>
-      <linearGradient id="eduDiamond" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stopColor="#a78bfa" />
-        <stop offset="100%" stopColor="#e879f9" />
-      </linearGradient>
-    </defs>
-    <rect
-      x="6"
-      y="0.5"
-      width="7.7"
-      height="7.7"
-      rx="1.6"
-      transform="rotate(45 6 0.5)"
-      fill="url(#eduDiamond)"
-    />
-  </svg>
-);
-
 const FeatureCard = ({
   icon,
   title,
@@ -50,82 +23,58 @@ const FeatureCard = ({
   content2,
   index,
 }) => (
-  <Reveal direction="up" delay={index * 0.1} className="w-full">
-    <TiltCard
-      max={8}
-      glare
-      scale={1.015}
-      className={`card-ring relative overflow-hidden p-6 ss:p-7 ${
-        index === educationList.length - 1 ? "mb-0" : "mb-6"
-      }`}
+  <div
+    className={`flex flex-row p-6 rounded-[20px]
+	${index === educationList.length - 1 ? "mb-0" : "mb-6"} feature-card`}
+  >
+    <div
+      className={`w-[64px] h-[64px] rounded-full ${styles.flexCenter} bg-dimBlue`}
     >
-      {/* decorative academic accent */}
-      <HiOutlineAcademicCap className="pointer-events-none absolute -right-3 -top-3 h-24 w-24 text-violet-400/10 transition-colors duration-300 group-hover:text-violet-400/20" />
-
-      <div className="relative flex flex-row items-start gap-5">
-        {/* conic-ring avatar holding the iitg logo */}
-        <div className="conic-ring h-[68px] w-[68px] shrink-0 rounded-full p-[2px]">
-          <div className="flex h-full w-full items-center justify-center rounded-full bg-ink-900/90">
-            <img
-              src={icon}
-              alt={title}
-              className="h-[78%] w-[78%] rounded-full object-cover"
-            />
-          </div>
-        </div>
-
-        <div className="flex flex-1 flex-col">
-          <h4 className="font-display text-[21px] font-semibold leading-[1.25] text-gradient">
-            {title}
-          </h4>
-
-          <p className="mt-1 font-poppins text-[16px] font-medium leading-[26px] text-white/90">
-            {degree}
-          </p>
-
-          {/* duration as a mono pill with calendar icon */}
-          <span className="glass mt-3 inline-flex w-fit items-center gap-2 rounded-full px-3 py-1 font-mono text-[12px] tracking-wide text-violet-200">
-            <FaRegCalendarAlt className="h-3 w-3 text-accent" />
-            {duration}
-          </span>
-
-          {/* content bullets with diamond markers */}
-          <ul className="mt-4 flex flex-col gap-2.5">
-            <li className="flex items-start gap-3 font-poppins text-[15px] leading-[24px] text-dimWhite">
-              <DiamondMarker />
-              <span>{content1}</span>
-            </li>
-            {content2 && (
-              <li className="flex items-start gap-3 font-poppins text-[15px] leading-[24px] text-dimWhite">
-                <DiamondMarker />
-                <span>{content2}</span>
-              </li>
-            )}
-          </ul>
-        </div>
-      </div>
-    </TiltCard>
-  </Reveal>
+      <img src={icon} alt="icon" className="w-[80%] h-[80%] object-cover rounded-full" />
+    </div>
+    <div className="flex-1 flex flex-col ml-4">
+      <h4 className="font-poppins font-semibold text-white text-[20px] leading-[30px] mb-1 text-gradient">
+        {title}
+      </h4>
+      <p className="font-poppins font-normal text-white text-[16px] leading-[30px] mb-1 ">
+        {degree}
+      </p>
+      <p className="font-poppins font-normal text-dimWhite text-[14px] leading-[30px] mb-1">
+        {duration}
+      </p>
+      <p className="font-poppins font-normal text-dimWhite text-[16px] leading-[30px] mb-1">   
+      ● {content1}
+      </p>
+      {content2 && (
+        <p className="font-poppins font-normal text-dimWhite text-[16px] leading-[30px] mb-1">     
+      ● {content2}
+        </p>
+      )}
+    </div>
+  </div>
 );
 
 const Education = () => {
   return (
     <section id="education">
-      <SectionHeading index="02" kicker="Where I study" title="Education" />
-
-      <div className={layout.sectionReverse}>
+      <h1 className="flex-1 font-poppins font-semibold ss:text-[55px] text-[45px] text-white ss:leading-[80px] leading-[80px]">
+        Education
+      </h1>
+      <motion.div
+        className={layout.sectionReverse}
+        initial={{ x: -40, opacity: 0 }}
+        whileInView={{ x: 0, opacity: 1 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
         <div className={layout.sectionImgReverse}>
-          {/* framed lottie inside a soft glass disc with float */}
-          <div className="relative z-[5] flex w-[80%] items-center justify-center">
-            <div className="glass-panel relative aspect-square w-full animate-float overflow-hidden rounded-full p-4 shadow-glow-lg">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-violet-500/10 via-transparent to-accent/10" />
-              <Lottie {...defaultOptions} />
-            </div>
+          <div className="w-[80%] h-[80%] relative z-[5]">
+            <Lottie {...defaultOptions} />
           </div>
 
           {/* gradient start */}
-          <div className="absolute z-[3] -left-1/2 top-0 h-[50%] w-[50%] rounded-full white__gradient" />
-          <div className="absolute z-[0] -left-1/2 bottom-0 h-[50%] w-[50%] rounded-full pink__gradient" />
+          <div className="absolute z-[3] -left-1/2 top-0 w-[50%] h-[50%] rounded-full white__gradient" />
+          <div className="absolute z-[0] w-[50%] h-[50%] -left-1/2 bottom-0 rounded-full pink__gradient" />
           {/* gradient end */}
         </div>
 
@@ -134,7 +83,7 @@ const Education = () => {
             <FeatureCard key={feature.id} index={index} {...feature} />
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

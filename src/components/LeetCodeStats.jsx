@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 import { ActivityCalendar } from "react-activity-calendar";
-import { SectionHeading } from "./ui";
 
 const LC_USERNAME = "ibXDVQOY8i";
 const API = `https://alfa-leetcode-api.onrender.com/${LC_USERNAME}`;
@@ -184,14 +183,9 @@ const LeetCodeStats = () => {
 
   return (
     <section id="leetcodeStats" className="mb-16">
-      <div className="mb-8">
-        <SectionHeading
-          index="05"
-          kicker="Problem solving"
-          title="LeetCode"
-          accent="Stats"
-        />
-      </div>
+      <h1 className="font-poppins font-semibold ss:text-[55px] text-[45px] text-white ss:leading-[80px] leading-[80px] mb-5">
+        LeetCode Stats
+      </h1>
 
       {/* Single row: LeetCard | Heatmap | 3 stat cards vertical */}
       <div className="flex flex-col lg:flex-row gap-4 items-stretch">
