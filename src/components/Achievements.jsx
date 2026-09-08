@@ -1,31 +1,32 @@
 import React from "react";
 import { BsLink45Deg } from "react-icons/bs";
 import { AiFillGithub } from "react-icons/ai";
-import { FaYoutube } from "react-icons/fa";
+import { FaYoutube, FaTrophy, FaMedal, FaAward } from "react-icons/fa";
 import { TiNews } from "react-icons/ti";
-import { motion } from "framer-motion";
 import { LinkPreview } from "./LinkPreview";
 import { achievements } from "../constants";
 import styles from "../style";
+import { SectionHeading, TiltCard, Reveal } from "./ui";
+
+// Pick a tasteful trophy/medal/award accent per card (cycles, deterministic by index)
+const accentIcons = [FaTrophy, FaMedal, FaAward];
 
 const Achievements = () => {
   return (
-    <section
-      className="bg-primary text-white mt-5 md:mt-10 relative"
-      id="achievements"
-    >
-      <div className={`bg-primary ${styles.flexCenter} ${styles.paddingX}`}>
+    <section className="text-white mt-5 md:mt-10 relative" id="achievements">
+      <div className={`${styles.flexCenter} ${styles.paddingX}`}>
         <div className={`${styles.boxWidth}`}>
-          <h1 className="flex-1 font-poppins font-semibold ss:text-[55px] text-[45px] text-white ss:leading-[80px] leading-[80px]">
-            Achievements
-          </h1>
+          <SectionHeading index="03" kicker="Recognition" title="Achievements" />
         </div>
       </div>
+
+      {/* Decorative ambient blob */}
       <div className="absolute z-[0] w-[60%] h-[60%] -left-[50%] rounded-full blue__gradient bottom-40" />
-      <div className={`bg-primary ${styles.flexCenter} ${styles.paddingX}`}>
+
+      <div className={`${styles.flexCenter} ${styles.paddingX} relative z-[1]`}>
         <div className={`${styles.boxWidth}`}>
           <div className="container px-2 py-10 mx-auto mb-8">
-            <div className="grid grid-cols-1 gap-8 mt-8 md:mt-16 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-8 mt-8 md:mt-12 md:grid-cols-2 lg:grid-cols-3">
               {/* Render all achievement cards in scrollable grid */}
               {achievements.map((achievement, index) => (
                 <AchievementCard key={index} index={index} {...achievement} />
@@ -39,107 +40,150 @@ const Achievements = () => {
 };
 
 const AchievementCard = (props) => {
+  const { index = 0 } = props;
+  const AccentIcon = accentIcons[index % accentIcons.length];
+  const contents = [props.content1, props.content2, props.content3].filter(
+    Boolean
+  );
+
   return (
-    <motion.div
-      className="flex flex-col justify-around px-6 py-4 rounded-[20px] transition-all duration-300 border hover:border-purple-300 hover:shadow-lg hover:shadow-purple-300/20 dark:border-gray-700 dark:hover:border-transparent"
-      initial={{ y: 20, opacity: 0 }}
-      whileInView={{ y: 0, opacity: 1 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-    >
-      {/* Achievement icon/logo */}
-      <img
-        src={props.icon}
-        alt={props.event}
-        className="w-[45px] h-[45px] rounded-full mt-1 mb-1"
-      />
-      <div className="flex flex-col justify-end mt-4 mb-1">
-        {/* Event name */}
-        <p className="font-poppins font-normal text-xl text-white leading-[24px] mb-2">
-          {props.event}
-        </p>
-        {/* Position/Award */}
-        <p className="font-poppins italic font-normal text-lg text-gradient mb-3">
-          {props.position}
-        </p>
-        {/* Achievement descriptions - only render if content exists */}
-        {props.content1 && (
-          <p className="font-poppins font-normal text-dimWhite text-sm mb-1">
-           -  {props.content1}
+    <Reveal direction="up" delay={index * 0.08} className="h-full">
+      <TiltCard
+        max={9}
+        glare
+        scale={1.02}
+        className="card-ring h-full flex flex-col justify-between px-6 py-6 rounded-[20px]"
+      >
+        {/* Top row: org avatar + award accent */}
+        <div className="flex items-start justify-between">
+          {/* Org logo avatar in conic ring */}
+          <div className="conic-ring rounded-full p-[2px] shrink-0">
+            <div className="rounded-full bg-ink-900/80 p-[3px]">
+              <img
+                src={props.icon}
+                alt={props.event}
+                className="w-[44px] h-[44px] rounded-full object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Trophy / medal / award accent */}
+          <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl glass text-[#fcd34d] shadow-glow group-hover:scale-110 transition-transform duration-300">
+            <AccentIcon size="1.25rem" />
+          </span>
+        </div>
+
+        {/* Body */}
+        <div className="flex flex-col mt-5 mb-1 flex-1">
+          {/* Event name */}
+          <h3 className="font-display font-semibold text-xl text-white leading-snug mb-2">
+            {props.event}
+          </h3>
+
+          {/* Position / award */}
+          <p className="font-display italic font-medium text-lg text-gradient mb-4">
+            {props.position}
           </p>
-        )}
-        {props.content2 && (
-          <p className="font-poppins font-normal text-dimWhite text-sm mb-1">
-          - {props.content2}
-          </p>
-        )}
-        {props.content3 && (
-          <p className="font-poppins font-normal text-dimWhite text-sm mb-4">
-           - {props.content3}
-          </p>
-        )}
-      </div>
-      {/* Social/Project links with hover preview - only render if link exists */}
-      <div className="flex flex-row mb-2 font-poppins font-normal text-dimWhite gap-3">
-        {props.article && (
-          <LinkPreview url={props.article}>
-            <a
-              href={props.article}
-              target="_blank"
-              rel="noopener noreferrer"
+
+          {/* Description bullets */}
+          {contents.length > 0 && (
+            <ul className="flex flex-col gap-2.5">
+              {contents.map((line, i) => (
+                <li
+                  key={i}
+                  className="flex items-start gap-2.5 font-poppins font-normal text-dimWhite text-sm leading-relaxed"
+                >
+                  {/* SVG bullet marker */}
+                  <svg
+                    className="mt-[6px] shrink-0 text-accent"
+                    width="8"
+                    height="8"
+                    viewBox="0 0 8 8"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <circle cx="4" cy="4" r="3" fill="currentColor" />
+                    <circle
+                      cx="4"
+                      cy="4"
+                      r="3.5"
+                      stroke="currentColor"
+                      strokeOpacity="0.35"
+                    />
+                  </svg>
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {/* Social/Project links with hover preview - only render if link exists */}
+        <div className="flex flex-row items-center mt-6 pt-4 border-t border-white/5 font-poppins font-normal text-dimWhite gap-3">
+          {props.article && (
+            <LinkPreview url={props.article}>
+              <a
+                href={props.article}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center w-9 h-9 rounded-lg glass hover:text-purple-300 hover:scale-110 transition-all"
+                aria-label="Article"
+              >
+                <TiNews size="1.25rem" className="inline" />
+              </a>
+            </LinkPreview>
+          )}
+          {props.youtube && (
+            <LinkPreview
+              url={props.youtube}
               className="inline-flex items-center hover:text-purple-300 hover:scale-110 transition-all"
             >
-              <TiNews size="1.5rem" className="inline" />
-            </a>
-          </LinkPreview>
-        )}
-        {props.youtube && (
-          <LinkPreview
-            url={props.youtube}
-            className="inline-flex items-center hover:text-purple-300 hover:scale-110 transition-all"
-          >
-            <a
-              href={props.youtube}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center"
+              <a
+                href={props.youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center w-9 h-9 rounded-lg glass"
+                aria-label="YouTube"
+              >
+                <FaYoutube size="1.25rem" className="inline" />
+              </a>
+            </LinkPreview>
+          )}
+          {props.github && (
+            <LinkPreview
+              url={props.github}
+              className="inline-flex items-center hover:text-purple-300 hover:scale-110 transition-all"
             >
-              <FaYoutube size="1.5rem" className="inline" />
-            </a>
-          </LinkPreview>
-        )}
-        {props.github && (
-          <LinkPreview
-            url={props.github}
-            className="inline-flex items-center hover:text-purple-300 hover:scale-110 transition-all"
-          >
-            <a
-              href={props.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center"
+              <a
+                href={props.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center w-9 h-9 rounded-lg glass"
+                aria-label="GitHub"
+              >
+                <AiFillGithub size="1.25rem" className="inline" />
+              </a>
+            </LinkPreview>
+          )}
+          {props.project && (
+            <LinkPreview
+              url={props.project}
+              className="inline-flex items-center hover:text-purple-300 hover:scale-110 transition-all"
             >
-              <AiFillGithub size="1.5rem" className="inline" />
-            </a>
-          </LinkPreview>
-        )}
-        {props.project && (
-          <LinkPreview
-            url={props.project}
-            className="inline-flex items-center hover:text-purple-300 hover:scale-110 transition-all"
-          >
-            <a
-              href={props.project}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center"
-            >
-              <BsLink45Deg size="1.5rem" className="inline" />
-            </a>
-          </LinkPreview>
-        )}
-      </div>
-    </motion.div>
+              <a
+                href={props.project}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center w-9 h-9 rounded-lg glass"
+                aria-label="Project"
+              >
+                <BsLink45Deg size="1.25rem" className="inline" />
+              </a>
+            </LinkPreview>
+          )}
+        </div>
+      </TiltCard>
+    </Reveal>
   );
 };
 

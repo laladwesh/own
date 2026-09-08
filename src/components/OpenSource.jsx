@@ -3,6 +3,7 @@ import { DiGitMerge, DiGitPullRequest } from "react-icons/di";
 import { AiFillApi } from "react-icons/ai";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchContributionsWithRetry } from "../lib/helperFunctions";
+import { SectionHeading } from "./ui";
 
 const RepoModal = ({ repo, prs, logoUrl, onClose }) => (
   <motion.div
@@ -204,9 +205,13 @@ const OpenSource = () => {
 
   return (
     <section id="openSource">
-      <h1 className="flex-1 font-poppins font-semibold ss:text-[55px] text-[45px] text-white ss:leading-[80px] leading-[80px]">
-        Open Source Contributions
-      </h1>
+      <SectionHeading
+        index="08"
+        kicker="Giving back"
+        title="Open Source"
+        accent="Contributions"
+      />
+
 
       <div className="container px-2 py-5 mx-auto mb-8">
         {contributions.error ? (

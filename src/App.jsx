@@ -19,52 +19,62 @@ import {
   GitHubRepos,
 } from "./components";
 
+import {
+  AnimatedBackground,
+  ScrollProgress,
+  ScrollToTop,
+} from "./components/ui";
+
 const App = () => {
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1200);
+    const t = setTimeout(() => setIsLoading(false), 1600);
+    return () => clearTimeout(t);
   }, []);
 
   return (
-    // A div to wrap the entire application
-    <div className="bg-primary w-full overflow-hidden">
-      <AnimatePresence>
+    <div className="relative w-full overflow-x-hidden bg-[#050410] grain text-white">
+      {/* ambient layers */}
+      <AnimatedBackground />
+
+      <AnimatePresence mode="wait">
         {isLoading ? (
           <Loading key="loading" />
         ) : (
-          <motion.section
+          <motion.div
             key="content"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="relative z-10"
           >
-            <div className={`${styles.paddingX} ${styles.flexCenter}`}>
-              <div className={`${styles.boxWidth}`}>
-                <Navbar />
-              </div>
-            </div>
+            <ScrollProgress />
+            <ScrollToTop />
 
-            <div className={`bg-primary ${styles.flexStart} pt-[80px]`}>
+            {/* Navbar */}
+            <Navbar />
+
+            {/* Hero */}
+            <div className={`${styles.flexStart} pt-[88px]`}>
               <div className={`${styles.boxWidth}`}>
                 <Hero />
               </div>
             </div>
 
-            <div
-              className={`bg-primary ${styles.flexCenter} ${styles.paddingX}`}
-            >
+            {/* Skills + Education */}
+            <div className={`${styles.flexCenter} ${styles.paddingX}`}>
               <div className={`${styles.boxWidth}`}>
                 <SkillsAndExperience />
                 <Education />
               </div>
             </div>
+
+            {/* Achievements */}
             <Achievements />
-            <div
-              className={`bg-primary ${styles.flexCenter} ${styles.paddingX}`}
-            >
+
+            {/* Stats, Projects, Repos, OSS, Extra-curricular */}
+            <div className={`${styles.flexCenter} ${styles.paddingX}`}>
               <div className={`${styles.boxWidth}`}>
                 <GitHubStats />
                 <LeetCodeStats />
@@ -75,8 +85,9 @@ const App = () => {
                 <ExtraCurricular />
               </div>
             </div>
+
             <Footer />
-          </motion.section>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

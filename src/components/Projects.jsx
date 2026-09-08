@@ -3,32 +3,47 @@ import { projects } from "../constants";
 import { AiFillGithub } from "react-icons/ai";
 import { BsLink45Deg } from "react-icons/bs";
 import { SiGoogleplay, SiApple } from "react-icons/si";
+import { HiOutlineSquares2X2 } from "react-icons/hi2";
 import { LinkPreview } from "./LinkPreview";
+import { SectionHeading, TiltCard } from "./ui";
 
 const Project = (props) => {
   return (
-    <div className="project-card flex-shrink-0 px-8 py-6 transition-colors duration-300 transform border rounded-xl hover:border-transparent group dark:border-gray-700 dark:hover:border-transparent feature-card w-[320px] sm:w-[400px] md:w-[500px] mr-6 sm:mr-8 md:mr-10">
-      <div className="flex flex-col items-start">
-        <img
-          className="flex-shrink-0 object-cover w-20 h-20 rounded-full ring-4 ring-gray-300"
-          src={props.image}
-          alt=""
-        />
+    <div className="project-card flex-shrink-0 w-[320px] sm:w-[400px] md:w-[500px] mr-6 sm:mr-8 md:mr-10">
+      <TiltCard
+        max={9}
+        glare
+        scale={1.02}
+        className="card-ring glass-panel h-full px-7 py-7 sm:px-8 sm:py-8 flex flex-col"
+      >
+        <div className="flex flex-col items-start">
+          {/* Project image in a conic-ring avatar */}
+          <div className="conic-ring rounded-full p-[2px]">
+            <div className="rounded-full p-[3px] bg-ink-900/80">
+              <img
+                className="flex-shrink-0 object-cover w-20 h-20 rounded-full"
+                src={props.image}
+                alt={props.title}
+              />
+            </div>
+          </div>
 
-        <div className="mt-4 w-full">
-          <h1 className="text-xl font-semibold font-poppins text-gray-700 capitalize md:text-2xl group-hover:text-white text-gradient">
-            {props.title}
-          </h1>
-          <p className="font-poppins font-normal text-dimWhite mt-3 mb-2">
-            Tech Stack
-          </p>
-          <div className="text-gray-500 capitalize dark:text-gray-300 group-hover:text-gray-300">
-            <div className="flex flex-wrap gap-4">
+          <div className="mt-5 w-full">
+            <h1 className="font-display text-xl md:text-2xl font-semibold capitalize text-gradient leading-tight">
+              {props.title}
+            </h1>
+
+            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-violet-300/70 mt-4 mb-3 flex items-center gap-2">
+              <span className="inline-block h-[1px] w-5 bg-gradient-to-r from-accent/70 to-transparent" />
+              Tech Stack
+            </p>
+
+            <div className="flex flex-wrap gap-2.5">
               {props.stack.map((tech, index) => (
                 <div
                   key={tech.id}
                   index={index}
-                  className="text-dimWhite text-[20px] hover:text-purple-300 tooltip"
+                  className="tooltip glass rounded-lg w-9 h-9 flex items-center justify-center text-[18px] text-dimWhite hover:text-accent transition-colors duration-300 hover:-translate-y-0.5 will-change-transform"
                 >
                   {React.createElement(tech.icon)}
                   <span className="tooltiptext">{tech.name}</span>
@@ -37,36 +52,73 @@ const Project = (props) => {
             </div>
           </div>
         </div>
-      </div>
 
-      <p className="mt-6 text-gray-500 dark:text-gray-300 group-hover:text-gray-300 font-poppins">
-        {props.content}
-      </p>
+        <p className="mt-6 font-poppins text-sm leading-relaxed text-dimWhite/90 group-hover:text-gray-200 transition-colors duration-300 flex-1">
+          {props.content}
+        </p>
 
-      <div className="flex mt-4 -mx-2 items-center gap-1">
-        {props.github && (
-          <a href={props.github} target="_blank" rel="noopener noreferrer" title="GitHub">
-            <AiFillGithub size="2rem" className="text-white hover:text-purple-300" />
-          </a>
-        )}
-        {props.link && (
-          <LinkPreview url={props.link}>
-            <a href={props.link} target="_blank" rel="noopener noreferrer" title="Live Site">
-              <BsLink45Deg size="2rem" className="text-white hover:text-purple-300" />
+        <div className="flex mt-6 pt-5 items-center gap-3 border-t border-white/5">
+          {props.github && (
+            <a
+              href={props.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="GitHub"
+              className="glass rounded-full w-11 h-11 flex items-center justify-center text-white hover:text-accent hover:shadow-glow-fuchsia transition-all duration-300 hover:-translate-y-0.5"
+            >
+              <AiFillGithub size="1.4rem" />
             </a>
-          </LinkPreview>
-        )}
-        {props.playStore && (
-          <a href={props.playStore} target="_blank" rel="noopener noreferrer" title="Google Play">
-            <SiGoogleplay size="1.6rem" className="text-white hover:text-purple-300" />
-          </a>
-        )}
-        {props.appStore && (
-          <a href={props.appStore} target="_blank" rel="noopener noreferrer" title="App Store">
-            <SiApple size="1.8rem" className="text-white hover:text-purple-300" />
-          </a>
-        )}
-      </div>
+          )}
+          {props.link && (
+            <LinkPreview url={props.link}>
+              <a
+                href={props.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Live Site"
+                className="glass rounded-full w-11 h-11 flex items-center justify-center text-white hover:text-accent hover:shadow-glow-fuchsia transition-all duration-300 hover:-translate-y-0.5"
+              >
+                <BsLink45Deg size="1.5rem" />
+              </a>
+            </LinkPreview>
+          )}
+          {props.hub && (
+            <LinkPreview url={props.hub}>
+              <a
+                href={props.hub}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Project Hub — all sub-projects"
+                className="glass rounded-full w-11 h-11 flex items-center justify-center text-white hover:text-accent hover:shadow-glow-fuchsia transition-all duration-300 hover:-translate-y-0.5"
+              >
+                <HiOutlineSquares2X2 size="1.35rem" />
+              </a>
+            </LinkPreview>
+          )}
+          {props.playStore && (
+            <a
+              href={props.playStore}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Google Play"
+              className="glass rounded-full w-11 h-11 flex items-center justify-center text-white hover:text-accent hover:shadow-glow-fuchsia transition-all duration-300 hover:-translate-y-0.5"
+            >
+              <SiGoogleplay size="1.2rem" />
+            </a>
+          )}
+          {props.appStore && (
+            <a
+              href={props.appStore}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="App Store"
+              className="glass rounded-full w-11 h-11 flex items-center justify-center text-white hover:text-accent hover:shadow-glow-fuchsia transition-all duration-300 hover:-translate-y-0.5"
+            >
+              <SiApple size="1.35rem" />
+            </a>
+          )}
+        </div>
+      </TiltCard>
     </div>
   );
 };
@@ -115,17 +167,22 @@ const Projects = () => {
   const isNextDisabled = currentIndex >= projects.length - 1;
   const isPrevDisabled = currentIndex === 0;
 
+  const pad = (n) => String(n).padStart(2, "0");
+
   return (
     <section id="projects" className="overflow-hidden">
-      <h1 className="flex-1 font-poppins font-semibold ss:text-[55px] text-[45px] text-white ss:leading-[80px] leading-[80px]">
-        Projects
-      </h1>
+      <SectionHeading
+        index="06"
+        kicker="Selected work"
+        title="Featured"
+        accent="Projects"
+      />
 
-      <div className="container px-2 py-14 mx-auto mb-8">
+      <div className="container px-2 py-10 mx-auto mb-8">
         <div className="overflow-hidden">
           <div
             ref={containerRef}
-            className="flex transition-transform duration-500 ease-in-out mb-8"
+            className="flex transition-transform duration-500 ease-in-out mb-8 py-4"
             style={{
               transform: `translateX(-${currentIndex * cardTotalWidth}px)`,
             }}
@@ -135,23 +192,76 @@ const Projects = () => {
               <Project key={project.id} index={index} {...project} />
             ))}
           </div>
-          <div className="flex justify-end mb-8">
+
+          {/* Footer: progress indicator + navigation */}
+          <div className="flex items-center justify-between gap-4 mb-8">
+            {/* Counter + dots progress indicator */}
+            <div className="flex items-center gap-4">
+              <span className="font-mono text-sm text-dimWhite tracking-widest">
+                <span className="text-gradient font-semibold">
+                  {pad(currentIndex + 1)}
+                </span>
+                <span className="text-violet-300/50"> / {pad(projects.length)}</span>
+              </span>
+              <div className="hidden ss:flex items-center gap-1.5">
+                {projects.map((p, i) => (
+                  <button
+                    key={p.id}
+                    onClick={() => setCurrentIndex(i)}
+                    aria-label={`Go to project ${i + 1}`}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      i === currentIndex
+                        ? "w-6 bg-gradient-to-r from-violet-400 to-accent shadow-glow-fuchsia"
+                        : "w-1.5 bg-white/20 hover:bg-white/40"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+
             {/* Navigation buttons */}
-            <button
-              onClick={handlePrev}
-              disabled={isPrevDisabled}
-              // p-2 bg-gray-700 rounded-full disabled:opacity-50 mx-2 hover:bg-gray-600 transition-colors
-              className="p-2 bg-gray-700 rounded-full disabled:opacity-50 mx-2 hover:bg-gray-600 transition-colors text-white"
-            >
-              &lt;
-            </button>
-            <button
-              onClick={handleNext}
-              disabled={isNextDisabled}
-              className="p-2 bg-gray-700 rounded-full disabled:opacity-50 mx-2 hover:bg-gray-600 transition-colors text-white"
-            >
-              &gt;
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handlePrev}
+                disabled={isPrevDisabled}
+                aria-label="Previous project"
+                className="glass group w-12 h-12 rounded-full flex items-center justify-center text-white transition-all duration-300 enabled:hover:text-accent enabled:hover:shadow-glow-fuchsia enabled:hover:-translate-y-0.5 disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="transition-transform duration-300 group-enabled:group-hover:-translate-x-0.5"
+                >
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </button>
+              <button
+                onClick={handleNext}
+                disabled={isNextDisabled}
+                aria-label="Next project"
+                className="glass group w-12 h-12 rounded-full flex items-center justify-center text-white transition-all duration-300 enabled:hover:text-accent enabled:hover:shadow-glow-fuchsia enabled:hover:-translate-y-0.5 disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="transition-transform duration-300 group-enabled:group-hover:translate-x-0.5"
+                >
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
