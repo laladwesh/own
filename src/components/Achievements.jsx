@@ -8,6 +8,7 @@ import { achievements } from "../constants";
 import styles from "../style";
 import { SectionHeading, TiltCard, Reveal } from "./ui";
 
+// Pick a tasteful trophy/medal/award accent per card (cycles, deterministic by index)
 const accentIcons = [FaTrophy, FaMedal, FaAward];
 
 const Achievements = () => {
