@@ -145,7 +145,16 @@ const LeetCodeStats = () => {
 
     const load = async (retriesLeft = 1) => {
       try {
-        const res = await fetch(`${LEETCODE_API_URL}/stats`);
+        // fetch() has no default timeout — bound it so a hung request fails
+        // fast instead of leaving the section stuck on skeletons indefinitely.
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 5000);
+        let res;
+        try {
+          res = await fetch(`${LEETCODE_API_URL}/stats`, { signal: controller.signal });
+        } finally {
+          clearTimeout(timeout);
+        }
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const d = await res.json();
         if (cancelled) return;
@@ -172,7 +181,7 @@ const LeetCodeStats = () => {
       } catch (err) {
         if (cancelled) return;
         if (retriesLeft > 0) {
-          setTimeout(() => load(retriesLeft - 1), 1500);
+          setTimeout(() => load(retriesLeft - 1), 500);
           return;
         }
         console.error("LeetCode stats fetch failed:", err.message);
