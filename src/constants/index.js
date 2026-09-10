@@ -45,6 +45,12 @@ import {
   SiFramer,
   SiRazorpay,
   SiCloudflare,
+  SiApache,
+  SiJenkins,
+  SiArgo,
+  SiTerraform,
+  SiVite,
+  SiLatex,
 } from "react-icons/si";
 
 import { FaAws, FaServer } from "react-icons/fa";
@@ -177,6 +183,13 @@ export const skills = [
       { id: "t-13", icon: SiRedis, name: "Redis" },
       { id: "t-14", icon: SiLinux, name: "Linux" },
       { id: "t-15", icon: SiFigma, name: "Figma" },
+      { id: "t-16", icon: SiGithubactions, name: "GitHub Actions" },
+      { id: "t-17", icon: SiJenkins, name: "Jenkins" },
+      { id: "t-18", icon: SiArgo, name: "ArgoCD" },
+      { id: "t-19", icon: SiTerraform, name: "Terraform" },
+      { id: "t-20", icon: SiApache, name: "Apache" },
+      { id: "t-21", icon: SiVite, name: "Vite" },
+      { id: "t-22", icon: SiLatex, name: "LaTeX" },
     ],
   },
 ];
@@ -199,11 +212,19 @@ export const experiences = [
       },
       {
         title: "Software Developer Intern (Summer)",
-        duration: "May 2026 – Jun 2026",
+        duration: "May 2026 – Jul 2026",
         content: [
           {
-            text: "Developing a centralised CCD Internship Portal to automate the complete internship lifecycle for multiple stakeholders — students, coordinators, admin, logistics and verifiers.",
+            text: "Architected and deployed two centralised platforms — Placement Portal and Intern Portal — using React, Ant Design, Redux Toolkit, Node.js/Express and MongoDB, securing 6 role-based access levels with JWT and Google/Microsoft OAuth2 SSO.",
             link: "https://iitg.ac.in/intern",
+          },
+          {
+            text: "Built a Multer-based file upload pipeline with MIME validation and pluggable local-disk/Azure Blob Storage backends for resumes, CVs and photos, plus internal PDFKit/XLSX bulk export and reporting tools for coordinators.",
+            link: "",
+          },
+          {
+            text: "Implemented an HMAC-SHA256-signed cross-portal data-sync integration and a push-notification pipeline to the CCD mobile app, containerized both platforms with Docker and automated deployments via a multi-stage GitHub Actions CI/CD pipeline.",
+            link: "",
           },
         ],
       },
@@ -263,7 +284,7 @@ export const experiences = [
         duration: "Apr 2025 – Dec 2025",
         content: [
           {
-            text: "Managed all web operations for Spirit, IITG's annual sports fest — from development to live deployment, handling both frontend and backend.",
+            text: "Managed all web operations for Spirit, IITG's annual sports fest — from development to live deployment, handling both frontend and backend for 3000+ concurrent visits.",
             link: "https://spiritiitg.in/",
           },
         ],
@@ -365,7 +386,7 @@ export const experiences = [
         duration: "Jun 2025 – Jun 2026",
         content: [
           {
-            text: "Led the web team end-to-end for Cepstrum — built and shipped the festival's complete web platform using the MERN stack, managing a team of developers.",
+            text: "Led the web team end-to-end for Cepstrum — built and shipped the festival's complete web platform using the MERN stack, managing a team of developers and 2000+ concurrent users.",
             link: "https://iitg.ac.in/cepstrum",
           },
         ],
@@ -393,7 +414,7 @@ export const projects = [
     hub: "https://ccd.avinashgupta.in",
     image: placeicon,
     content:
-      "Full-stack internship management portal for IIT Guwahati's CCD workflow — replaces fragmented manual coordination with a unified platform for students, companies, coordinators, verifiers and logistics. Features Google OAuth, Microsoft/Outlook auth, JWT company login, PDF/Excel exports, CV verification, bulk uploads, role-based access, and Sentry monitoring.",
+      "Full-stack internship management portal for IIT Guwahati's CCD workflow — replaces fragmented manual coordination with a unified platform for students, companies, coordinators, verifiers and logistics. Secures 6 role-based access levels with JWT and Google/Microsoft OAuth2 SSO, a Multer-based upload pipeline with MIME validation and Azure Blob Storage, PDFKit/XLSX bulk exports, and Sentry monitoring.",
     stack: [
       { id: "p1-1", icon: SiReact, name: "React" },
       { id: "p1-2", icon: SiRedux, name: "Redux Toolkit" },
@@ -437,7 +458,7 @@ export const projects = [
     hub: "https://prasad.avinashgupta.in",
     image: placeicon,
     content:
-      "Freelance exam copy management platform — converts uploaded PDFs to per-page images, generates processed PDFs, and syncs with Google Drive. Features Google OAuth + JWT auth, role-based examiner workflows, scheduled maintenance with node-cron, and Cloudinary/Firebase integrations.",
+      "Freelance exam copy management platform for remote answer-script evaluation by external examiners — converts uploaded PDFs to per-page images, generates processed PDFs, and syncs with Google Drive. JWT-secured role-based access processed 8000+ copies with zero downtime via PM2 and RESTful Node.js APIs during peak evaluation cycles, self-hosted on a shared Oracle server behind an Nginx reverse proxy.",
     stack: [
       { id: "pcc-1", icon: SiReact, name: "React" },
       { id: "pcc-2", icon: SiNodedotjs, name: "Node.js" },
@@ -459,7 +480,7 @@ export const projects = [
     hub: "https://prasad.avinashgupta.in",
     image: placeicon,
     content:
-      "Full-stack elective course enrollment portal built for Prasad Academics — Google OAuth + JWT auth, role-based dashboards (Student/Admin), auto-activation of enrollment windows, bulk student upload via CSV/Excel, and PDF/Excel report generation with capacity management and batch-wise filtering.",
+      "Full-stack elective course enrollment portal built for Prasad Academics — Google OAuth + JWT auth, role-based dashboards (Student/Admin), auto-activation of enrollment windows, bulk student upload via CSV/Excel, and PDF/Excel report generation. High-concurrency FCFS allocation using MongoDB atomic transactions, optimistic locking and compound indexing allotted 500+ seats across 50+ courses without overbooking.",
     stack: [
       { id: "pe-1", icon: SiReact, name: "React" },
       { id: "pe-2", icon: SiNodedotjs, name: "Node.js" },
@@ -482,7 +503,7 @@ export const projects = [
     appStore: "https://apps.apple.com/app/ease-exit/id6749087386",
     image: placeicon,
     content:
-      "Digitized end-to-end leave management system built for Prasad Academics (PIMS), replacing a paper-based process — role-based access for students, parents, wardens, guards and admins; multi-level approvals, document uploads, email and push notifications, and report exports. Deployed on web, Android (Play Store) and iOS (App Store).",
+      "Digitized end-to-end leave management system built for Prasad Academics (PIMS), replacing a paper-based process — role-based access for students, parents, wardens, guards and admins; multi-level approvals, document uploads, and push notifications via Firebase Cloud Messaging. Handled 15,000+ leave applications securely across web, Android (Play Store) and iOS (App Store).",
     stack: [
       { id: "pex-1", icon: SiReact, name: "React / RN" },
       { id: "pex-2", icon: SiNodedotjs, name: "Node.js" },
@@ -503,7 +524,7 @@ export const projects = [
     hub: "https://prasad.avinashgupta.in",
     image: placeicon,
     content:
-      "Production-ready service status and infrastructure monitoring platform built for Prasad Academics (PIMS) — public dashboard with live health checks, incident tracking, WebSocket-powered real-time metrics, Prometheus-style endpoints, email alerts on threshold breaches, JWT-secured admin panel, and automated MongoDB backups to Google Drive for disaster recovery.",
+      "Production-ready service status and infrastructure monitoring platform built for Prasad Academics (PIMS) — public dashboard with WebSocket-driven real-time server health, uptime/downtime tracking, resource utilization and centralized log aggregation via polling. Enables proactive incident response with near-100% uptime across all services, JWT-secured admin panel, and automated MongoDB backups to Google Drive.",
     stack: [
       { id: "ps-1", icon: SiReact, name: "React" },
       { id: "ps-2", icon: SiNodedotjs, name: "Node.js" },
@@ -524,7 +545,7 @@ export const projects = [
     hub: "https://ccd.avinashgupta.in",
     image: placeicon,
     content:
-      "Real-time campus placement portal for IIT Guwahati — WebSocket-enabled live dashboards with role-based access (Admin/POC/Student), JWT auth, PDF report generation, intelligent student blocking to prevent duplicate offers, and bulk CSV/XLSX import. Supports 1500+ students and 150+ companies.",
+      "Real-time placement-day dashboard for IIT Guwahati with live event broadcasting via Socket.IO — role-based access across 5 roles, live offer creation, POCs updating real-time interview status, admin-approved confirmations, jsPDF-based exports, and auto-blocking of students from further placements once placed. Engineered a single sign-on handoff from the Placement Portal via short-lived, server-verified JWT tokens. Supports 1500+ students and 150+ POCs.",
     stack: [
       { id: "pd-1", icon: SiReact, name: "React" },
       { id: "pd-2", icon: SiNodedotjs, name: "Node.js" },
@@ -686,21 +707,31 @@ export const socialMedia = [
     id: "social-media-1",
     icon: AiFillLinkedin,
     link: "https://www.linkedin.com/in/avinash-gupta-58171828a/",
+    label: "LinkedIn",
   },
   {
     id: "social-media-2",
     icon: AiFillGithub,
     link: "https://www.github.com/laladwesh",
+    label: "GitHub",
   },
   {
     id: "social-media-3",
     icon: AiFillMail,
     link: "mailto:guptaavinash302@gmail.com",
+    label: "Email (Gmail)",
+  },
+  {
+    id: "social-media-5",
+    icon: AiFillMail,
+    link: "mailto:g.avinash@iitg.ac.in",
+    label: "Email (IITG)",
   },
   {
     id: "social-media-4",
     icon: AiFillInstagram,
     link: "https://www.instagram.com/chholekulche_",
+    label: "Instagram",
   },
 ];
 

@@ -26,8 +26,11 @@ const Footer = () => (
             <a
               href={social.link}
               target="_blank"
+              rel="noopener noreferrer"
               key={social.id}
               index={index}
+              title={social.label}
+              aria-label={social.label}
               className="text-white mr-5 text-[25px] hover:text-purple-300"
             >
               {React.createElement(social.icon)}

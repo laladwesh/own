@@ -1,0 +1,15 @@
+{
+  "name": "leetcode-api-proxy",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Tiny live proxy for LeetCode's GraphQL API — CORS-enabled, short-TTL cached, stale-on-error fallback. Deployed standalone via PM2 behind Nginx.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.1"
+  }
+}

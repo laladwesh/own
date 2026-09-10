@@ -3,8 +3,11 @@ import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 import { ActivityCalendar } from "react-activity-calendar";
 
-const LC_USERNAME = "ibXDVQOY8i";
-const API = `https://alfa-leetcode-api.onrender.com/${LC_USERNAME}`;
+// Self-hosted live proxy (server/leetcode-api) — leetcode.com/graphql sends no
+// CORS headers, so the browser can't call it directly. The proxy calls it
+// server-side, caches briefly, and falls back to its last good response if a
+// live fetch ever fails, so this section stays up even if LeetCode hiccups.
+const LEETCODE_API_URL = import.meta.env.VITE_LEETCODE_API_URL || "https://leetcode-api.avinashgupta.in";
 
 
 const buildCalendarResult = (raw) => {
@@ -122,57 +125,61 @@ const LeetCodeCard = ({ profile, solved, totals }) => (
   </div>
 );
 
+const EMPTY_TOTALS = { easy: null, medium: null, hard: null, all: null };
+
 const LeetCodeStats = () => {
-  const [solved, setSolved]         = useState(null);
   const [profile, setProfile]       = useState(null);
+  const [solved, setSolved]         = useState(null);
+  const [totals, setTotals]         = useState(EMPTY_TOTALS);
   const [calData, setCalData]       = useState([]);
   const [activeDays, setActiveDays] = useState(null);
   const [maxStreak, setMaxStreak]   = useState(null);
-  const [totals, setTotals]         = useState({ easy: null, medium: null, hard: null, all: null });
-  const [tip, setTip]               = useState(null);
-  const [tipPos, setTipPos]         = useState({ x: 0, y: 0 });
+  const [status, setStatus]         = useState("loading"); // loading | ok | error
+  const [tip, setTip]       = useState(null);
+  const [tipPos, setTipPos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    fetch(`${API}/solved`)
-      .then((r) => r.json())
-      .then((d) => { if (d.solvedProblem !== undefined) setSolved(d); })
-      .catch(() => {});
+    let cancelled = false;
 
-    Promise.all(
-      ["EASY", "MEDIUM", "HARD"].map((diff) =>
-        fetch(`https://alfa-leetcode-api.onrender.com/problems?difficulty=${diff}&limit=1`).then((r) => r.json()),
-      ),
-    )
-      .then(([easy, medium, hard]) => {
-        setTotals({
-          easy: easy.totalQuestions ?? null,
-          medium: medium.totalQuestions ?? null,
-          hard: hard.totalQuestions ?? null,
-          all: (easy.totalQuestions || 0) + (medium.totalQuestions || 0) + (hard.totalQuestions || 0),
+    const load = async (retriesLeft = 1) => {
+      try {
+        const res = await fetch(`${LEETCODE_API_URL}/stats`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const d = await res.json();
+        if (cancelled) return;
+
+        setProfile({ username: d.username, ranking: d.ranking, avatar: d.avatar });
+        setSolved({
+          solvedProblem: d.solved?.all ?? 0,
+          easySolved: d.solved?.easy ?? 0,
+          mediumSolved: d.solved?.medium ?? 0,
+          hardSolved: d.solved?.hard ?? 0,
         });
-      })
-      .catch(() => {});
+        setTotals({
+          easy: d.totals?.easy ?? null,
+          medium: d.totals?.medium ?? null,
+          hard: d.totals?.hard ?? null,
+          all: d.totals?.all ?? null,
+        });
 
-    fetch(API)
-      .then((r) => r.json())
-      .then((d) => { if (d.username) setProfile(d); })
-      .catch(() => {});
-
-    fetch(`${API}/calendar`)
-      .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
-      .then((d) => {
-        // Set streak immediately — before any processing that could throw
-        const streakNum = Number(d.streak) || 0;
-        if (streakNum > 0) setMaxStreak(streakNum);
-
-        if (!d.submissionCalendar) return;
-        const { data, maxStreak: ms } = buildCalendarResult(d.submissionCalendar);
+        const { data, maxStreak: computed } = buildCalendarResult(d.submissionCalendar || {});
         setCalData(data);
         setActiveDays(d.totalActiveDays ?? null);
-        // Upgrade to computed if larger
-        if (ms > streakNum) setMaxStreak(ms);
-      })
-      .catch(() => {});
+        setMaxStreak(Math.max(d.streak || 0, computed));
+        setStatus("ok");
+      } catch (err) {
+        if (cancelled) return;
+        if (retriesLeft > 0) {
+          setTimeout(() => load(retriesLeft - 1), 1500);
+          return;
+        }
+        console.error("LeetCode stats fetch failed:", err.message);
+        setStatus("error");
+      }
+    };
+
+    load();
+    return () => { cancelled = true; };
   }, []);
 
   const statItems = [
@@ -186,6 +193,12 @@ const LeetCodeStats = () => {
       <h1 className="font-poppins font-semibold ss:text-[55px] text-[45px] text-white ss:leading-[80px] leading-[80px] mb-5">
         LeetCode Stats
       </h1>
+
+      {status === "error" && (
+        <p className="font-poppins text-dimWhite text-sm mb-6">
+          Couldn't reach LeetCode stats right now — please check back shortly.
+        </p>
+      )}
 
       {/* Single row: LeetCard | Heatmap | 3 stat cards vertical */}
       <div className="flex flex-col lg:flex-row gap-4 items-stretch">
