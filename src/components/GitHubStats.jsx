@@ -7,6 +7,16 @@ const USERNAME = "laladwesh";
 const TOKEN = import.meta.env.VITE_GH_TOKEN;
 const authHeaders = TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {};
 
+// Public data (profile, repo list) doesn't require auth — GitHub's REST API
+// returns a hard 401 for a bad/expired token even on endpoints that work fine
+// anonymously. So if an authenticated call is rejected, retry once without
+// the token instead of losing data that was never gated behind auth.
+const fetchWithAuthFallback = async (url) => {
+  const res = await fetch(url, { headers: authHeaders });
+  if (res.status === 401 && TOKEN) return fetch(url);
+  return res;
+};
+
 // 1. Shared Tooltip Component
 const Tooltip = ({ x, y, children }) => {
   return createPortal(
@@ -40,8 +50,13 @@ const Skeleton = ({ className }) => (
   <div className={`animate-pulse bg-[#1a1530] rounded-md ${className}`} />
 );
 
+// Shows a skeleton while still loading; once fetches have settled, an
+// unresolved value renders as a plain dash instead of pulsing forever.
+const Pending = ({ settled, className }) =>
+  settled ? <span className="text-gray-600">—</span> : <Skeleton className={className} />;
+
 // 3. Stat Card
-const StatCard = ({ label, value, delay = 0 }) => (
+const StatCard = ({ label, value, settled, delay = 0 }) => (
   <motion.div
     initial={{ y: 10, opacity: 0 }}
     whileInView={{ y: 0, opacity: 1 }}
@@ -53,7 +68,7 @@ const StatCard = ({ label, value, delay = 0 }) => (
       {label}
     </div>
     <div className="font-poppins font-semibold text-[26px] text-white leading-none">
-      {value !== null ? value.toLocaleString() : <Skeleton className="h-7 w-16" />}
+      {value !== null ? value.toLocaleString() : <Pending settled={settled} className="h-7 w-16" />}
     </div>
   </motion.div>
 );
@@ -77,30 +92,30 @@ const Panel = ({ title, children, delay = 0, className = "" }) => (
 );
 
 // 5. Streaks Component
-const StreakStats = ({ total, current, longest }) => (
+const StreakStats = ({ total, current, longest, settled }) => (
   <Panel title="Contribution Streak">
     <div className="flex flex-row items-center justify-between flex-1 py-2">
       <div className="flex flex-col items-start">
         <div className="font-poppins font-semibold text-[28px] text-white leading-none mb-1">
-          {total !== null ? total.toLocaleString() : <Skeleton className="h-8 w-12" />}
+          {total !== null ? total.toLocaleString() : <Pending settled={settled} className="h-8 w-12" />}
         </div>
         <div className="font-poppins text-[11px] text-gray-500 font-medium uppercase tracking-wide">Total</div>
       </div>
-      
+
       <div className="w-px h-10 bg-[#1f1b2e] mx-3" />
-      
+
       <div className="flex flex-col items-start">
         <div className="font-poppins font-semibold text-[28px] text-[#a78bfa] leading-none mb-1">
-          {current !== null ? current : <Skeleton className="h-8 w-10" />}
+          {current !== null ? current : <Pending settled={settled} className="h-8 w-10" />}
         </div>
         <div className="font-poppins text-[11px] text-gray-500 font-medium uppercase tracking-wide">Current</div>
       </div>
 
       <div className="w-px h-10 bg-[#1f1b2e] mx-3" />
-      
+
       <div className="flex flex-col items-start">
         <div className="font-poppins font-semibold text-[28px] text-white leading-none mb-1">
-          {longest !== null ? longest : <Skeleton className="h-8 w-10" />}
+          {longest !== null ? longest : <Pending settled={settled} className="h-8 w-10" />}
         </div>
         <div className="font-poppins text-[11px] text-gray-500 font-medium uppercase tracking-wide">Longest</div>
       </div>
@@ -109,11 +124,15 @@ const StreakStats = ({ total, current, longest }) => (
 );
 
 // 6. Interactive Line Graph with Tooltip
-const ActivityLineGraph = ({ weeks }) => {
+const ActivityLineGraph = ({ weeks, settled }) => {
   const [hoverData, setHoverData] = useState(null);
   const containerRef = useRef(null);
 
-  if (!weeks || weeks.length < 2) return <Skeleton className="w-full h-full min-h-[140px]" />;
+  if (!weeks || weeks.length < 2) {
+    return settled
+      ? <p className="font-poppins text-[12px] text-gray-600 text-center">No activity data available</p>
+      : <Skeleton className="w-full h-full min-h-[140px]" />;
+  }
   
   // Flatten data to calculate totals per week
   const weeklyTotals = weeks.map((w) => w.contributionDays.reduce((s, d) => s + d.contributionCount, 0));
@@ -196,8 +215,12 @@ const ActivityLineGraph = ({ weeks }) => {
 };
 
 // 7. Language Ring
-const LanguageRing = ({ languages }) => {
-  if (languages.length === 0) return <Skeleton className="w-[120px] h-[120px] rounded-full mx-auto" />;
+const LanguageRing = ({ languages, settled }) => {
+  if (languages.length === 0) {
+    return settled
+      ? <p className="font-poppins text-[12px] text-gray-600 text-center">No language data available</p>
+      : <Skeleton className="w-[120px] h-[120px] rounded-full mx-auto" />;
+  }
   
   const r = 52, c = 2 * Math.PI * r;
   let offset = 0;
@@ -265,6 +288,7 @@ const GitHubStats = () => {
   });
   const [calendarWeeks, setCalendarWeeks] = useState([]);
   const [languages, setLanguages] = useState([]);
+  const [settled, setSettled] = useState(false);
   const [tip, setTip] = useState(null);
   const [tipPos, setTipPos] = useState({ x: 0, y: 0 });
 
@@ -272,13 +296,13 @@ const GitHubStats = () => {
   const CODING_GIF_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1kHEgewyUp-ttr19nwwZ7nUUfCEwfYsJE3w&s";
 
   useEffect(() => {
-    fetch(`https://api.github.com/users/${USERNAME}`, { headers: authHeaders })
+    const profilePromise = fetchWithAuthFallback(`https://api.github.com/users/${USERNAME}`)
       .then((r) => r.json())
       .then((d) => {
         if (d.login) setStats((p) => ({ ...p, repos: d.public_repos, followers: d.followers }));
       }).catch(() => {});
 
-    fetch(`https://api.github.com/users/${USERNAME}/repos?per_page=100&type=owner`, { headers: authHeaders })
+    const reposPromise = fetchWithAuthFallback(`https://api.github.com/users/${USERNAME}/repos?per_page=100&type=owner`)
       .then((r) => r.json())
       .then((repos) => {
         if (Array.isArray(repos)) {
@@ -287,59 +311,64 @@ const GitHubStats = () => {
         }
       }).catch(() => {});
 
-    if (TOKEN) {
-      fetch("https://api.github.com/graphql", {
-        method: "POST",
-        headers: { ...authHeaders, "Content-Type": "application/json" },
-        body: JSON.stringify({
-          query: `{ user(login: "${USERNAME}") {
-            contributionsCollection {
-              totalCommitContributions
-              totalIssueContributions
-              totalPullRequestContributions
-              contributionCalendar { totalContributions weeks { contributionDays { date contributionCount } } }
-            }
-            repositories(first: 100, ownerAffiliations: OWNER, isFork: false) {
-              nodes { languages(first: 6, orderBy: {field: SIZE, direction: DESC}) { edges { size node { name color } } } }
-            }
-          } }`,
-        }),
-      })
-        .then((r) => r.json())
-        .then(({ data }) => {
-          const c = data?.user?.contributionsCollection;
-          if (c) {
-            setStats((p) => ({
-              ...p,
-              commits: c.totalCommitContributions,
-              issues: c.totalIssueContributions,
-              prs: c.totalPullRequestContributions,
-              totalContributions: c.contributionCalendar?.totalContributions ?? null,
-            }));
-            setCalendarWeeks(c.contributionCalendar?.weeks ?? []);
-          }
-
-          const repos = data?.user?.repositories?.nodes;
-          if (Array.isArray(repos)) {
-            const totals = {};
-            const colors = {};
-            repos.forEach((r) => {
-              r.languages?.edges?.forEach(({ size, node }) => {
-                totals[node.name] = (totals[node.name] || 0) + size;
-                colors[node.name] = node.color;
-              });
-            });
-            const sum = Object.values(totals).reduce((a, b) => a + b, 0);
-            const top = Object.entries(totals)
-              .sort((a, b) => b[1] - a[1])
-              .slice(0, 5)
-              .map(([name, size]) => ({
-                name, pct: sum ? (size / sum) * 100 : 0, color: colors[name],
+    // Contribution history, streaks and per-repo languages require GitHub's
+    // GraphQL API, which only returns this data for an authenticated request —
+    // there's no anonymous fallback for it like the two REST calls above.
+    const graphqlPromise = TOKEN
+      ? fetch("https://api.github.com/graphql", {
+          method: "POST",
+          headers: { ...authHeaders, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            query: `{ user(login: "${USERNAME}") {
+              contributionsCollection {
+                totalCommitContributions
+                totalIssueContributions
+                totalPullRequestContributions
+                contributionCalendar { totalContributions weeks { contributionDays { date contributionCount } } }
+              }
+              repositories(first: 100, ownerAffiliations: OWNER, isFork: false) {
+                nodes { languages(first: 6, orderBy: {field: SIZE, direction: DESC}) { edges { size node { name color } } } }
+              }
+            } }`,
+          }),
+        })
+          .then((r) => r.json())
+          .then(({ data }) => {
+            const c = data?.user?.contributionsCollection;
+            if (c) {
+              setStats((p) => ({
+                ...p,
+                commits: c.totalCommitContributions,
+                issues: c.totalIssueContributions,
+                prs: c.totalPullRequestContributions,
+                totalContributions: c.contributionCalendar?.totalContributions ?? null,
               }));
-            setLanguages(top);
-          }
-        }).catch(() => {});
-    }
+              setCalendarWeeks(c.contributionCalendar?.weeks ?? []);
+            }
+
+            const repos = data?.user?.repositories?.nodes;
+            if (Array.isArray(repos)) {
+              const totals = {};
+              const colors = {};
+              repos.forEach((r) => {
+                r.languages?.edges?.forEach(({ size, node }) => {
+                  totals[node.name] = (totals[node.name] || 0) + size;
+                  colors[node.name] = node.color;
+                });
+              });
+              const sum = Object.values(totals).reduce((a, b) => a + b, 0);
+              const top = Object.entries(totals)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5)
+                .map(([name, size]) => ({
+                  name, pct: sum ? (size / sum) * 100 : 0, color: colors[name],
+                }));
+              setLanguages(top);
+            }
+          }).catch(() => {})
+      : Promise.resolve();
+
+    Promise.allSettled([profilePromise, reposPromise, graphqlPromise]).then(() => setSettled(true));
   }, []);
 
   const { currentStreak, longestStreak } = useMemo(() => {
@@ -392,19 +421,19 @@ const GitHubStats = () => {
         {/* Row 1: Top Stats */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {statItems.map((s, i) => (
-            <StatCard key={s.label} label={s.label} value={s.value} delay={i * 0.05} />
+            <StatCard key={s.label} label={s.label} value={s.value} settled={settled} delay={i * 0.05} />
           ))}
         </div>
 
         {/* Row 2: Streaks & Graph */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-auto lg:h-[220px]">
           <div className="lg:col-span-5 h-full">
-            <StreakStats total={stats.totalContributions} current={currentStreak} longest={longestStreak} />
+            <StreakStats total={stats.totalContributions} current={currentStreak} longest={longestStreak} settled={settled} />
           </div>
           <div className="lg:col-span-7 h-full">
             <Panel title="Activity Overview (Last 12 Months)" delay={0.1}>
               {/* Passes calendarWeeks directly so we can grab dates for the tooltip */}
-              <ActivityLineGraph weeks={calendarWeeks} />
+              <ActivityLineGraph weeks={calendarWeeks} settled={settled} />
             </Panel>
           </div>
         </div>
@@ -414,7 +443,7 @@ const GitHubStats = () => {
           
           <div className="lg:col-span-4 h-full">
             <Panel title="Language Distribution" delay={0.15}>
-              <LanguageRing languages={languages} />
+              <LanguageRing languages={languages} settled={settled} />
             </Panel>
           </div>
 
