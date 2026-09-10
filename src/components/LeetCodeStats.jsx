@@ -7,7 +7,9 @@ import { ActivityCalendar } from "react-activity-calendar";
 // CORS headers, so the browser can't call it directly. The proxy calls it
 // server-side, caches briefly, and falls back to its last good response if a
 // live fetch ever fails, so this section stays up even if LeetCode hiccups.
-const LEETCODE_API_URL = import.meta.env.VITE_LEETCODE_API_URL || "https://leetcode-api.avinashgupta.in";
+// Defaults to a same-origin path (Nginx proxies /api/leetcode/ -> the service),
+// so no CORS setup or separate subdomain is needed in production.
+const LEETCODE_API_URL = import.meta.env.VITE_LEETCODE_API_URL || "/api/leetcode";
 
 
 const buildCalendarResult = (raw) => {

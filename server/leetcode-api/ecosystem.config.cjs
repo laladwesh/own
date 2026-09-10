@@ -3,6 +3,7 @@ module.exports = {
     {
       name: "leetcode-api",
       script: "index.js",
+      cwd: __dirname,
       env: {
         PORT: 4001,
         LEETCODE_USERNAME: "ibXDVQOY8i",
