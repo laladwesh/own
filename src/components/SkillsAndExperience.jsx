@@ -1,6 +1,5 @@
 import React from "react";
 import { experiences, skills } from "../constants";
-import { layout } from "../style";
 import { motion } from "framer-motion";
 import { BsLink45Deg } from "react-icons/bs";
 import { LinkPreview } from "./LinkPreview";
@@ -104,26 +103,28 @@ const ExperienceCard = (props) => {
 };
 
 const SkillsAndExperience = () => {
+  const [languages, frameworks, tools] = skills;
+
   return (
     <section id="skills" className="mb-12">
       <h1 className="flex-1 font-poppins font-semibold ss:text-[55px] text-[45px] text-white ss:leading-[80px] leading-[80px]">
         Skills & Experience
       </h1>
-      <div
-        className={layout.section}
-      >
-        {/* Skills */}
-        <motion.div className={`ml-2 mb-6 ${layout.sectionInfo}`}>
-          {skills.map((skill, index) => (
-            <SkillCard key={index} index={index} {...skill} />
-          ))}
-        </motion.div>
-
-        {/* Experience */}
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+        {/* Experience — left */}
         <motion.div className="flex flex-1 items-center justify-start flex-col">
           {experiences.map((exp, index) => (
             <ExperienceCard key={index} index={index} {...exp} />
           ))}
+        </motion.div>
+
+        {/* Skills — right, sticky while Experience (much taller) scrolls past */}
+        <motion.div className="md:sticky md:top-8 flex flex-col gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+            <SkillCard {...languages} />
+            <SkillCard {...frameworks} />
+          </div>
+          <SkillCard {...tools} />
         </motion.div>
       </div>
     </section>
