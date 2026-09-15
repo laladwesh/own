@@ -11,7 +11,7 @@ import styles from "../style";
 const Achievements = () => {
   return (
     <section
-      className="bg-primary text-white mt-5 md:mt-10 relative"
+      className="bg-primary text-white mt-5 md:mt-10 relative overflow-x-hidden"
       id="achievements"
     >
       <div className={`bg-primary ${styles.flexCenter} ${styles.paddingX}`}>
