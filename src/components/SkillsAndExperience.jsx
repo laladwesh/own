@@ -15,7 +15,7 @@ export const SkillIcon = ({ icon, name }) => {
   );
 };
 
-const SkillCard = (props) => {
+const SkillCard = ({ gridClassName = "grid-cols-3 gap-8", ...props }) => {
   return (
     <motion.div
       initial={{ y: -20, opacity: 0 }}
@@ -30,7 +30,7 @@ const SkillCard = (props) => {
           {props.title}
         </h4>
       </div>
-      <div className="grid grid-cols-3 gap-8 ml-8">
+      <div className={`grid ${gridClassName} ml-8`}>
         {props.items.map((item, index) => (
           <SkillIcon key={item.id} index={index} {...item} />
         ))}
@@ -124,7 +124,7 @@ const SkillsAndExperience = () => {
             <SkillCard {...languages} />
             <SkillCard {...frameworks} />
           </div>
-          <SkillCard {...tools} />
+          <SkillCard {...tools} gridClassName="grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 gap-x-6 gap-y-8" />
         </motion.div>
       </div>
     </section>
