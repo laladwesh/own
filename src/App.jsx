@@ -30,7 +30,7 @@ const App = () => {
 
   return (
     // A div to wrap the entire application
-    <div className="bg-primary w-full overflow-hidden">
+    <div className="bg-primary w-full overflow-x-hidden">
       <AnimatePresence>
         {isLoading ? (
           <Loading key="loading" />
