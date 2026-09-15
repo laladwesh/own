@@ -67,7 +67,7 @@ const Education = () => {
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <div className={`${layout.sectionImgReverse} overflow-x-hidden`}>
+        <div className={`${layout.sectionImgReverse} overflow-x-clip`}>
           <div className="w-[80%] h-[80%] relative z-[5]">
             <Lottie {...defaultOptions} />
           </div>
