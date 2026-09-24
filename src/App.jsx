@@ -54,7 +54,7 @@ const App = () => {
             </div>
 
             <div
-              className={`bg-primary ${styles.flexCenter} ${styles.paddingX}`}
+              className={`bg-primary ${styles.flexCenter} ${styles.paddingX} overflow-x-clip`}
             >
               <div className={`${styles.boxWidth}`}>
                 <SkillsAndExperience />
@@ -63,7 +63,7 @@ const App = () => {
             </div>
             <Achievements />
             <div
-              className={`bg-primary ${styles.flexCenter} ${styles.paddingX}`}
+              className={`bg-primary ${styles.flexCenter} ${styles.paddingX} overflow-x-clip`}
             >
               <div className={`${styles.boxWidth}`}>
                 <GitHubStats />

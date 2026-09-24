@@ -6,7 +6,7 @@ const Loading = () => {
   return (
     <motion.div
       id="loading"
-      className={`w-[100vw] h-[100vh] flex "${styles.flexCenter}`}
+      className={`fixed inset-0 z-50 bg-primary ${styles.flexCenter}`}
       initial={{ scale: 1.0, opacity: 0.25 }}
       animate={{ scale: 2.0, opacity: 0.8 }}
       exit={{ opacity: 0, transition: { duration: 0.3, ease: "easeOut" } }}

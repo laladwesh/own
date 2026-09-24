@@ -752,5 +752,6 @@ export const includedRepos = [
   "swciitg/Welfare_Board_Portal",
   "swciitg/Sports_Board_Portal",
   "tnp-iitg/CCD-App-backend",
-  "tnp-iitg/Intern-Portal-IITG"
+  "tnp-iitg/Intern-Portal-IITG",
+  "tnp-iitg/Placement-Portal-IITG"
 ];

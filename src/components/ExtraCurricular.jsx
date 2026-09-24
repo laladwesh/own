@@ -68,7 +68,7 @@ const ExtraCurricular = () => {
         Extra Curricular
       </h1>
 
-      <div className={`${styles.flexCenter} flex-col relative overflow-clip mb-4 mt-8`}>
+      <div className={`${styles.flexCenter} flex-col relative mb-4 mt-8`}>
         <div className="absolute z-[0] w-[60%] h-[60%] -right-[50%] rounded-full blue__gradient bottom-40" />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-8 md:mt-16 md:grid-cols-3">
