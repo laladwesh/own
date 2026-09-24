@@ -7,25 +7,25 @@ import { LinkPreview } from "./LinkPreview";
 export const SkillIcon = ({ icon, name }) => {
   return (
     <div className="flex flex-col">
-      <span className="text-white text-[30px] hover:text-purple-300">
+      <span className="text-white text-[26px] hover:text-purple-300">
         {React.createElement(icon)}
       </span>
-      <p className="font-poppins text-dimWhite text-[12px] mt-2">{name}</p>
+      <p className="font-poppins text-dimWhite text-[12px] leading-tight mt-1">{name}</p>
     </div>
   );
 };
 
-const SkillCard = ({ gridClassName = "grid-cols-3 gap-8", ...props }) => {
+const SkillCard = ({ gridClassName = "grid-cols-3 gap-x-6 gap-y-4", ...props }) => {
   return (
     <motion.div
       initial={{ y: -20, opacity: 0 }}
       whileInView={{ y: 0, opacity: 1 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="mt-4 mb-6 border-l border-gray-200 dark:border-gray-700 mx-4"
+      className="mt-2 mb-4 border-l border-gray-200 dark:border-gray-700 mx-4"
     >
       <div className="relative w-3 h-3 bg-gray-200 rounded-full top-5 right-[6.2px] border dark:border-gray-900 dark:bg-gray-700"></div>
-      <div className="flex flex-row items-center mb-6 ml-6">
+      <div className="flex flex-row items-center mb-4 ml-6">
         <h4 className="font-poppins font-semibold text-[20px] text-gradient leading-[32px]">
           {props.title}
         </h4>
@@ -119,12 +119,12 @@ const SkillsAndExperience = () => {
         </motion.div>
 
         {/* Skills — right, sticky while Experience (much taller) scrolls past */}
-        <motion.div className="md:sticky md:top-8 flex flex-col gap-2">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+        <motion.div className="md:sticky md:top-24 flex flex-col gap-2">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-4">
             <SkillCard {...languages} />
             <SkillCard {...frameworks} />
           </div>
-          <SkillCard {...tools} gridClassName="grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 gap-x-6 gap-y-8" />
+          <SkillCard {...tools} gridClassName="grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 min-[1400px]:grid-cols-8 gap-x-5 gap-y-4" />
         </motion.div>
       </div>
     </section>
