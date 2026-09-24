@@ -744,7 +744,7 @@ export const aboutMe = {
     "Electronics & Communication Engineering student at IIT Guwahati who loves building scalable web applications and exploring AI. Always looking for the next problem worth solving.",
 };
 
-export const itemsToFetch = 20;
+export const itemsToFetch = 100;
 
 export const includedRepos = [
   "swciitg/one-stop-2021",

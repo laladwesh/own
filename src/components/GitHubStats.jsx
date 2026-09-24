@@ -447,7 +447,7 @@ const GitHubStats = () => {
             </Panel>
           </div>
 
-          <div className="lg:col-span-6 h-full">
+          <div className="lg:col-span-6 min-w-0 h-full">
             <Panel title="Contribution Heatmap" delay={0.2} className="relative">
               <div className="w-full flex-1 flex flex-col justify-center overflow-hidden"> 
                 <div className="w-full overflow-x-auto custom-scrollbar">

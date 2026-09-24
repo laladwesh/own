@@ -50,15 +50,16 @@ export async function fetchContributionsWithRetry(maxRetries = 1) {
 }
 
 function generatePRQuery(repos, username) {
-  const queries = repos
-    .map((repo) => {
-      return `repo:${repo} is:pr author:${username}`;
-    })
-    .join(" ");
+  const repoFilters = repos.map((repo) => `repo:${repo}`).join(" ");
+  const searchQuery = `is:pr author:${username} sort:created-desc ${repoFilters}`;
 
   return `
-    query {
-      search(query: "${queries}", type: ISSUE, first: ${itemsToFetch}) {
+    query($after: String) {
+      search(query: "${searchQuery}", type: ISSUE, first: ${itemsToFetch}, after: $after) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
         nodes {
           ... on PullRequest {
             id
@@ -76,24 +77,44 @@ function generatePRQuery(repos, username) {
   `;
 }
 
+// The search API returns at most `itemsToFetch` results per request, so walk
+// every page — otherwise repos with many PRs crowd out the rest.
+const MAX_PAGES = 10;
+
 export async function fetchContributions() {
   const token = import.meta.env.VITE_GH_TOKEN;
   if (!token) throw new Error("VITE_GH_TOKEN not set in .env");
 
   const query = generatePRQuery(includedRepos, aboutMe.githubUsername);
-  const response = await axios.post(
-    "https://api.github.com/graphql",
-    { query },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  const pullRequests = [];
+  let after = null;
 
-  const pullRequests = response.data.data.search.nodes;
-  return pullRequests.map((item) => {
+  for (let page = 0; page < MAX_PAGES; page++) {
+    const response = await axios.post(
+      "https://api.github.com/graphql",
+      { query, variables: { after } },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.data.errors) {
+      throw new Error(response.data.errors.map((e) => e.message).join("; "));
+    }
+
+    const { nodes, pageInfo } = response.data.data.search;
+    pullRequests.push(...nodes);
+    if (!pageInfo.hasNextPage) break;
+    after = pageInfo.endCursor;
+  }
+
+  // Closed-but-unmerged PRs aren't contributions (and the UI would label them "open").
+  return pullRequests
+    .filter((item) => item.state !== "CLOSED")
+    .map((item) => {
     const { organization, repo, logoUrl } = parseOriginFromUrl(item.url);
     return {
       id: item.id,

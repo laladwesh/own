@@ -231,7 +231,7 @@ const LeetCodeStats = () => {
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.08 }}
-            className="w-full lg:w-fit flex-shrink-0 rounded-2xl bg-[#0d0b1a] border border-gray-800 hover:border-purple-700 transition-colors duration-300 p-4"
+            className="w-full lg:flex-1 lg:min-w-0 rounded-2xl bg-[#0d0b1a] border border-gray-800 hover:border-purple-700 transition-colors duration-300 p-4"
           >
             <p className="font-poppins text-[11px] text-gray-500 mb-3 whitespace-nowrap">
               Submission Heatmap · Last 12 months{activeDays ? ` · ${activeDays} active days` : ""}
