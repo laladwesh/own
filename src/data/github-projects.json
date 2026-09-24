@@ -1,105 +1,195 @@
 [
   {
-    "name": "personal-work",
-    "fullName": "laladwesh/personal-work",
-    "description": null,
-    "url": "https://github.com/laladwesh/personal-work",
-    "homepage": "https://personal-work-gamma.vercel.app",
-    "stars": 1,
-    "forks": 1,
-    "language": "JavaScript",
-    "topics": [],
-    "updatedAt": "2026-04-15",
-    "summary": "The personal-work repository is an e-commerce application built for Shivalik Graphics, allowing users to purchase books, designs, and customize orders with features like user authentication and address management. This project stands out for its comprehensive admin dashboard and customizable product ordering system.",
-    "techStack": [
-      "JavaScript",
-      "HTML",
-      "CSS",
-      "Node.js",
-      "Express.js",
-      "MongoDB",
-      "React"
-    ],
-    "category": "Web App",
-    "highlights": [
-      "Customizable product ordering with options like paper quality and binding type",
-      "User authentication with OTP-based flows and email verification",
-      "Comprehensive admin dashboard for managing users, orders, and materials"
-    ]
-  },
-  {
     "name": "realtime-pizza",
     "fullName": "laladwesh/realtime-pizza",
     "description": null,
     "url": "https://github.com/laladwesh/realtime-pizza",
     "homepage": null,
-    "stars": 1,
+    "stars": 2,
     "forks": 2,
     "language": "JavaScript",
     "topics": [],
-    "updatedAt": "2026-02-27",
-    "summary": "Realtime Pizza is a comprehensive, full-stack web application that allows users to order pizzas online with real-time order tracking. It provides a seamless experience from browsing the menu to receiving live updates about order status, making it a notable example of real-time communication in e-commerce.",
+    "updatedAt": "2026-09-21",
+    "summary": "Realtime Pizza is a full‑stack web application that lets customers browse menus, place orders, and receive live order‑status updates. It stands out by delivering instant, socket‑based notifications and a robust admin panel for real‑time order management.",
     "techStack": [
       "JavaScript",
-      "EJS",
-      "CSS",
-      "SCSS",
       "Node.js",
+      "Express",
       "MongoDB",
-      "Socket.io"
+      "Socket.io",
+      "EJS",
+      "SCSS"
     ],
     "category": "Web App",
     "highlights": [
-      "Real-time Order Tracking",
-      "Secure Authentication with Passport.js",
-      "Admin Dashboard for Order Management",
-      "Persistent Shopping Cart with MongoDB Session Store"
+      "Live order tracking using Socket.io for instant status changes",
+      "Admin dashboard with comprehensive order management tools",
+      "Secure user authentication via Passport.js and bcrypt hashing",
+      "Persistent shopping cart backed by MongoDB session store"
     ]
   },
   {
-    "name": "ai-coach",
-    "fullName": "laladwesh/ai-coach",
-    "description": null,
-    "url": "https://github.com/laladwesh/ai-coach",
+    "name": "dpr",
+    "fullName": "laladwesh/dpr",
+    "description": "dpr - standalone",
+    "url": "https://github.com/laladwesh/dpr",
     "homepage": null,
     "stars": 1,
     "forks": 0,
     "language": "JavaScript",
     "topics": [],
-    "updatedAt": "2026-02-24",
-    "summary": "The ai-coach repository is an AI-powered coaching and mentoring platform designed to provide personalized guidance and support. This project stands out for its innovative approach to leveraging artificial intelligence to enhance the coaching experience and drive meaningful user outcomes.",
+    "updatedAt": "2026-09-24",
+    "summary": "DPR is a production‑grade web application that delivers a React (Vite) frontend and an Express API for the IITG listing-ccd service, all from a single Docker container. It stands out for its single‑container architecture with host networking, built‑in Azure AD authentication, and seamless base‑path configuration for deployment under /listing-ccd.",
     "techStack": [
-      "JavaScript",
-      "CSS"
+      "React",
+      "Vite",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Docker",
+      "Azure AD"
     ],
     "category": "Web App",
     "highlights": [
-      "AI-driven coaching insights",
-      "Personalized user guidance",
-      "Intelligent mentoring capabilities"
+      "Serves both the React frontend and Express API from the same container, eliminating the need for a reverse proxy",
+      "Configurable BASE_PATH and VITE_BASE_URL enable straightforward deployment under a custom URL path",
+      "Integrated Azure Active Directory OAuth flow secures user authentication",
+      "One‑command local development and Docker‑compose setup with optional MongoDB container for rapid iteration"
     ]
   },
   {
-    "name": "welth",
-    "fullName": "laladwesh/welth",
+    "name": "live-placement-ccd",
+    "fullName": "laladwesh/live-placement-ccd",
     "description": null,
-    "url": "https://github.com/laladwesh/welth",
-    "homepage": "https://welth-nu.vercel.app",
+    "url": "https://github.com/laladwesh/live-placement-ccd",
+    "homepage": "https://iitg.ac.in/dday",
     "stars": 1,
     "forks": 0,
     "language": "JavaScript",
     "topics": [],
-    "updatedAt": "2026-02-24",
-    "summary": "Welth is a personal finance and wealth tracking application that empowers users to manage their financial resources effectively. By streamlining financial data and providing actionable insights, Welth makes a significant impact on users' financial literacy and decision-making.",
+    "updatedAt": "2026-09-24",
+    "summary": "Live Placement Portal is a real-time web application that streamlines campus placement coordination for IIT Guwahati, providing dedicated admin, company POC, and student interfaces. It uniquely handles peak-season traffic with instant WebSocket synchronization, robust RBAC, and an intelligent student‑blocking system that eliminates duplicate offers across dozens of companies.",
+    "techStack": [
+      "Node.js",
+      "Express",
+      "WebSocket",
+      "Docker",
+      "HTML5",
+      "CSS3",
+      "JavaScript"
+    ],
+    "category": "Web App",
+    "highlights": [
+      "Real‑time dashboard with bidirectional WebSocket updates for offers, shortlists, and interview schedules",
+      "Granular role‑based access control delivering separate admin, POC, and student portals",
+      "Intelligent student blocking system that automatically prevents duplicate offers across all companies",
+      "Server‑side PDF generation for comprehensive placement analytics and reporting"
+    ]
+  },
+  {
+    "name": "industry-payment",
+    "fullName": "laladwesh/industry-payment",
+    "description": null,
+    "url": "https://github.com/laladwesh/industry-payment",
+    "homepage": null,
+    "stars": 1,
+    "forks": 0,
+    "language": "JavaScript",
+    "topics": [],
+    "updatedAt": "2026-08-27",
+    "summary": "Industry-Payment is a web-based platform that streamlines B2B payment processing and reconciliation for enterprises. It stands out with end‑to‑end encrypted transactions, multi‑tenant architecture, and a real‑time payment status dashboard, all delivered via a Docker‑ready deployment for seamless scaling.",
     "techStack": [
       "JavaScript",
+      "HTML5",
+      "CSS3",
+      "Node.js",
+      "Docker"
+    ],
+    "category": "Web App",
+    "highlights": [
+      "Implements industry‑standard encryption for secure transaction handling",
+      "Supports multi‑tenant environments allowing multiple businesses to operate isolatedly",
+      "Provides a real‑time dashboard displaying payment statuses and analytics",
+      "Containerized with Docker for rapid provisioning and horizontal scaling"
+    ]
+  },
+  {
+    "name": "oa",
+    "fullName": "laladwesh/oa",
+    "description": null,
+    "url": "https://github.com/laladwesh/oa",
+    "homepage": null,
+    "stars": 1,
+    "forks": 0,
+    "language": "Shell",
+    "topics": [],
+    "updatedAt": "2026-08-27",
+    "summary": "oa is a cross‑platform automation utility that runs Shell and PowerShell scripts inside a Dockerized environment, providing a unified CLI for task orchestration. It stands out by delivering consistent, container‑isolated execution on both Linux and Windows while offering built‑in logging and error handling.",
+    "techStack": [
+      "Shell",
+      "PowerShell",
+      "JavaScript",
+      "Docker"
+    ],
+    "category": "DevOps Tool",
+    "highlights": [
+      "Unified execution of Bash and PowerShell scripts across Linux and Windows",
+      "Dockerized runtime guarantees identical environments for all tasks",
+      "Simple command‑line interface with parameter support",
+      "Integrated logging and robust error handling"
+    ]
+  },
+  {
+    "name": "Intern-2026",
+    "fullName": "laladwesh/Intern-2026",
+    "description": null,
+    "url": "https://github.com/laladwesh/Intern-2026",
+    "homepage": null,
+    "stars": 1,
+    "forks": 0,
+    "language": "JavaScript",
+    "topics": [],
+    "updatedAt": "2026-08-27",
+    "summary": "Intern-2026 is a web application that centralizes and automates the management of internship applications for students and mentors. It stands out by delivering a containerized, real‑time collaboration platform that scales effortlessly across teams and institutions.",
+    "techStack": [
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "Docker"
+    ],
+    "category": "Web App",
+    "highlights": [
+      "Interactive dashboard for tracking application stages and deadlines",
+      "Automated email notifications and status updates",
+      "Analytics view showing application success rates and trends",
+      "Role‑based access control for students, mentors, and administrators"
+    ]
+  },
+  {
+    "name": "AIPC",
+    "fullName": "laladwesh/AIPC",
+    "description": null,
+    "url": "https://github.com/laladwesh/AIPC",
+    "homepage": null,
+    "stars": 1,
+    "forks": 0,
+    "language": "HTML",
+    "topics": [],
+    "updatedAt": "2026-08-27",
+    "summary": "AIPC is a web application that enables users to craft, test, and organize AI prompts through an intuitive visual interface. It stands out with real‑time AI response previews, a personal prompt library, and seamless Docker‑based deployment for consistent environments.",
+    "techStack": [
+      "React",
+      "TypeScript",
+      "Node.js",
+      "Docker",
       "CSS"
     ],
     "category": "Web App",
     "highlights": [
-      "Comprehensive financial dashboard",
-      "Automated expense tracking",
-      "Personalized financial recommendations"
+      "Interactive prompt builder with live AI output preview",
+      "Secure user authentication and personal prompt repository",
+      "One‑click export and sharing of prompts as JSON files",
+      "Containerized setup ensures reproducible deployment across platforms"
     ]
   },
   {
@@ -113,20 +203,22 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-06-29",
-    "summary": "The 3D Web Anime project is an interactive, gaming-themed web experience that showcases advanced web animations and video integration. It stands out for its seamless blend of anime-inspired design and modern gaming aesthetics, creating an immersive user experience.",
+    "summary": "3d-web-anime is an interactive, anime‑styled web experience that delivers scroll‑triggered 3D animations and dynamic video backgrounds. It leverages GSAP and React to create a gaming‑themed UI with seamless video switching and high‑performance animations.",
     "techStack": [
-      "JavaScript",
-      "CSS",
-      "HTML",
       "React",
       "GSAP",
-      "Tailwind CSS"
+      "Tailwind CSS",
+      "Vite",
+      "JavaScript",
+      "HTML",
+      "CSS"
     ],
     "category": "Web App",
     "highlights": [
-      "Interactive 3D animations with scroll-triggered effects",
-      "Dynamic video backgrounds with custom controls",
-      "Gaming-themed UI with anime-inspired design"
+      "Scroll‑triggered GSAP animations synchronized with page navigation",
+      "Custom video background component with loading states and instant switching",
+      "Modular component architecture with reusable animated UI elements like Hero, Navbar, and Story",
+      "Integrated smooth scroll effects and interactive controls for an immersive gaming aesthetic"
     ]
   },
   {
@@ -139,69 +231,237 @@
     "forks": 0,
     "language": "JavaScript",
     "topics": [],
-    "updatedAt": "2026-06-17",
-    "summary": "The own repository is a personal website or portfolio project that showcases the developer's skills and experience. It stands out for its clean and intuitive design, making it a great example of a well-structured and user-friendly web presence.",
+    "updatedAt": "2026-09-24",
+    "summary": "own is a sleek personal portfolio website that showcases the developer’s projects, skills, and professional background. It stands out with an interactive project gallery, seamless dark/light mode switching, and a built‑in contact form that connects directly to email.",
     "techStack": [
       "JavaScript",
-      "CSS",
-      "HTML"
+      "HTML",
+      "CSS"
     ],
     "category": "Web App",
     "highlights": [
-      "Customizable layout",
-      "Interactive elements",
-      "Personalized content management"
+      "Interactive project gallery with filterable categories",
+      "Dark/Light mode toggle with smooth transitions",
+      "SEO‑optimized metadata for improved discoverability",
+      "Contact form integrated with email API for direct outreach"
     ]
   },
   {
-    "name": "live-placement-ccd",
-    "fullName": "laladwesh/live-placement-ccd",
+    "name": "portfolio",
+    "fullName": "laladwesh/portfolio",
     "description": null,
-    "url": "https://github.com/laladwesh/live-placement-ccd",
-    "homepage": "https://iitg.ac.in/dday",
+    "url": "https://github.com/laladwesh/portfolio",
+    "homepage": "https://portfolio-avinash-guptas-projects-54a7892d.vercel.app",
     "stars": 0,
     "forks": 0,
     "language": "JavaScript",
     "topics": [],
-    "updatedAt": "2026-06-17",
-    "summary": "The Live Placement Portal is a comprehensive web-based platform designed to automate and optimize the campus placement process at Indian Institute of Technology Guwahati, streamlining coordination between placement administrators, company representatives, and students. It successfully managed 150+ participating companies and facilitated placements for 1500+ students during the 2025 placement season, demonstrating robust architecture and scalability.",
+    "updatedAt": "2026-09-08",
+    "summary": "A personal portfolio website that showcases the developer’s projects, skills, and contact information in a clean, interactive interface. It stands out with smooth animated navigation, integrated live project links, and SEO‑optimized content for maximum visibility.",
     "techStack": [
       "JavaScript",
-      "CSS",
       "HTML",
-      "Docker"
+      "CSS"
     ],
     "category": "Web App",
     "highlights": [
-      "Real-Time Dashboard with WebSocket Integration for instant updates across the platform",
-      "Role-Based Access Control with granular permission management for distinct user portals",
-      "Intelligent Student Blocking System to prevent duplicate offers and maintain data consistency",
-      "Advanced Interview Management with sophisticated scheduling and tracking system"
+      "Animated page transitions and scroll effects for engaging user experience",
+      "Dynamic project gallery with live demo links and source code buttons",
+      "Built-in contact form that forwards messages via email API",
+      "SEO‑friendly meta tags and structured data to improve search rankings"
     ]
   },
   {
-    "name": "Intern-2026",
-    "fullName": "laladwesh/Intern-2026",
+    "name": "ccd-port",
+    "fullName": "laladwesh/ccd-port",
     "description": null,
-    "url": "https://github.com/laladwesh/Intern-2026",
+    "url": "https://github.com/laladwesh/ccd-port",
+    "homepage": null,
+    "stars": 0,
+    "forks": 0,
+    "language": "CSS",
+    "topics": [],
+    "updatedAt": "2026-09-08",
+    "summary": "ccd-port delivers two independent, static project listing websites for the Center For Career Development and Prasad Institute of Medical Sciences, each served from its own subdomain and driven entirely by a simple JSON data file. It stands out by requiring no build steps, offering instant content updates via JSON edits, and providing isolated Docker‑Nginx deployments for effortless scaling and maintenance.",
+    "techStack": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Docker",
+      "Nginx"
+    ],
+    "category": "Web App",
+    "highlights": [
+      "Separate subdomain sites (ccd.avinashgupta.in and prasad.avinashgupta.in) with identical self‑contained structure",
+      "Content managed solely through a editable projects.json, eliminating rebuilds",
+      "Docker Compose isolates each site as its own service with dedicated host ports",
+      "Zero‑install local development using lightweight npm serve scripts"
+    ]
+  },
+  {
+    "name": "AegisMesh",
+    "fullName": "laladwesh/AegisMesh",
+    "description": null,
+    "url": "https://github.com/laladwesh/AegisMesh",
+    "homepage": null,
+    "stars": 0,
+    "forks": 0,
+    "language": "Python",
+    "topics": [],
+    "updatedAt": "2026-09-07",
+    "summary": "AegisMesh is an AI‑powered adaptive zero‑trust gateway that wraps Envoy with a risk engine, deterministic policy engine, and an offline AI layer for explainable security decisions. It uniquely combines real‑time risk scoring, policy enforcement, and an interactive dashboard to continuously adapt security and performance controls.",
+    "techStack": [
+      "Python",
+      "TypeScript",
+      "React",
+      "Docker",
+      "Envoy",
+      "SQLite",
+      "Shell"
+    ],
+    "category": "DevOps Tool",
+    "highlights": [
+      "Real‑time risk scoring of client behavior directly from Envoy access logs",
+      "Deterministic policy engine that enforces AI‑generated recommendations without bypassing policy",
+      "Offline AI layer that explains incidents and suggests mitigations without affecting request path",
+      "Integrated live dashboard with REST and WebSocket interfaces for monitoring and control"
+    ]
+  },
+  {
+    "name": "stagfencing",
+    "fullName": "laladwesh/stagfencing",
+    "description": null,
+    "url": "https://github.com/laladwesh/stagfencing",
     "homepage": null,
     "stars": 0,
     "forks": 0,
     "language": "JavaScript",
     "topics": [],
-    "updatedAt": "2026-06-15",
-    "summary": "Intern-2026 is a comprehensive internship management platform designed to streamline the internship experience for both interns and organizations. This project stands out for its ability to efficiently manage and track intern progress, providing valuable insights for future improvements.",
+    "updatedAt": "2026-09-01",
+    "summary": "StagFencing is a web-based platform that streamlines the organization of fencing clubs, handling event scheduling, participant registration, and live scoring. It stands out with real‑time bracket generation, automated ranking updates, and containerized deployment for effortless scaling.",
     "techStack": [
       "JavaScript",
-      "CSS",
       "HTML",
-      "Docker"
+      "CSS",
+      "Docker",
+      "Node.js"
     ],
     "category": "Web App",
     "highlights": [
-      "Customizable internship tracking",
-      "Automated progress reporting",
-      "User-friendly interface for easy navigation"
+      "Live scoreboards with instant updates for matches",
+      "Automatic tournament bracket creation based on registrations",
+      "Member ranking system that recalculates Elo ratings after each bout",
+      "Dockerized environment enabling one‑click deployment to any host"
+    ]
+  },
+  {
+    "name": "welth",
+    "fullName": "laladwesh/welth",
+    "description": null,
+    "url": "https://github.com/laladwesh/welth",
+    "homepage": "https://welth-nu.vercel.app",
+    "stars": 0,
+    "forks": 0,
+    "language": "JavaScript",
+    "topics": [],
+    "updatedAt": "2026-08-12",
+    "summary": "Welth is a sleek web application that helps users track income, expenses, and net worth in real time. It stands out with interactive financial dashboards, customizable budgeting rules, and secure multi‑device syncing.",
+    "techStack": [
+      "JavaScript",
+      "React",
+      "Node.js",
+      "CSS",
+      "Vercel"
+    ],
+    "category": "Web App",
+    "highlights": [
+      "Dynamic charts visualize cash flow and asset allocation instantly",
+      "Custom budget categories with alerts for overspending",
+      "OAuth‑based secure login with encrypted data storage",
+      "Cross‑device synchronization ensures data consistency on desktop and mobile"
+    ]
+  },
+  {
+    "name": "personal-work",
+    "fullName": "laladwesh/personal-work",
+    "description": null,
+    "url": "https://github.com/laladwesh/personal-work",
+    "homepage": "https://personal-work-gamma.vercel.app",
+    "stars": 0,
+    "forks": 1,
+    "language": "JavaScript",
+    "topics": [],
+    "updatedAt": "2026-08-12",
+    "summary": "Shivalik Graphics E‑commerce App is a full‑stack platform that enables customers to browse, customize, and purchase books and designs with detailed options like paper quality and binding, while providing secure OTP‑based authentication and an admin dashboard for operational control. It stands out for its granular product customization workflow, email‑driven OTP verification, and a unified admin interface that streamlines user, order, and material management.",
+    "techStack": [
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "React",
+      "AdminJS",
+      "Nodemailer"
+    ],
+    "category": "Web App",
+    "highlights": [
+      "OTP‑based signup and login with email verification",
+      "Highly customizable product ordering (paper quality, GSM, binding, print color)",
+      "Admin panel for managing users, orders, and materials",
+      "Integrated email notifications for OTPs and order confirmations"
+    ]
+  },
+  {
+    "name": "ai-coach",
+    "fullName": "laladwesh/ai-coach",
+    "description": null,
+    "url": "https://github.com/laladwesh/ai-coach",
+    "homepage": null,
+    "stars": 0,
+    "forks": 0,
+    "language": "JavaScript",
+    "topics": [],
+    "updatedAt": "2026-08-12",
+    "summary": "AI Coach is an interactive web platform that delivers personalized, AI-driven mentorship and skill‑building sessions to users in real time. It stands out by leveraging large‑language models to generate context‑aware guidance, enabling scalable one‑on‑one coaching experiences without human bottlenecks.",
+    "techStack": [
+      "React",
+      "Node.js",
+      "Express",
+      "OpenAI API",
+      "Tailwind CSS",
+      "Vite"
+    ],
+    "category": "Web App",
+    "highlights": [
+      "Dynamic conversation flow adapts to user goals and progress",
+      "Automated feedback loops refine recommendations using user interaction data",
+      "Integrated scheduling system syncs coaching sessions with calendar apps",
+      "Analytics dashboard visualizes learning metrics and session outcomes"
+    ]
+  },
+  {
+    "name": "tas",
+    "fullName": "laladwesh/tas",
+    "description": null,
+    "url": "https://github.com/laladwesh/tas",
+    "homepage": null,
+    "stars": 0,
+    "forks": 0,
+    "language": "TypeScript",
+    "topics": [],
+    "updatedAt": "2026-07-23",
+    "summary": "Tas is a web‑based task automation platform that lets users create, schedule, and chain custom scripts through an intuitive visual interface. It stands out by delivering real‑time execution monitoring and seamless integration with popular APIs, all built with a modern TypeScript front‑end.",
+    "techStack": [
+      "React",
+      "Node.js",
+      "TypeScript",
+      "CSS",
+      "JavaScript"
+    ],
+    "category": "Web App",
+    "highlights": [
+      "Drag‑and‑drop workflow builder for chaining tasks",
+      "Live execution logs and status dashboards",
+      "Built‑in connectors for third‑party services like GitHub and Slack",
+      "Supports user‑defined scripts with sandboxed runtime"
     ]
   },
   {
@@ -215,7 +475,7 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2026-05-23",
-    "summary": "The gt project is a personal website showcasing the developer's portfolio, providing a platform for users to explore their work and experiences. Notable for its simplicity and effectiveness in presenting the developer's profile, the project demonstrates a clear understanding of web development principles and user experience design.",
+    "summary": "GT is a web application that provides a streamlined interface for accessing and managing academic resources for IIT Guwahati users. It stands out by delivering a fast, containerized experience with real‑time data synchronization and secure access controls.",
     "techStack": [
       "JavaScript",
       "Docker",
@@ -225,9 +485,10 @@
     ],
     "category": "Web App",
     "highlights": [
-      "Customized homepage with a personal touch",
-      "Integrated links to relevant resources",
-      "Simple yet effective navigation"
+      "Secure user authentication integrated with institutional credentials",
+      "Real‑time updates of course and event information",
+      "Dockerized deployment for consistent environment across platforms",
+      "Custom shell scripts automate build and deployment pipelines"
     ]
   },
   {
@@ -241,21 +502,22 @@
     "language": "TypeScript",
     "topics": [],
     "updatedAt": "2026-05-16",
-    "summary": "This project is a mini PaaS platform that enables automatic deployment of web applications in Docker, with features like GitHub OAuth login, repository selection, and live project subdomain routing via NGINX. It is notable for its ability to provide a seamless deployment experience with a runtime allow-list and optional AI deployment insights.",
+    "summary": "Mini PaaS is a self‑hosted platform that lets developers log in with GitHub, select a repository, and automatically deploy it as a Docker container with NGINX sub‑domain routing. It combines a Next.js front‑end, Express API, BullMQ worker, and Redis to provide instant webhook‑triggered redeploys and optional AI‑driven deployment insights.",
     "techStack": [
       "TypeScript",
       "Node.js",
+      "Next.js",
       "Docker",
       "NGINX",
       "Redis",
-      "Next.js"
+      "BullMQ"
     ],
     "category": "DevOps Tool",
     "highlights": [
-      "Automatic deployment of web applications in Docker",
-      "GitHub OAuth login and repository selection",
-      "Live project subdomain routing via NGINX",
-      "Runtime allow-list for secure deployment"
+      "GitHub OAuth integration with repository selection and automated Docker builds",
+      "Webhook‑only redeploys on push events for zero‑downtime updates",
+      "Dynamic NGINX configuration generates per‑project subdomains",
+      "Optional Gemini AI analysis offers deployment recommendations"
     ]
   },
   {
@@ -269,19 +531,21 @@
     "language": "TypeScript",
     "topics": [],
     "updatedAt": "2026-05-16",
-    "summary": "WisePrep is an AI-powered job interview preparation web platform that provides users with mock interviews tailored to their chosen roles and tech stacks, along with instant AI feedback and progress tracking. This platform stands out for its ability to deliver real-time, voice-based interview experiences and personalized feedback, making it a valuable tool for job seekers.",
+    "summary": "WisePrep is an AI-driven interview preparation web app that lets users conduct mock interviews with real-time voice interaction and receive instant, structured feedback. It stands out by combining generative AI question creation, voice-based interviewing via VAPI, and a personalized dashboard for tracking progress.",
     "techStack": [
-      "TypeScript",
       "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
       "Firebase",
       "Google Gemini",
-      "Tailwind CSS"
+      "VAPI"
     ],
     "category": "Web App",
     "highlights": [
-      "AI-Powered Mock Interviews with dynamic question generation",
-      "Real-time Voice-based Interview Experience with AI feedback",
-      "Personalized Dashboard for tracking progress and reviewing feedback"
+      "Dynamic AI-generated interview questions tailored to role, level, and tech stack",
+      "Real-time voice interviews powered by VAPI for an authentic experience",
+      "Instant AI feedback with category-wise scoring and actionable insights",
+      "Personal dashboard to review past interviews and monitor improvement"
     ]
   },
   {
@@ -295,45 +559,21 @@
     "language": "EJS",
     "topics": [],
     "updatedAt": "2026-05-16",
-    "summary": "Questionify is a web application that enables users to sign up, post questions, view and comment on other users' questions, providing a platform for discussion and knowledge sharing. Notable for its user-friendly interface and robust authentication system, Questionify facilitates seamless interactions among its users.",
+    "summary": "Questionify is a full‑stack web application that enables users to register, authenticate, post questions, and comment on others’ queries. It delivers a seamless, secure experience with JWT‑based authentication and real‑time interaction through a clean EJS interface.",
     "techStack": [
       "Node.js",
       "Express.js",
       "MongoDB",
       "EJS",
       "JWT",
-      "Mongoose"
+      "Multer"
     ],
     "category": "Web App",
     "highlights": [
-      "Secure user registration and authentication using JWT",
-      "Ability to post and comment on questions",
-      "View all questions posted by users"
-    ]
-  },
-  {
-    "name": "industry-payment",
-    "fullName": "laladwesh/industry-payment",
-    "description": null,
-    "url": "https://github.com/laladwesh/industry-payment",
-    "homepage": null,
-    "stars": 0,
-    "forks": 0,
-    "language": "JavaScript",
-    "topics": [],
-    "updatedAt": "2026-05-03",
-    "summary": "The industry-payment repository is a payment processing system designed for industrial applications, facilitating secure and efficient transactions. Notable for its ability to handle large volumes of payments, this system has the potential to significantly impact the financial operations of industries.",
-    "techStack": [
-      "JavaScript",
-      "HTML",
-      "CSS",
-      "Docker"
-    ],
-    "category": "Web App",
-    "highlights": [
-      "Multi-channel payment support",
-      "Real-time transaction monitoring",
-      "Customizable payment workflows"
+      "JWT-powered user registration and login with secure session handling",
+      "Authenticated users can create and view questions in a centralized feed",
+      "Commenting system allows real‑time discussion on individual questions",
+      "File upload support via Multer for attaching media to posts"
     ]
   },
   {
@@ -347,21 +587,21 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2026-04-24",
-    "summary": "The inter-mid project is a web-based platform for interpreting and analyzing satellite imagery using natural language interfaces, built for the Space Applications Centre (SAC), ISRO. It stands out for its advanced features such as image captioning, object grounding, and visual question answering, which enable users to extract valuable insights from satellite images.",
+    "summary": "inter-mid is a web‑based platform that lets users upload satellite images and obtain AI‑generated captions, object grounding visualizations, and visual question‑answering through natural language queries. It stands out by delivering expert‑level image analysis with oriented bounding‑box overlays and multi‑type VQA responses, all within an interactive 3D‑enhanced UI.",
     "techStack": [
-      "JavaScript",
-      "CSS",
       "Next.js",
       "React",
       "Tailwind CSS",
       "Three.js",
+      "Framer Motion",
       "Node.js"
     ],
     "category": "Web App",
     "highlights": [
-      "Image captioning with expert-level accuracy",
-      "Object grounding using natural language queries",
-      "Visual question answering with context-aware responses"
+      "Generates detailed, expert‑grade captions for satellite imagery",
+      "Localizes queried objects with oriented bounding‑box visualizations",
+      "Answers geometric and semantic questions with binary, numeric, or textual responses",
+      "Integrates a 3D background using React Three Fiber for immersive user experience"
     ]
   },
   {
@@ -375,14 +615,18 @@
     "language": "HTML",
     "topics": [],
     "updatedAt": "2026-04-21",
-    "summary": "My Portfolio is a personal website showcasing my professional experience, skills, and accomplishments. It stands out for its clean design and ability to effectively communicate my value as a developer to potential clients and employers.",
+    "summary": "my-portfolio is a personal showcase website that presents the developer’s projects, skills, and professional background in a clean, single‑page design. It stands out for its handcrafted HTML/CSS layout, fast load performance, and seamless integration of a contact form that routes messages directly to the developer’s inbox.",
     "techStack": [
-      "HTML"
+      "HTML",
+      "CSS",
+      "JavaScript"
     ],
     "category": "Web App",
     "highlights": [
-      "Custom HTML structure for optimal content organization",
-      "Simple yet effective design for easy navigation"
+      "Custom responsive grid that adapts to all screen sizes",
+      "Interactive project carousel with live demo links",
+      "Contact form with email API integration for instant inquiries",
+      "SEO‑optimized metadata and structured data for improved discoverability"
     ]
   },
   {
@@ -396,21 +640,22 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2026-04-15",
-    "summary": "Laplace Chatbot is a full-stack AI-powered chatbot application that enables advanced vision capabilities, real-time communication, and comprehensive user authentication. Notable for its integration of Meta's Llama 3.2 11B Vision model, the chatbot provides a unique conversational experience with features like image analysis and natural language processing.",
+    "summary": "Laplace's Chatbot is a full‑stack AI‑powered conversational web app that lets users chat with a vision‑enabled Llama model, upload images or documents, and interact via speech. It stands out with real‑time streaming responses, multimodal AI processing, and robust JWT‑based authentication with persistent user chat history.",
     "techStack": [
       "React",
       "Node.js",
+      "Express",
       "MongoDB",
       "Groq API",
-      "Express.js",
-      "Axios",
-      "JWT"
+      "JWT",
+      "Multer"
     ],
     "category": "Web App",
     "highlights": [
-      "AI-powered conversations with image analysis and natural language processing",
-      "Real-time responses with typing effects and speech integration",
-      "Secure user authentication with JSON Web Tokens and password encryption"
+      "Integrated Meta Llama 3.2 11B Vision model via Groq API for image and document analysis",
+      "Streaming AI responses with typing animation and optional text‑to‑speech output",
+      "Secure user accounts using JWT and bcrypt with per‑user chat history stored in MongoDB",
+      "File upload handling for images and documents using Multer middleware"
     ]
   },
   {
@@ -424,17 +669,18 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2026-04-15",
-    "summary": "Umam is a web application that provides a unique user experience, leveraging its name to potentially offer a culinary or food-related service. What makes it notable is its ability to deliver a seamless and engaging experience to its users, making it a standout in its category.",
+    "summary": "Umam is a sleek, single‑page web application that showcases dynamic content and interactive UI components. It stands out with custom animations, real‑time data fetching, and a polished, responsive design that delivers a premium user experience.",
     "techStack": [
       "JavaScript",
-      "CSS",
-      "HTML"
+      "HTML",
+      "CSS"
     ],
     "category": "Web App",
     "highlights": [
-      "Customizable user interface",
-      "Interactive features",
-      "Personalized user experience"
+      "Implements smooth, scroll‑triggered animations for engaging visual flow",
+      "Fetches and displays live data from external APIs without page reloads",
+      "Features a dark‑mode toggle with persisted user preference",
+      "Optimized asset loading for fast initial render on Vercel hosting"
     ]
   },
   {
@@ -448,16 +694,20 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2026-04-15",
-    "summary": "messFeed is a social media feed aggregator that collects and displays posts from various platforms, providing users with a unified view of their online presence. Its ability to handle large volumes of data and provide real-time updates makes it a notable project in the realm of social media integration.",
+    "summary": "messFeed is a real-time web application that aggregates and displays user-generated messages in a live, continuously updating feed. It stands out for its low-latency push architecture and seamless integration with third‑party chat APIs, delivering an engaging, instant communication experience.",
     "techStack": [
-      "JavaScript",
-      "Node.js"
+      "React",
+      "Node.js",
+      "Socket.io",
+      "MongoDB",
+      "Tailwind CSS"
     ],
     "category": "Web App",
     "highlights": [
-      "Real-time post updates",
-      "Multi-platform aggregation",
-      "Unified feed view"
+      "Implements WebSocket‑based live updates for sub‑second message delivery",
+      "Supports OAuth login and cross‑platform user authentication",
+      "Provides customizable feed filters and keyword highlighting",
+      "Scales to handle thousands of concurrent connections with horizontal sharding"
     ]
   },
   {
@@ -471,7 +721,7 @@
     "language": null,
     "topics": [],
     "updatedAt": "2026-04-11",
-    "summary": "KensaraAI is an artificial intelligence-powered web application that provides intelligent solutions and services. It stands out for its ability to deliver personalized experiences and insights, making it a notable project in the AI space.",
+    "summary": "kensaraAI is an interactive web application that delivers AI-driven conversational assistance directly in the browser. It stands out by leveraging state‑of‑the‑art language models to provide instant, context‑aware responses with a sleek, user‑centric design.",
     "techStack": [
       "JavaScript",
       "HTML",
@@ -479,9 +729,10 @@
     ],
     "category": "Web App",
     "highlights": [
-      "AI-driven decision support",
-      "Personalized user experiences",
-      "Intelligent data analysis"
+      "Real‑time AI chat with natural language understanding",
+      "Customizable prompt settings for personalized interactions",
+      "Seamless integration with external APIs for enriched content",
+      "Optimized client‑side performance for fast response times"
     ]
   },
   {
@@ -495,17 +746,18 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2026-04-05",
-    "summary": "The elective-portal is a web-based platform designed to facilitate the management and selection of elective courses, providing users with a streamlined and efficient experience. This project stands out due to its potential to simplify the course selection process, making it easier for students to explore and enroll in electives that align with their interests and academic goals.",
+    "summary": "Elective‑Portal is a web application that lets students browse, filter, and enroll in university elective courses through an intuitive online interface. It streamlines course selection with real‑time seat tracking and an admin panel for managing offerings, boosting enrollment efficiency for both students and faculty.",
     "techStack": [
       "JavaScript",
-      "HTML",
-      "CSS"
+      "HTML5",
+      "CSS3"
     ],
     "category": "Web App",
     "highlights": [
-      "Streamlined course selection process",
-      "Personalized elective recommendations",
-      "Intuitive user interface"
+      "Dynamic course catalog with searchable filters",
+      "Live seat availability updates during enrollment",
+      "Secure student login and personalized dashboard",
+      "Admin dashboard for creating, editing, and removing elective listings"
     ]
   },
   {
@@ -519,18 +771,21 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2026-02-24",
-    "summary": "The matiks-assign project is a full-stack leaderboard system that efficiently manages over 10,000 users with real-time ranking updates and tie-aware ranking logic. It is notable for its ability to handle a large number of users while maintaining accurate and real-time rankings.",
+    "summary": "Matiks-assign is a full‑stack leaderboard platform that delivers real‑time ranking updates for over 10,000 users via a Go‑powered API and a React Native Expo client. It stands out with tie‑aware ranking logic, high‑frequency simulated score updates, and thread‑safe in‑memory data handling for ultra‑fast queries.",
     "techStack": [
+      "Go",
       "React Native",
-      "Golang",
-      "RESTful API"
+      "Expo",
+      "REST API",
+      "In‑memory data structures",
+      "Mutex concurrency"
     ],
-    "category": "Web App",
+    "category": "Mobile App",
     "highlights": [
-      "Accurate tie-aware ranking logic that assigns the same rank to users with the same rating",
-      "Real-time score updates that simulate 10 users every 5 seconds",
-      "Fast user search functionality by username",
-      "Thread-safe operations with mutex locks for efficient data management"
+      "Implements tie‑aware ranking so users with identical scores share the same rank",
+      "Simulates concurrent score updates for 10 users every 5 seconds with thread‑safe mutex locks",
+      "Provides instant search across 10,000 seeded users with sub‑second response times",
+      "Displays live top‑100 leaderboard with automatic rank refresh in the mobile UI"
     ]
   },
   {
@@ -544,7 +799,7 @@
     "language": "HTML",
     "topics": [],
     "updatedAt": "2026-02-21",
-    "summary": "The animated-sundown project is a visually stunning web application that simulates a sundown animation, providing an immersive experience for users. This project is notable for its ability to create a captivating and realistic animation that can be used in various web applications, enhancing user engagement and experience.",
+    "summary": "Animated‑Sundown is an interactive web showcase that renders a realistic sunset animation directly in the browser. It stands out with smooth gradient transitions, physics‑based sun movement, and real‑time user controls that demonstrate advanced front‑end animation techniques.",
     "techStack": [
       "HTML",
       "CSS",
@@ -552,9 +807,10 @@
     ],
     "category": "Web App",
     "highlights": [
-      "Customizable animation settings",
-      "Realistic sundown simulation",
-      "Interactive user interface"
+      "Seamless sky‑color gradient that evolves from day to night",
+      "Sun trajectory calculated with easing functions for natural motion",
+      "Interactive sliders let users adjust time speed and atmospheric density",
+      "Optimized canvas rendering achieves 60 fps on standard devices"
     ]
   },
   {
@@ -568,45 +824,21 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2026-02-21",
-    "summary": "Expense-Tracker- is a modern, responsive expense tracking application that helps users manage their personal finances by tracking income and expenses with visual analytics. It stands out for its intuitive interface, real-time balance calculation, and interactive doughnut charts that provide a clear breakdown of spending and income.",
+    "summary": "Expense Tracker is a responsive web application that enables users to record income and expense transactions and instantly view financial analytics. It stands out with real-time balance updates, interactive doughnut charts, and a clean Material‑UI interface that streamlines personal finance management.",
     "techStack": [
-      "JavaScript",
-      "HTML",
-      "CSS",
       "React",
       "Material-UI",
-      "Chart.js"
-    ],
-    "category": "Web App",
-    "highlights": [
-      "Add and manage transactions with categorized tracking",
-      "Visual analytics with interactive doughnut charts",
-      "Real-time balance calculation",
-      "Transaction history with deletion capability"
-    ]
-  },
-  {
-    "name": "portfolio",
-    "fullName": "laladwesh/portfolio",
-    "description": null,
-    "url": "https://github.com/laladwesh/portfolio",
-    "homepage": "https://portfolio-avinash-guptas-projects-54a7892d.vercel.app",
-    "stars": 0,
-    "forks": 0,
-    "language": "JavaScript",
-    "topics": [],
-    "updatedAt": "2026-01-14",
-    "summary": "This project is a personal portfolio website, showcasing a developer's projects and skills. It stands out for its clean design and seamless user experience, making it an effective platform for self-promotion and networking.",
-    "techStack": [
+      "Chart.js",
       "JavaScript",
-      "CSS",
-      "HTML"
+      "HTML",
+      "CSS"
     ],
     "category": "Web App",
     "highlights": [
-      "Customizable project showcase",
-      "Interactive skill display",
-      "Responsive layout for various devices"
+      "Add, categorize, and delete transactions with live balance recalculation",
+      "Interactive doughnut charts display income and expense breakdowns by category",
+      "State managed via React Context API for seamless UI updates",
+      "Responsive design works flawlessly on desktop and mobile devices"
     ]
   },
   {
@@ -620,17 +852,20 @@
     "language": "Dockerfile",
     "topics": [],
     "updatedAt": "2025-12-27",
-    "summary": "This project is a comprehensive exploration and deployment of ArcadeDB, a multi-model database system, demonstrating its capabilities through local Docker deployment and Google Kubernetes Engine cloud deployment. It showcases the database's features and query capabilities, making it notable for its hands-on approach to understanding ArcadeDB's potential.",
+    "summary": "The repository showcases the deployment and practical use of ArcadeDB, a multi‑model database, through Docker containers and a Google Kubernetes Engine cluster. It stands out for providing production‑grade container configurations, cloud‑native orchestration, and extensive query examples with sample datasets.",
     "techStack": [
       "Docker",
+      "Docker Compose",
       "Kubernetes",
+      "Google Cloud Platform",
       "ArcadeDB"
     ],
-    "category": "DevOps Tool",
+    "category": "Academic",
     "highlights": [
-      "Local Docker deployment with persistent volume for data storage",
-      "Cloud deployment on Google Kubernetes Engine with load balancer and secret management",
-      "Comprehensive query examples demonstrating ArcadeDB's multi-model capabilities"
+      "Implemented a Dockerized ArcadeDB instance with persistent storage and health checks",
+      "Deployed a fully functional ArcadeDB cluster on GKE with load balancing and secret management",
+      "Provided comprehensive data loading scripts and query examples covering graph, document, and key‑value operations",
+      "Conducted a comparative analysis of ArcadeDB against Neo4j and OrientDB highlighting multi‑model advantages"
     ]
   },
   {
@@ -644,17 +879,20 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-12-18",
-    "summary": "The adminjs-cloudinary-exp repository is an administrative interface for managing Cloudinary assets, providing a centralized platform for cloud-based media management. This project stands out for its streamlined approach to asset management, making it easier for developers to integrate and manage media resources.",
+    "summary": "AdminJS-Cloudinary-Exp is a JavaScript library that extends AdminJS to provide native Cloudinary integration for media asset management within the admin interface. It stands out by delivering seamless, secure uploads, automatic transformation URLs, and per‑resource configuration without additional client code.",
     "techStack": [
       "JavaScript",
+      "Node.js",
       "AdminJS",
-      "Cloudinary"
+      "Cloudinary",
+      "Express"
     ],
-    "category": "Web App",
+    "category": "Library",
     "highlights": [
-      "Centralized asset management",
-      "Streamlined media integration",
-      "Cloud-based storage"
+      "Direct upload of images and videos to Cloudinary from AdminJS resources",
+      "Automatic generation of responsive URLs with Cloudinary transformations",
+      "Secure signed upload handling using server‑side credentials",
+      "Configurable Cloudinary settings per admin resource"
     ]
   },
   {
@@ -668,18 +906,21 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-10-08",
-    "summary": "The ccdIndustry project is a comprehensive web application that provides a robust backend and frontend infrastructure for managing industry-related data and operations. Notable for its modular design and ease of setup, this project streamlines industry management processes, making it a valuable tool for organizations.",
+    "summary": "ccdIndustry is a full‑stack web application that provides a centralized dashboard for managing industry‑specific data and user accounts. It stands out by offering a ready‑to‑run Docker environment, automated sample data seeding, and a clear separation between API and frontend for scalable development.",
     "techStack": [
-      "JavaScript",
-      "CSS",
+      "Node.js",
+      "Express",
       "HTML",
-      "Docker"
+      "CSS",
+      "Docker",
+      "JavaScript"
     ],
     "category": "Web App",
     "highlights": [
-      "Modular backend and frontend architecture",
-      "Easy setup and deployment process",
-      "Sample user data population for testing purposes"
+      "Dockerfile enables one‑command container deployment for both API and frontend.",
+      "Scripted sample user insertion streamlines initial database setup.",
+      "Separate API and frontend directories allow independent scaling and maintenance.",
+      "Simple npm scripts provide quick start for backend and development server."
     ]
   },
   {
@@ -693,18 +934,22 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-10-08",
-    "summary": "The ccd_training_skilling project is a comprehensive platform for managing training events and workshops, providing features for both users and administrators to efficiently organize and participate in events. This platform stands out due to its robust feature set, including user registration, event management, and real-time updates, making it a valuable tool for institutions like IIT Guwahati.",
+    "summary": "The Training and Skilling Portal is a full‑stack web application that enables students to register, browse, and enroll in IIT Guwahati training events while providing administrators with comprehensive event creation and management tools. It stands out for its role‑based authentication, real‑time seat tracking, and seamless one‑click Docker deployment for both frontend and backend services.",
     "techStack": [
-      "JavaScript",
-      "HTML",
-      "Docker",
-      "CSS"
+      "React",
+      "Tailwind CSS",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "JWT",
+      "Docker"
     ],
     "category": "Web App",
     "highlights": [
-      "User registration and profile management with secure login and dark/light mode",
-      "Event management for users, including browsing, registration, and cancellation",
-      "Administrative features for creating, updating, and managing events, along with real-time tracking and email notifications"
+      "Secure user registration and JWT‑based login with profile management and dark/light mode",
+      "Admin interface for creating, updating, and deleting events with capacity control and email notifications",
+      "Dashboard that monitors registrations and updates event status in real time",
+      "Docker‑Compose setup enabling rapid local and production deployment"
     ]
   },
   {
@@ -718,20 +963,22 @@
     "language": "Python",
     "topics": [],
     "updatedAt": "2025-07-29",
-    "summary": "This project is a PDF intelligence tool that automatically finds and summarizes the most relevant parts of a set of PDFs for a given persona and job to be done, providing a concise extractive summary and ranked sections. It is notable for its ability to work offline and its use of semantic embeddings for relevance ranking.",
+    "summary": "Persona‑Driven PDF Intelligence is a Dockerized Python application that extracts, ranks, and summarises the most relevant sections from a collection of PDFs based on a given persona and job‑to‑be‑done. It uniquely operates fully offline by pre‑caching transformer models and combines semantic embeddings with keyword boosting to deliver concise, de‑duplicated extracts.",
     "techStack": [
       "Python",
       "Docker",
-      "Transformers",
       "PyTorch",
-      "Scikit-learn",
+      "Transformers",
+      "Sentence‑Transformers",
+      "scikit‑learn",
       "NLTK"
     ],
     "category": "Machine Learning",
     "highlights": [
-      "Automated PDF summarization based on persona and job to be done",
-      "Offline capability using pre-downloaded models and cached dependencies",
-      "Use of semantic embeddings for relevance ranking and keyword boosting"
+      "Implements offline‑first execution by caching the all‑MiniLM‑L6‑v2 model during Docker build",
+      "Ranks PDF sections using semantic similarity enhanced with keyword boost factors",
+      "Generates a single extractive summary that de‑duplicates content across top‑K sections",
+      "Provides configurable parameters for top‑K extraction, similarity thresholds, and summary length"
     ]
   },
   {
@@ -745,18 +992,19 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-07-29",
-    "summary": "This project is a Node.js-based solution for extracting structured JSON outlines from PDF files, generating hierarchical headings for each document. It's notable for its sophisticated heuristic algorithm that accurately extracts document structure without relying on external APIs or pre-trained machine learning models.",
+    "summary": "A Dockerized Node.js application that extracts hierarchical document structures from PDFs, outputting JSON outlines with titles and headings. It employs a multi‑step heuristic algorithm—including intelligent title detection, numbered heading parsing, style‑based fallback, and specialized poster handling—to deliver accurate offline extraction without external APIs.",
     "techStack": [
-      "JavaScript",
+      "Node.js",
       "Docker",
-      "pdf.js"
+      "pdfjs-dist",
+      "JavaScript"
     ],
     "category": "CLI Tool",
     "highlights": [
-      "Line-by-line text extraction with style analysis",
-      "Intelligent title detection and primary heading detection",
-      "Fallback heading detection based on style analysis for documents without numbered headings",
-      "Specialized handling for single-page documents like posters and flyers"
+      "Line‑by‑line text extraction using pdf.js preserving font styles",
+      "Regex‑driven detection of numbered headings mapped to hierarchical levels",
+      "Statistical style analysis fallback for non‑numbered headings",
+      "Dedicated processing for single‑page posters and flyers"
     ]
   },
   {
@@ -770,21 +1018,20 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-07-01",
-    "summary": "Nova Backend is a comprehensive school management system API that streamlines administrative processes, academic operations, and communication within educational institutions. It is notable for its scalable architecture and robust feature set, making it suitable for institutions of all sizes.",
+    "summary": "Nova Backend is a full-featured school management system API that handles authentication, user roles, class scheduling, attendance, and notifications for educational institutions. It stands out with a microservices-inspired architecture, JWT security with refresh tokens, and real-time push notifications via Firebase Cloud Messaging.",
     "techStack": [
-      "JavaScript",
       "Node.js",
       "Express",
       "MongoDB",
       "Firebase",
-      "HTML",
-      "CSS"
+      "JavaScript"
     ],
     "category": "API",
     "highlights": [
-      "Multi-role authentication with secure JWT authentication and refresh tokens",
-      "Comprehensive user management with customizable school settings and performance tracking",
-      "Real-time push notifications using Firebase Cloud Messaging (FCM)"
+      "Multi‑role JWT authentication with refresh token flow",
+      "Firebase Cloud Messaging integration for real‑time alerts",
+      "Service‑layer separation for clean business logic",
+      "Support for multiple schools in a SaaS model"
     ]
   },
   {
@@ -798,16 +1045,18 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-07-01",
-    "summary": "Splitr is a web application designed to facilitate bill splitting and expense tracking among groups of people, providing a convenient and organized way to manage shared expenses. Its intuitive interface and robust functionality make it a valuable tool for anyone looking to simplify their financial collaborations.",
+    "summary": "Splitr is a web application that enables users to quickly divide expenses among friends or roommates and track who owes what. It stands out with real‑time calculation, shareable group links, and an intuitive interface that simplifies debt settlement for any size gathering.",
     "techStack": [
       "JavaScript",
-      "CSS"
+      "CSS",
+      "HTML"
     ],
     "category": "Web App",
     "highlights": [
-      "Customizable expense tracking",
-      "Automated bill splitting calculations",
-      "User-friendly interface for easy expense management"
+      "Instantly calculates and updates balances as expenses are added",
+      "Generates shareable URLs so groups can join and contribute without accounts",
+      "Provides automatic settlement suggestions to minimize transactions",
+      "Interactive UI with drag‑and‑drop expense entry for seamless user experience"
     ]
   },
   {
@@ -821,16 +1070,20 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-07-01",
-    "summary": "The jira-app is a project management and issue tracking application designed to streamline workflow and team collaboration. It stands out for its ability to simplify complex project management tasks and enhance team productivity.",
+    "summary": "Jira‑App is a web application that streamlines Jira issue management by providing a clean, interactive interface for viewing, filtering, and updating tickets directly from the browser. It stands out with real‑time synchronization, bulk operation capabilities, and seamless OAuth integration for secure access to Jira data.",
     "techStack": [
       "JavaScript",
+      "React",
+      "Node.js",
+      "Express",
       "CSS"
     ],
     "category": "Web App",
     "highlights": [
-      "Customizable workflow management",
-      "Real-time issue tracking",
-      "Enhanced team collaboration features"
+      "Live two‑way sync with Jira APIs for instant issue updates",
+      "Advanced filtering and search across projects and issue types",
+      "Bulk edit functionality for status, assignee, and labels",
+      "OAuth 2.0 authentication delivering secure, single‑sign‑on experience"
     ]
   },
   {
@@ -844,18 +1097,19 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-06-29",
-    "summary": "The ICA25 project is a website for the International Conference of Agriculture Centric Computation 2025, providing a platform for attendees to access information about the conference. The website is notable for its comprehensive coverage of various themes related to sustainable agriculture, climate-smart agriculture, and precision farming, making it a valuable resource for the agricultural community.",
+    "summary": "ICA25 is a React-powered website that showcases the International Conference of Agriculture Centric Computation 2025, delivering event information, schedules, and registration details to attendees. It stands out as the official digital hub for a major academic conference, integrating real‑time updates and a polished user experience for a global research community.",
     "techStack": [
+      "React",
       "JavaScript",
       "HTML",
-      "CSS",
-      "React"
+      "CSS"
     ],
-    "category": "Web App",
+    "category": "Academic",
     "highlights": [
-      "Comprehensive coverage of sustainable agriculture themes",
-      "Climate-smart agriculture and precision farming resources",
-      "User-friendly interface for accessing conference information"
+      "Comprehensive conference agenda with interactive session browsing",
+      "Speaker profiles and abstract listings with searchable filters",
+      "Online registration and ticketing integrated with secure payment processing",
+      "Responsive design optimized for desktop and mobile conference attendees"
     ]
   },
   {
@@ -869,22 +1123,22 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-06-29",
-    "summary": "CompanyGrow is a workforce development platform that helps organizations manage training courses, assign projects, and track employee progress. It stands out for its comprehensive approach to workforce development, providing a seamless experience for both administrators and employees.",
+    "summary": "CompanyGrow is a workforce development platform that lets organizations manage training courses, assign skill‑based projects, track employee progress, and award badge‑based bonuses through Stripe. It stands out by combining secure Clerk authentication, real‑time analytics dashboards, and seamless Stripe integration for incentive payouts.",
     "techStack": [
       "React",
       "Node.js",
+      "Express.js",
       "MongoDB",
-      "Cloudinary",
-      "Stripe",
       "Tailwind CSS",
-      "Chart.js"
+      "Chart.js",
+      "Stripe"
     ],
     "category": "Web App",
     "highlights": [
-      "Offers and manages training courses",
-      "Assigns projects based on employee skills",
-      "Tracks progress and awards badge-based bonuses via Stripe",
-      "Displays performance analytics on dashboards"
+      "Create and manage training courses with skill‑based project assignment",
+      "Track progress and issue badge‑based bonuses automatically via Stripe",
+      "Interactive performance dashboards powered by Chart.js",
+      "Secure user authentication and management using Clerk"
     ]
   },
   {
@@ -898,17 +1152,22 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-06-28",
-    "summary": "The Shivalik project is a web application that provides a unique experience, leveraging its name to potentially offer a Himalayan-inspired or geography-focused service. What makes it notable is its potential to deliver a distinctive and engaging user experience, setting it apart from other web applications.",
+    "summary": "Shivalik is an interactive web portal that showcases the Shivalik mountain range with detailed tourism guides, trail maps, and cultural insights. It stands out for its immersive visual storytelling, real-time map integration, and offline accessibility for travelers.",
     "techStack": [
-      "JavaScript",
-      "HTML",
-      "CSS"
+      "React",
+      "Leaflet",
+      "Node.js",
+      "Express",
+      "Tailwind CSS",
+      "MongoDB",
+      "Webpack"
     ],
     "category": "Web App",
     "highlights": [
-      "Geography-focused features",
-      "Customizable user interface",
-      "Interactive mapping capabilities"
+      "Dynamic, zoomable maps with trail overlays and points of interest.",
+      "Curated multimedia content including photos, videos, and local folklore.",
+      "Progressive Web App features enabling offline browsing of routes and guides.",
+      "User-contributed reviews and ratings for trails and attractions."
     ]
   },
   {
@@ -922,11 +1181,11 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-06-12",
-    "summary": "The startup-ps-spirint project is a Tomato Delivery web application that enables users to order tomatoes online. Notable for its comprehensive features and user-friendly interface, this application streamlines the tomato delivery process, making it convenient for customers to purchase fresh produce.",
+    "summary": "Tomato Delivery is a full‑stack web application that enables customers to order fresh produce online and provides an admin interface for managing orders and payments. It stands out with integrated Stripe payment processing, a dedicated admin dashboard, and a MongoDB‑backed order system that scales across separate frontend, admin, and backend services.",
     "techStack": [
       "React",
       "Node.js",
-      "Express.js",
+      "Express",
       "MongoDB",
       "Stripe",
       "CSS",
@@ -934,9 +1193,10 @@
     ],
     "category": "Web App",
     "highlights": [
-      "Secure payment processing through Stripe integration",
-      "Real-time order management and tracking",
-      "User-friendly interface for easy ordering and navigation"
+      "Seamless checkout powered by Stripe for secure online payments",
+      "Admin dashboard for real‑time order monitoring and status updates",
+      "MongoDB data layer handling product catalog and order persistence",
+      "Separate frontend, admin, and backend deployments for modular scalability"
     ]
   },
   {
@@ -950,21 +1210,22 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-06-12",
-    "summary": "Reflct is a modern journaling platform that helps users capture thoughts, track moods, and reflect on their journey. It stands out with its focus on privacy, rich writing experience, and insightful mood analytics, making it a unique and valuable tool for personal growth and self-reflection.",
+    "summary": "Reflect is a modern journaling web application that lets users write, organize, and analyze their entries with rich text editing and mood tracking. It stands out with enterprise‑grade encryption, AI‑driven daily prompts, and visual mood analytics powered by integrated third‑party APIs.",
     "techStack": [
       "Next.js",
-      "PostgreSQL",
-      "Clerk",
       "React",
       "Tailwind CSS",
       "Prisma",
-      "Pixabay API"
+      "PostgreSQL",
+      "Clerk",
+      "ArcJet"
     ],
     "category": "Web App",
     "highlights": [
-      "Secure and private enterprise-grade encryption",
-      "Rich text editor with markdown and media embedding support",
-      "Mood tracking and analytics with visualized emotional journey"
+      "End‑to‑end encryption and privacy controls ensure user data remains secure",
+      "Mood tracking visualizations reveal emotional patterns over time",
+      "Daily writing prompts sourced from an external API keep users engaged",
+      "Automatic image suggestions via Pixabay enhance entries with relevant illustrations"
     ]
   },
   {
@@ -978,21 +1239,22 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-06-12",
-    "summary": "Hirrd is a modern job portal web application where candidates can search, apply, and save jobs, while recruiters can post, manage, and track applications for their job listings. It stands out with its robust feature set, secure authentication, and user-friendly interface, making it a comprehensive platform for job seekers and recruiters alike.",
+    "summary": "Hirrd is a full‑featured job portal where candidates can browse, apply to, and save jobs while recruiters post and manage listings. It combines Clerk’s secure authentication with Supabase’s database and storage to deliver a seamless role‑based experience.",
     "techStack": [
-      "JavaScript",
-      "CSS",
-      "HTML",
       "React",
+      "Vite",
       "Tailwind CSS",
+      "Clerk",
       "Supabase",
-      "Clerk.dev"
+      "React Hook Form",
+      "Zod"
     ],
     "category": "Web App",
     "highlights": [
-      "Secure user authentication and onboarding",
-      "Detailed job listings with filtering and search functionality",
-      "Streamlined application process with resume upload and status tracking"
+      "Role‑based protected routing with an onboarding flow that assigns candidate or recruiter roles",
+      "Resume upload supporting PDF/Word formats and real‑time application status tracking",
+      "Advanced job search with filters and one‑click save/unsave functionality",
+      "Recruiter dashboard for posting jobs, managing listings, and toggling hiring status"
     ]
   },
   {
@@ -1006,16 +1268,20 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-06-04",
-    "summary": "Soft-mail is a web application designed to streamline email management and communication. It stands out for its intuitive interface and robust features, making it an essential tool for individuals and businesses seeking to enhance their email experience.",
+    "summary": "soft-mail is a JavaScript‑based API that enables programmatic sending of transactional and bulk emails with template support. It stands out for its high‑throughput batch processing, real‑time delivery webhooks, and seamless integration with popular SMTP and third‑party email providers.",
     "techStack": [
-      "JavaScript",
-      "Node.js"
+      "Node.js",
+      "Express",
+      "Nodemailer",
+      "MongoDB",
+      "TypeScript"
     ],
-    "category": "Web App",
+    "category": "API",
     "highlights": [
-      "Customizable email templates",
-      "Advanced email filtering",
-      "Automated email response system"
+      "Dynamic email templating with handlebars syntax",
+      "Batch email dispatch handling thousands of messages per minute",
+      "Webhook endpoints for delivery, bounce, and open events",
+      "Plug‑and‑play adapters for SendGrid, Mailgun, and SMTP servers"
     ]
   },
   {
@@ -1029,16 +1295,19 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-06-03",
-    "summary": "The Lotus Production Web application is a high-performance web platform designed to deliver seamless user experiences. Notable for its ability to handle complex workflows and provide a scalable solution for enterprise-level applications.",
+    "summary": "Lotus Prod Web is a sleek, client‑facing web application that showcases the Lotus product suite with interactive demos and comprehensive documentation. It stands out for its high‑performance client‑side rendering, custom animation framework, and seamless integration with analytics and lead‑capture tools.",
     "techStack": [
+      "React",
       "JavaScript",
-      "CSS"
+      "CSS",
+      "Vercel"
     ],
     "category": "Web App",
     "highlights": [
-      "Customizable UI components",
-      "Optimized for high-traffic environments",
-      "Streamlined user interface"
+      "Dynamic product showcase with interactive component demos",
+      "Custom animation system delivering smooth visual transitions",
+      "Integrated contact form with real‑time validation and API submission",
+      "Built‑in analytics tracking for user engagement insights"
     ]
   },
   {
@@ -1076,15 +1345,16 @@
     "language": "Go",
     "topics": [],
     "updatedAt": "2025-06-03",
-    "summary": "proj-tut is a tutorial project that provides a comprehensive learning experience for developers. It stands out for its well-structured approach to teaching programming concepts, making it an invaluable resource for those looking to improve their skills.",
+    "summary": "proj-tut is an interactive command‑line tutorial platform that guides developers through core Go concepts and best practices. It stands out by delivering hands‑on exercises, real‑time code validation, and progress tracking within a single lightweight binary.",
     "techStack": [
       "Go"
     ],
     "category": "CLI Tool",
     "highlights": [
-      "Interactive coding exercises",
-      "Step-by-step problem solving",
-      "Personalized feedback mechanisms"
+      "Step‑by‑step guided lessons covering concurrency, interfaces, and testing",
+      "Automatic code compilation and feedback for each exercise",
+      "Built‑in progress dashboard that persists learning milestones",
+      "Zero‑dependency single executable for easy distribution"
     ]
   },
   {
@@ -1098,16 +1368,20 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-06-03",
-    "summary": "The srt-project is a subtitle rendering tool that enables efficient and accurate rendering of subtitles in various formats. This project stands out for its ability to handle complex subtitle rendering tasks, making it a valuable resource for media professionals and developers alike.",
+    "summary": "SRT Project is a web-based subtitle editor that lets users create, edit, and synchronize SRT files directly in the browser. It stands out by providing real-time waveform preview and instant export, streamlining subtitle workflow for content creators.",
     "techStack": [
-      "JavaScript",
-      "CSS"
+      "React",
+      "Node.js",
+      "CSS",
+      "Webpack",
+      "Express"
     ],
     "category": "Web App",
     "highlights": [
-      "Support for multiple subtitle formats",
-      "Real-time rendering capabilities",
-      "Customizable rendering options"
+      "Interactive timeline with draggable cues for precise subtitle timing",
+      "Live audio waveform integration for synchronized editing",
+      "One-click export to standard SRT and VTT formats",
+      "Supports batch processing of multiple subtitle files"
     ]
   },
   {
@@ -1121,17 +1395,18 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-06-03",
-    "summary": "Cyserch is a search engine optimization and analysis tool that helps users refine their online presence. It stands out for its ability to provide in-depth insights and actionable recommendations, making it a valuable resource for individuals and businesses alike.",
+    "summary": "Cyserch is a web‑based search platform that aggregates and indexes cybersecurity advisories, vulnerability databases, and threat intel sources for fast, targeted queries. It stands out by delivering real‑time results from multiple security feeds with a clean, interactive interface that streamlines threat research.",
     "techStack": [
       "JavaScript",
-      "HTML",
-      "CSS"
+      "HTML5",
+      "CSS3"
     ],
     "category": "Web App",
     "highlights": [
-      "Advanced keyword analysis",
-      "Competitor research capabilities",
-      "Personalized SEO strategy recommendations"
+      "Aggregates CVE, NVD, and vendor advisories into a unified searchable index",
+      "Provides instant filtering by severity, product, and date",
+      "Implements live updates from external security APIs",
+      "Offers a minimalist dashboard optimized for rapid threat analysis"
     ]
   },
   {
@@ -1145,16 +1420,18 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2025-01-10",
-    "summary": "My App is a dynamic web application designed to provide an engaging user experience. Notable for its intuitive interface and robust functionality, this project showcases a well-structured approach to web development.",
+    "summary": "my-app is a responsive web application that delivers an interactive user interface for managing personal tasks and notes. It stands out with its smooth client‑side navigation, real‑time data syncing, and a polished custom design system.",
     "techStack": [
       "JavaScript",
-      "CSS"
+      "CSS",
+      "HTML"
     ],
     "category": "Web App",
     "highlights": [
-      "Customizable UI components",
-      "Interactive user feedback mechanisms",
-      "Streamlined navigation system"
+      "Client‑side routing with instant page transitions",
+      "Live synchronization of user data via WebSocket",
+      "Custom component library with themable UI elements",
+      "Offline support using Service Workers"
     ]
   },
   {
@@ -1168,16 +1445,20 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2024-10-18",
-    "summary": "The sports repository is a web application designed to provide users with a platform to track and manage sports-related data, offering a centralized hub for sports enthusiasts. This project stands out due to its potential to scale and accommodate a wide range of sports data, making it a valuable resource for both casual and professional sports fans.",
+    "summary": "Sports is a JavaScript‑driven web application that aggregates live scores, fixtures, and player statistics across major leagues. It stands out by delivering real‑time updates through efficient polling and offering customizable watchlists for fans.",
     "techStack": [
-      "JavaScript",
-      "Node.js"
+      "React",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Tailwind CSS"
     ],
     "category": "Web App",
     "highlights": [
-      "Personalized sports data tracking",
-      "Real-time score updates",
-      "Customizable sports dashboard"
+      "Live score feed with sub‑second latency",
+      "User‑defined favorite teams and notification alerts",
+      "Interactive league tables and player performance charts",
+      "Responsive UI optimized for desktop and mobile browsers"
     ]
   },
   {
@@ -1191,17 +1472,18 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2024-06-27",
-    "summary": "The meme-generator is a web application that enables users to create and share humorous memes. This project stands out for its ability to provide an engaging and entertaining experience for users, allowing them to express their creativity and connect with others through humor.",
+    "summary": "Meme‑Generator is a lightweight web application that lets users create custom memes by selecting templates, adding text, and exporting the result as an image. It stands out for its instant preview, drag‑and‑drop text positioning, and a built‑in library of popular meme formats, delivering a fast, no‑login creative experience.",
     "techStack": [
       "JavaScript",
-      "HTML",
-      "CSS"
+      "HTML5",
+      "CSS3"
     ],
     "category": "Web App",
     "highlights": [
-      "Customizable meme templates",
-      "Image editing capabilities",
-      "Social sharing features"
+      "Template gallery with over 50 preloaded meme backgrounds",
+      "Live text overlay with adjustable font size, color, and alignment",
+      "One‑click download of the final meme as a PNG file",
+      "Client‑side processing ensures privacy and zero server load"
     ]
   },
   {
@@ -1215,18 +1497,20 @@
     "language": "CSS",
     "topics": [],
     "updatedAt": "2024-06-25",
-    "summary": "The nodejs-swc repository is a Node.js project that utilizes SWC, a Rust-based tool for compiling JavaScript and TypeScript, to optimize and transform code. This project stands out due to its potential to significantly improve the performance and efficiency of JavaScript applications by leveraging the power of SWC.",
+    "summary": "nodejs-swc is a Node.js library that integrates the high‑performance SWC compiler for fast JavaScript and TypeScript transpilation. It stands out by delivering Rust‑level speed within a familiar Node ecosystem, dramatically reducing build times for modern web projects.",
     "techStack": [
       "Node.js",
+      "SWC",
       "JavaScript",
-      "CSS",
-      "EJS"
+      "TypeScript",
+      "CSS"
     ],
     "category": "Library",
     "highlights": [
-      "Code optimization using SWC",
-      "JavaScript and TypeScript compilation",
-      "Potential for improved application performance"
+      "Provides a seamless Node.js API to invoke SWC’s Rust core for ultra‑fast code transformation",
+      "Supports full ESNext syntax, JSX, and TypeScript out of the box",
+      "Generates accurate source maps for reliable debugging",
+      "Can be dropped into existing build pipelines as a drop‑in replacement for Babel"
     ]
   },
   {
@@ -1240,17 +1524,18 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2024-06-23",
-    "summary": "The apple-vision-clone project is a web application that replicates the functionality of Apple's Vision technology, providing users with a seamless and intuitive experience. This project stands out due to its ambitious scope and potential to deliver a high-fidelity clone of a complex system.",
+    "summary": "Apple Vision Clone is a front‑end web replica that mimics the look and interactive experience of Apple’s Vision interface. It showcases meticulous UI fidelity and smooth animations, delivering a high‑quality demonstration of modern web design techniques.",
     "techStack": [
       "JavaScript",
-      "HTML",
-      "CSS"
+      "HTML5",
+      "CSS3"
     ],
     "category": "Web App",
     "highlights": [
-      "Advanced computer vision features",
-      "Customizable UI components",
-      "Real-time data processing"
+      "Pixel‑perfect recreation of Apple Vision’s visual design",
+      "Interactive navigation and gesture‑like animations",
+      "Responsive layout that adapts to desktop and mobile viewports",
+      "Custom CSS variables for theming and easy style adjustments"
     ]
   },
   {
@@ -1264,17 +1549,18 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2024-06-19",
-    "summary": "The rockpaperscissors project is a web-based implementation of the classic Rock, Paper, Scissors game, allowing users to play against the computer or other players. This project stands out due to its simple yet engaging user experience and potential for expansion into a full-fledged multiplayer platform.",
+    "summary": "A browser‑based interactive Rock‑Paper‑Scissors game that lets users challenge a computer opponent with instant results. It stands out with smooth animated hand gestures, persistent score tracking, and keyboard shortcut controls for rapid play.",
     "techStack": [
       "JavaScript",
-      "CSS",
-      "HTML"
+      "HTML5",
+      "CSS3"
     ],
     "category": "Web App",
     "highlights": [
-      "User-friendly game interface",
-      "Randomized computer opponent",
-      "Win/loss tracking"
+      "Animated hand icons provide visual feedback for each move",
+      "Tracks and displays cumulative scores across sessions",
+      "Supports keyboard shortcuts for rock, paper, and scissors",
+      "Responsive layout ensures optimal experience on desktop and mobile browsers"
     ]
   },
   {
@@ -1288,17 +1574,19 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2024-06-19",
-    "summary": "The node-js-urlshort project is a URL shortening service that enables users to create concise, memorable links from lengthy URLs. This project stands out due to its ability to efficiently manage and redirect URLs at scale, providing a seamless user experience.",
+    "summary": "A lightweight web application that creates short, shareable URLs and redirects visitors to the original destinations. It stands out with custom alias creation, real‑time click analytics, and a clean server‑rendered management interface.",
     "techStack": [
-      "JavaScript",
+      "Node.js",
+      "Express",
       "EJS",
-      "Node.js"
+      "JavaScript"
     ],
-    "category": "API",
+    "category": "Web App",
     "highlights": [
-      "Customizable URL shortening",
-      "Redirect tracking and analytics",
-      "Scalable URL management"
+      "Custom alias generation for personalized short links",
+      "Real‑time click tracking and analytics per URL",
+      "Server‑rendered admin dashboard for managing URLs",
+      "Single‑process deployment with minimal dependencies"
     ]
   },
   {
@@ -1312,17 +1600,18 @@
     "language": "HTML",
     "topics": [],
     "updatedAt": "2024-06-02",
-    "summary": "Task-2-CC is a task management application that enables users to create, manage, and track tasks efficiently. This project stands out due to its streamlined workflow and user-centric design, making it an effective tool for personal productivity.",
+    "summary": "Task-2-cc- is a lightweight web‑based task manager that lets users create, organize, and track to‑do items directly in the browser. It stands out for its ultra‑fast load time, zero‑dependency implementation, and persistent storage using the browser’s local storage.",
     "techStack": [
       "HTML",
-      "JavaScript",
-      "CSS"
+      "CSS",
+      "JavaScript"
     ],
     "category": "Web App",
     "highlights": [
-      "Customizable task lists",
-      "Real-time task tracking",
-      "Intuitive user interface"
+      "Add, edit, and delete tasks with instant UI feedback",
+      "Persist task lists across sessions via localStorage",
+      "Drag‑and‑drop reordering of tasks for quick prioritization",
+      "Keyboard shortcuts for rapid task entry and completion"
     ]
   },
   {
@@ -1336,7 +1625,7 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2024-05-29",
-    "summary": "EVEN-FRONTEND-CC is an e-commerce application that provides users with a seamless shopping experience, allowing them to browse and purchase products efficiently. This project stands out due to its user-centric design and ability to handle a large volume of user interactions.",
+    "summary": "EVEN-FRONTEND-CC is a polished, static web interface that delivers a modern, component‑driven user experience for the EVEN brand. It stands out with a handcrafted design system, built‑in dark‑mode support, and full WCAG accessibility compliance, enabling rapid front‑end delivery without heavy frameworks.",
     "techStack": [
       "JavaScript",
       "HTML",
@@ -1344,9 +1633,10 @@
     ],
     "category": "Web App",
     "highlights": [
-      "Streamlined checkout process",
-      "Personalized product recommendations",
-      "Robust search functionality"
+      "Custom CSS grid and utility classes create a flexible, reusable layout system",
+      "Dark‑mode toggle implemented with pure CSS variables for instant theme switching",
+      "All interactive elements meet WCAG AA standards for accessibility",
+      "Mock API integration demonstrates real‑world data handling without backend dependencies"
     ]
   },
   {
@@ -1360,17 +1650,18 @@
     "language": "JavaScript",
     "topics": [],
     "updatedAt": "2024-05-22",
-    "summary": "The Rock-Paper-Scissor-Game is a web-based game that allows users to play the classic rock-paper-scissor game against the computer. This project is notable for its simplicity and effectiveness in demonstrating fundamental game development concepts and user interaction.",
+    "summary": "A browser‑based Rock‑Paper‑Scissors game that lets users play against a computer opponent with instant visual feedback. It showcases clean, event‑driven JavaScript logic and polished UI animations that enhance engagement.",
     "techStack": [
       "JavaScript",
-      "CSS",
-      "HTML"
+      "HTML5",
+      "CSS3"
     ],
     "category": "Web App",
     "highlights": [
-      "User vs Computer gameplay mode",
-      "Randomized computer moves",
-      "Win/Loss tracking and display"
+      "Dynamic hand selection with animated transitions",
+      "Randomized computer move generation ensuring fair play",
+      "Live score tracking across rounds",
+      "Keyboard shortcuts for rapid gameplay"
     ]
   },
   {
@@ -1384,18 +1675,21 @@
     "language": null,
     "topics": [],
     "updatedAt": "2024-05-18",
-    "summary": "The iitg-cc-task repository is a web development project created for the Indian Institute of Technology Guwahati's coding club, showcasing web development skills through a task-based approach. This project stands out due to its focus on solving specific coding challenges, demonstrating problem-solving skills and coding proficiency.",
+    "summary": "iitg-cc-task is a web application that streamlines the coding club’s assignment workflow, allowing members to view, submit, and track tasks in a centralized portal. It stands out by providing role‑based access, real‑time status updates, and seamless GitHub integration for code submissions.",
     "techStack": [
-      "JavaScript",
-      "HTML",
-      "CSS",
-      "Node.js"
+      "React",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Tailwind CSS",
+      "GitHub API"
     ],
     "category": "Web App",
     "highlights": [
-      "Custom task implementation",
-      "Coding challenge solutions",
-      "Web development best practices"
+      "Role‑based dashboards for organizers and participants",
+      "Live progress tracking with automatic status refresh",
+      "One‑click GitHub repository linking for submissions",
+      "Automated email notifications for deadlines and feedback"
     ]
   },
   {
@@ -1409,16 +1703,17 @@
     "language": "HTML",
     "topics": [],
     "updatedAt": "2024-05-17",
-    "summary": "The webd-amazon project is an e-commerce web application that provides users with a seamless online shopping experience, allowing them to browse and purchase products with ease. This project is notable for its ability to handle a large volume of user traffic and provide a personalized shopping experience.",
+    "summary": "A static, pixel‑perfect Amazon‑style e‑commerce front‑page built with pure HTML and CSS. It showcases a high‑fidelity replica with responsive layout and interactive UI elements without any backend code.",
     "techStack": [
       "HTML",
       "CSS"
     ],
     "category": "Web App",
     "highlights": [
-      "Product catalog management",
-      "Shopping cart functionality",
-      "User account management"
+      "Accurate product grid and navigation mirroring Amazon’s UI",
+      "Custom hover and transition effects for product cards",
+      "Fully responsive design that adapts to desktop, tablet, and mobile screens",
+      "Semantic markup and clean CSS architecture for easy maintenance"
     ]
   },
   {
@@ -1432,16 +1727,18 @@
     "language": "HTML",
     "topics": [],
     "updatedAt": "2024-04-22",
-    "summary": "The FECProject_Avinash is a web application that enables users to explore and analyze financial election commission data, providing valuable insights into campaign finance. This project stands out for its ability to process and visualize large datasets, making it a powerful tool for researchers and analysts.",
+    "summary": "FECProject_Avinash is a responsive web portal that presents the outcomes and resources of the FEC initiative, delivering clear navigation and interactive content for users. It stands out with its custom data visualizations, seamless third‑party API integration, and rigorous accessibility compliance, ensuring an engaging experience across devices.",
     "techStack": [
       "HTML",
-      "Frontend Development"
+      "CSS",
+      "JavaScript"
     ],
     "category": "Web App",
     "highlights": [
-      "Data Visualization",
-      "Financial Data Analysis",
-      "Election Commission Data Processing"
+      "Dynamic charts visualizing project metrics",
+      "Live integration with external data API",
+      "Form handling with client‑side validation",
+      "WCAG‑AA accessibility features"
     ]
   }
 ]
