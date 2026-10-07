@@ -3,7 +3,6 @@
 import { incidents } from "./incidents.js";
 import { now } from "../constants/now.js";
 import { SHOW_DRAFTS, isDraftText } from "./drafts.js";
-import { SITE_PAGES } from "./sitePages.js";
 
 export const SITE = "https://avinashgupta.in";
 export const NAME = "Avinash Gupta";
@@ -83,18 +82,6 @@ export const notesIndexSeo = {
   imageAlt: "Notes by Avinash Gupta",
 };
 
-// /work, /background and /infra
-export const sitePageSeo = (key) => {
-  const p = SITE_PAGES[key];
-  return {
-    title: `${p.title} | ${NAME}`,
-    description: p.intro,
-    path: p.path,
-    image: ogImage(key),
-    imageAlt: `${p.title}: Avinash Gupta`,
-  };
-};
-
 export const indexSeo = {
   title: `Incidents | ${NAME}`,
   description: INDEX_INTRO,
@@ -104,9 +91,9 @@ export const indexSeo = {
 };
 
 // Every route that gets its own prerendered page, with the tags it needs.
-export const prerenderRoutes = [indexSeo, notesIndexSeo, caseStudiesIndexSeo, ...Object.keys(SITE_PAGES).map(sitePageSeo), ...incidents.map(incidentSeo)];
+export const prerenderRoutes = [indexSeo, notesIndexSeo, caseStudiesIndexSeo, ...incidents.map(incidentSeo)];
 
-export const sitemapPaths = ["/", "/incidents", "/notes", "/case-studies", ...Object.values(SITE_PAGES).map((p) => p.path), ...incidents.map((i) => incidentPath(i.id))];
+export const sitemapPaths = ["/", "/incidents", "/notes", "/case-studies", ...incidents.map((i) => incidentPath(i.id))];
 
 // ---- structured data (JSON-LD) ----
 export const PERSON = {
@@ -127,13 +114,7 @@ export const homeJsonLd = {
   ],
 };
 
-const SECTION_NAMES = {
-  incidents: "Incidents",
-  notes: "Notes",
-  "case-studies": "Case studies",
-  projects: "Case studies",
-  ...Object.fromEntries(Object.values(SITE_PAGES).map((p) => [p.path.slice(1), p.title])),
-};
+const SECTION_NAMES = { incidents: "Incidents", notes: "Notes", "case-studies": "Case studies", projects: "Case studies" };
 
 // Breadcrumbs plus an Article (detail pages) or CollectionPage (index pages) for one route.
 export const jsonLdFor = (r) => {

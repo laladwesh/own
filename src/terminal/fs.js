@@ -124,18 +124,17 @@ export const root = dir("~", [
   dir(".github", [dir("workflows", [file("deploy.yml", deployYml.replace(/\n+$/, ""))])]),
 ]);
 
-// Where a folder lives on the site. A path with a #hash opens that page at that section;
-// a bare section id scrolls the homepage.
+// Which page section a folder scrolls to.
 export const SECTION_OF = {
-  projects: "/work#deployments",
-  "case-studies": "/case-studies",
-  experience: "/work#pipeline",
-  skills: "/background#skills",
-  education: "/background#education",
-  achievements: "/background#releases",
-  "extra-curricular": "/background#cronjobs",
+  projects: "deployments",
+  "case-studies": "caseStudies",
+  experience: "pipeline",
+  skills: "skills",
+  education: "education",
+  achievements: "releases",
+  "extra-curricular": "cronjobs",
   contact: "contact",
-  ".github": "/infra#ships",
+  ".github": "ships",
 };
 
 export const pathString = (cwd) => (cwd.length ? `~/${cwd.join("/")}` : "~");

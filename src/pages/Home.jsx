@@ -4,9 +4,16 @@ import { useSeo } from "../lib/useSeo";
 import {
   Hero,
   About,
-  CaseStudies,
-  Incidents,
-  Explore,
+  Pipeline,
+  Skills,
+  Deployments,
+  Images,
+  Dashboard,
+  Releases,
+  OpenSource,
+  Education,
+  Cronjobs,
+  Ships,
   Contact,
 } from "../components";
 
@@ -21,9 +28,16 @@ const Home = () => {
     <main className={`${styles.paddingX} flex justify-center`}>
       <div className={styles.boxWidth}>
         <About />
-        <CaseStudies />
-        <Incidents />
-        <Explore />
+        <Pipeline />
+        <Skills />
+        <Deployments />
+        <Images />
+        <Dashboard />
+        <Releases />
+        <OpenSource />
+        <Education />
+        <Cronjobs />
+        <Ships />
         <Contact />
       </div>
     </main>

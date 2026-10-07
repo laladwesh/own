@@ -15,5 +15,4 @@ export { default as Education } from "./Education";
 export { default as Cronjobs } from "./Cronjobs";
 export { default as Ships } from "./Ships";
 export { default as Contact } from "./Contact";
-export { default as Explore } from "./Explore";
 export { default as Footer } from "./Footer";

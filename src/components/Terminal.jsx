@@ -29,13 +29,13 @@ const mail = socialMedia.find((s) => s.label === "Email (Gmail)")?.link;
 const TOUR = [
   { cmd: "whoami", scroll: "home", note: "Start here. The terminal is the front door; every section of the page is also a command." },
   { cmd: "cat avinash.yaml", scroll: "about", note: "About me, written as a YAML manifest. The -o wide toggle shows a plain version." },
-  { cmd: "gh run view", scroll: "explore", note: "Experience as a CI/CD run: each organisation is a stage, each role is a job. Full page: /work." },
-  { cmd: "cat Dockerfile", scroll: "explore", note: "Skills as a Dockerfile. Tools I only study live in a separate LEARNING argument. Full page: /background." },
-  { cmd: "kubectl get deployments", scroll: "caseStudies", note: "Projects as deployments. Running means the project has a live link. Full list: /work." },
-  { cmd: "docker images", scroll: "explore", note: "Every other repository, filterable by category. Full page: /work." },
-  { cmd: "gh release list", scroll: "explore", note: "Achievements, written as release notes. Full page: /background." },
-  { cmd: "git log", scroll: "explore", note: "Open-source pull requests, drawn as a git graph. Full page: /work." },
-  { cmd: "cat .github/workflows/deploy.yml", scroll: "explore", note: "How this very site ships: the real GitHub Actions workflow. Full page: /infra." },
+  { cmd: "gh run view", scroll: "pipeline", note: "Experience as a CI/CD run: each organisation is a stage, each role is a job." },
+  { cmd: "cat Dockerfile", scroll: "skills", note: "Skills as a Dockerfile. Tools I only study live in a separate LEARNING argument." },
+  { cmd: "kubectl get deployments", scroll: "deployments", note: "Projects as deployments. Running means the project has a live link." },
+  { cmd: "docker images", scroll: "images", note: "Every other repository, filterable by category." },
+  { cmd: "gh release list", scroll: "releases", note: "Achievements, written as release notes." },
+  { cmd: "git log", scroll: "openSource", note: "Open-source pull requests, drawn as a git graph." },
+  { cmd: "cat .github/workflows/deploy.yml", scroll: "ships", note: "How this very site ships: the real GitHub Actions workflow." },
   { cmd: "cat service.yaml", scroll: "contact", note: "And how to reach me. Try: ssh recruiter@avinash" },
 ];
 
