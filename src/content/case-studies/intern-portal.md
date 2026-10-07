@@ -42,7 +42,7 @@ The portal runs in Docker and deploys through a multi-stage GitHub Actions pipel
 
 ## Impact
 
-[NEEDS CONFIRMATION: companies, students or applications handled this season, if you can share any numbers]
+This season, 1300+ students and 200+ companies used the portal, and 400+ students got internships through it.
 
 ## What I learned
 

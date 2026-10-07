@@ -279,7 +279,7 @@ const MonitorWide = () => (
     <Line d="M520 119 L588 111" marker="sm-w" />
     <Line d="M520 138 L555 138 L555 177 L588 177" marker="sm-w" />
     <Box x={150} y={268} w={150} h={46} a="MongoDB" />
-    <Box x={350} y={268} w={160} h={46} a="nightly backup" />
+    <Box x={350} y={268} w={160} h={46} a="daily backup" />
     <Box x={560} y={268} w={160} h={46} a="Google Drive" />
     <Line d="M300 291 L348 291" marker="sm-w" />
     <Line d="M510 291 L558 291" marker="sm-w" />
@@ -306,7 +306,7 @@ const MonitorNarrow = () => (
     <line x1="20" x2="320" y1="486" y2="486" stroke="var(--border)" strokeWidth="1" />
     <Box x={45} y={506} w={250} h={44} a="MongoDB" />
     <Line d="M170 550 L170 570" marker="sm-n" />
-    <Box x={45} y={572} w={250} h={44} a="nightly backup" />
+    <Box x={45} y={572} w={250} h={44} a="daily backup" />
     <Line d="M170 616 L170 636" marker="sm-n" />
     <Box x={45} y={638} w={250} h={44} a="Google Drive" />
   </svg>
@@ -316,7 +316,7 @@ const StatusMonitor = () => (
   <figure
     className="diagram diagram--wide"
     role="img"
-    aria-label="Status monitor. It watches three apps run under PM2: exam evaluation, leave management and elective registration. It covers health, SSL, metrics and backups, and feeds a public status page, an admin dashboard and a metrics endpoint for Prometheus. Separately, MongoDB is backed up nightly to Google Drive."
+    aria-label="Status monitor. It watches three apps run under PM2: exam evaluation, leave management and elective registration. It covers health, SSL, metrics and backups, and feeds a public status page, an admin dashboard and a metrics endpoint for Prometheus. Separately, MongoDB is backed up daily to Google Drive."
   >
     <MonitorWide />
     <MonitorNarrow />

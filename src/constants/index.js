@@ -425,7 +425,7 @@ export const projects = [
     link: "https://iitg.ac.in/intern",
     hub: "https://ccd.avinashgupta.in",
     content:
-      "Full-stack internship management portal for IIT Guwahati's CCD workflow — replaces fragmented manual coordination with a unified platform for students, companies, coordinators, verifiers and logistics. Secures 6 role-based access levels with JWT and Google/Microsoft OAuth2 SSO, a Multer-based upload pipeline with MIME validation and Azure Blob Storage, PDFKit/XLSX bulk exports, and Sentry monitoring.",
+      "Full-stack internship management portal for IIT Guwahati's CCD workflow — replaces fragmented manual coordination with a unified platform for students, companies, coordinators, verifiers and logistics. Secures 6 role-based access levels with JWT and Google/Microsoft OAuth2 SSO, a Multer-based upload pipeline with MIME validation and Azure Blob Storage, PDFKit/XLSX bulk exports, and Sentry monitoring. 1300+ students, 200+ companies.",
     stack: [
       { id: "p1-1", icon: SiReact, name: "React" },
       { id: "p1-2", icon: SiRedux, name: "Redux Toolkit" },

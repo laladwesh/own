@@ -36,7 +36,7 @@ It has five roles, each seeing only what it should:
 
 ## Shipping and running it
 
-The app was Dockerised and deployed on IIT Guwahati's own servers over SSH. [NEEDS CONFIRMATION: anything that went wrong or nearly went wrong on the day, and how it held up]
+The app was Dockerised and deployed on IIT Guwahati's own servers over SSH. Placement day went smoothly overall. There was one real issue: live updates over the socket didn't come through properly on iPhones, while Android, Windows and Mac browsers updated live as expected. I fixed the iPhone issue in January 2026, after placement day.
 
 ## Impact
 
@@ -45,3 +45,5 @@ The app was Dockerised and deployed on IIT Guwahati's own servers over SSH. [NEE
 ## What I learned
 
 Real-time is the easy part. The hard part is deciding who is allowed to change what, and making sure a mistake can be caught before everyone sees it. The approval step mattered more than the WebSockets.
+
+Test real-time features on iOS Safari early. "Works on every device I tried" isn't the same as "works on every device students use".

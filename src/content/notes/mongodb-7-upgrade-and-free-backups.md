@@ -79,13 +79,13 @@ The backup lives inside my status dashboard service, so it runs on the same serv
 The pieces:
 
 - the Google Drive API v3, authorised with an OAuth2 refresh token
-- node-cron, running at 2:00 AM every day
+- node-cron, running every day at 7:30 AM
 - `mongodump`, then `tar`, then an upload of the archive to a Drive folder
 
 The shape of the job:
 
 ```javascript
-cron.schedule("0 2 * * *", async () => {
+cron.schedule("30 7 * * *", async () => {
   // 1. mongodump into a temporary folder
   // 2. tar the folder
   // 3. upload the tar to Drive, then delete the local copy
