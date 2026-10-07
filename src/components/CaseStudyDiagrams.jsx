@@ -10,7 +10,7 @@ const Arrow = ({ id }) => (
 );
 
 // A labelled box: a bold first line and an optional muted second line.
-const Box = ({ x, y, w, h, a, b, dashed }) => (
+const Box = ({ x, y, w, h, a, b, dashed, fs = 13 }) => (
   <g>
     <rect
       x={x}
@@ -22,11 +22,11 @@ const Box = ({ x, y, w, h, a, b, dashed }) => (
       strokeWidth={dashed ? 1 : 1.5}
       strokeDasharray={dashed ? "5 4" : undefined}
     />
-    <text x={x + w / 2} y={b ? y + h / 2 - 3 : y + h / 2 + 4} textAnchor="middle" fontSize="12" fontWeight="700" fill={INK}>
+    <text x={x + w / 2} y={b ? y + h / 2 - 3 : y + h / 2 + 5} textAnchor="middle" fontSize={fs} fontWeight="700" fill={INK}>
       {a}
     </text>
     {b && (
-      <text x={x + w / 2} y={y + h / 2 + 13} textAnchor="middle" fontSize="10.5" fill="var(--muted)">
+      <text x={x + w / 2} y={y + h / 2 + 14} textAnchor="middle" fontSize="11" fill="var(--muted)">
         {b}
       </text>
     )}
@@ -39,45 +39,45 @@ const LOOP = ["scan", "fix", "close background apps", "re-scan"];
 
 // Wide: v1 above, then the v2 flow in three rows.
 const Wide = () => (
-  <svg className="diag-svg diag-wide" viewBox="0 0 760 380" aria-hidden="true">
+  <svg className="diag-svg diag-wide" viewBox="0 0 800 380" aria-hidden="true">
     <defs>
       <Arrow id="oaa-w" />
     </defs>
 
     {/* v1 */}
-    <Box x={10} y={8} w={340} h={62} dashed a="v1: public script + irm/bash," b="results not tied to an account" />
-    <Line d="M115 70 L115 108" marker="oaa-w" />
-    <text x="124" y="94" fontSize="11" fill="var(--muted)">
+    <Box x={10} y={8} w={350} h={62} dashed a="v1: public script + irm/bash," b="results not tied to an account" />
+    <Line d="M125 70 L125 108" marker="oaa-w" />
+    <text x="134" y="94" fontSize="11" fill="var(--muted)">
       14 Aug
     </text>
 
     {/* v2, row 1 */}
-    <Box x={10} y={110} w={210} h={52} a="Student logs in" b="portal account" />
-    <Box x={275} y={110} w={210} h={52} a="Generate command" b="one-time token" />
-    <Box x={540} y={110} w={210} h={52} a="Laptop runs script" b="served compressed, in memory" />
-    <Line d="M220 136 L273 136" marker="oaa-w" />
-    <Line d="M485 136 L538 136" marker="oaa-w" />
-    <Line d="M645 162 L645 188" marker="oaa-w" />
+    <Box x={10} y={110} w={230} h={52} a="Student logs in" b="portal account" />
+    <Box x={285} y={110} w={230} h={52} a="Generate command" b="one-time token" />
+    <Box x={560} y={110} w={230} h={52} a="Laptop runs script" b="served compressed, in memory" />
+    <Line d="M240 136 L283 136" marker="oaa-w" />
+    <Line d="M515 136 L558 136" marker="oaa-w" />
+    <Line d="M675 162 L675 188" marker="oaa-w" />
 
     {/* the script's loop */}
-    <rect x="10" y="190" width="740" height="78" fill="none" stroke={INK} strokeWidth="1" strokeDasharray="5 4" />
-    <text x="22" y="206" fontSize="10.5" fill="var(--muted)">
+    <rect x="10" y="190" width="780" height="78" fill="none" stroke={INK} strokeWidth="1" strokeDasharray="5 4" />
+    <text x="22" y="206" fontSize="11" fill="var(--muted)">
       on the laptop
     </text>
     {LOOP.map((t, i) => (
       <g key={t}>
-        <Box x={22 + i * 180} y={214} w={150} h={42} a={t} />
-        {i < LOOP.length - 1 && <Line d={`M${172 + i * 180} 235 L${200 + i * 180} 235`} marker="oaa-w" />}
+        <Box x={22 + i * 198} y={214} w={168} h={42} a={t} fs={12} />
+        {i < LOOP.length - 1 && <Line d={`M${190 + i * 198} 235 L${218 + i * 198} 235`} marker="oaa-w" />}
       </g>
     ))}
-    <Line d="M115 268 L115 308" marker="oaa-w" />
+    <Line d="M125 268 L125 308" marker="oaa-w" />
 
     {/* result and the portal */}
-    <Box x={10} y={310} w={210} h={52} a="Result" />
-    <Box x={265} y={310} w={250} h={52} a="Portal shows" b="Device clear / Issues detected" />
-    <Box x={545} y={310} w={205} h={52} a="Coordinator dashboard" b="+ OA Report" />
-    <Line d="M220 336 L263 336" marker="oaa-w" />
-    <Line d="M515 336 L543 336" marker="oaa-w" />
+    <Box x={10} y={310} w={230} h={52} a="Result" />
+    <Box x={285} y={310} w={270} h={52} a="Portal shows" b="Device clear / Issues detected" />
+    <Box x={585} y={310} w={205} h={52} a="Coordinator dashboard" b="+ OA Report" />
+    <Line d="M240 336 L283 336" marker="oaa-w" />
+    <Line d="M555 336 L583 336" marker="oaa-w" />
   </svg>
 );
 
@@ -102,12 +102,12 @@ const Narrow = () => (
     <Line d="M170 294 L170 314" marker="oaa-n" />
 
     <rect x="20" y="316" width="300" height="214" fill="none" stroke={INK} strokeWidth="1" strokeDasharray="5 4" />
-    <text x="30" y="332" fontSize="10.5" fill="var(--muted)">
+    <text x="30" y="332" fontSize="11" fill="var(--muted)">
       on the laptop
     </text>
     {LOOP.map((t, i) => (
       <g key={t}>
-        <Box x={45} y={342 + i * 48} w={250} h={34} a={t} />
+        <Box x={45} y={342 + i * 48} w={250} h={34} a={t} fs={12} />
         {i < LOOP.length - 1 && <Line d={`M170 ${376 + i * 48} L170 ${390 + i * 48}`} marker="oaa-n" />}
       </g>
     ))}

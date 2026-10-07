@@ -50,7 +50,12 @@ const Md = ({ text }) => (
 const Body = ({ text }) => {
   const parts = text.split(/\n?\[DIAGRAM: ([\w-]+)\]\n?/);
   return parts.map((part, i) => {
-    if (i % 2 === 0) return part.trim() ? <Md key={i} text={part} /> : null;
+    if (i % 2 === 0)
+      return part.trim() ? (
+        <div key={i} className="cs-text">
+          <Md text={part} />
+        </div>
+      ) : null;
     const Diagram = CASE_DIAGRAMS[part];
     return Diagram ? <Diagram key={i} /> : <Fragment key={i} />;
   });

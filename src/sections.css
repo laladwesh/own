@@ -1631,9 +1631,13 @@ a.inc-head:hover .inc-title {
 }
 
 .cs-body {
-  max-width: 68ch;
   font-size: 17px;
   line-height: 1.7;
+}
+
+/* Text keeps a readable line length; the schematic may be wider. */
+.cs-text {
+  max-width: 68ch;
 }
 
 .cs-body h2 {
@@ -1703,4 +1707,12 @@ a.inc-head:hover .inc-title {
 .describe-link {
   margin-top: 12px;
   font-weight: 700;
+}
+
+.cs-body .diag-svg {
+  max-width: 920px;
+}
+
+.cs-body .diag-narrow {
+  max-width: 340px;
 }
