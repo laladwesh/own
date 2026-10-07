@@ -59,8 +59,8 @@ import { FaGolang } from "react-icons/fa6";
 import { DiCss3 } from "react-icons/di";
 import { BiLogoVisualStudio } from "react-icons/bi";
 
-export const resumeLink =
-  "https://drive.google.com/file/d/1zj7bmu_I5WhgScijtEwWrV08V6-gIaGr/view?usp=sharing";
+// The PDF lives in public/, so it is served from this site (replace the file to update it).
+export const resumeLink = "/Avinash_Gupta_Off_Campus_CV.pdf";
 export const repoLink = "https://github.com/laladwesh";
 export const leetcodeUrl = "https://leetcode.com/u/ibXDVQOY8i/";
 export const siteDomain = "avinashgupta.in";

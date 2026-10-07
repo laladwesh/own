@@ -7,6 +7,7 @@ import {
   extraCurricular,
   projects,
   resumeLink,
+  siteDomain,
   skills,
   socialMedia,
 } from "../constants";
@@ -119,7 +120,8 @@ export const ports = [
   ["github", find("GitHub")],
   ["leetcode", find("LeetCode")],
   ["instagram", find("Instagram")],
-  ["resume", resumeLink],
+  // The resume is a file on this site, so give the manifests a full URL (they link http(s) only).
+  ["resume", `https://${siteDomain}${resumeLink}`],
 ].filter(([, url]) => url);
 
 export const serviceSpec = {
