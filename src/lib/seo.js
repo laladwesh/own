@@ -58,7 +58,7 @@ export const homeSeo = {
   title: "Avinash Gupta",
   descriptionOnly: true,
   path: "/",
-  description: `${now.working}. Projects, incidents, case studies and notes.${openTo ? ` Open to ${openTo}.` : ""}`,
+  description: `${NAME}: ${now.working}. Projects, case studies, incident postmortems and notes.${openTo ? ` Open to ${openTo}.` : ""}`,
 };
 
 export const NOTES_INTRO =

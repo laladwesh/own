@@ -14,6 +14,7 @@
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
+import zlib from "node:zlib";
 import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -69,9 +70,41 @@ const cacheControl = (file) => {
   return "no-cache"; // html, sitemap, robots: always revalidate
 };
 
+// Text files are sent compressed (brotli, else gzip). Each compressed copy is made once and kept in
+// memory until the file changes; the site is a few hundred KB, so this is cheap.
+const COMPRESSIBLE = new Set([".html", ".js", ".mjs", ".css", ".json", ".svg", ".txt", ".xml"]);
+const packed = new Map(); // `${file}|${enc}` -> { mtime, body }
+
+const compressed = (file, enc) => {
+  const mtime = fs.statSync(file).mtimeMs;
+  const key = `${file}|${enc}`;
+  const hit = packed.get(key);
+  if (hit && hit.mtime === mtime) return hit.body;
+  const raw = fs.readFileSync(file);
+  const body =
+    enc === "br"
+      ? zlib.brotliCompressSync(raw, { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 9 } })
+      : zlib.gzipSync(raw, { level: 9 });
+  packed.set(key, { mtime, body });
+  return body;
+};
+
 const send = (req, res, file, status = 200) => {
-  const type = TYPES[path.extname(file).toLowerCase()] || "application/octet-stream";
-  res.writeHead(status, { "Content-Type": type, "Cache-Control": cacheControl(file), "X-Content-Type-Options": "nosniff" });
+  const ext = path.extname(file).toLowerCase();
+  const headers = {
+    "Content-Type": TYPES[ext] || "application/octet-stream",
+    "Cache-Control": cacheControl(file),
+    "X-Content-Type-Options": "nosniff",
+    Vary: "Accept-Encoding",
+  };
+  const accept = String(req.headers["accept-encoding"] || "");
+  const enc = COMPRESSIBLE.has(ext) ? (/br/.test(accept) ? "br" : /gzip/.test(accept) ? "gzip" : null) : null;
+  if (enc) {
+    const body = compressed(file, enc);
+    res.writeHead(status, { ...headers, "Content-Encoding": enc, "Content-Length": body.length });
+    return req.method === "HEAD" ? res.end() : res.end(body);
+  }
+  res.writeHead(status, headers);
   if (req.method === "HEAD") return res.end();
   return fs.createReadStream(file).pipe(res);
 };

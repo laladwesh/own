@@ -11,12 +11,17 @@ import { fileURLToPath } from "node:url";
 import { SITE, caseStudyPath, caseStudySeo, homeJsonLd, homeSeo, jsonLdFor, noteSeo, ogImage, prerenderRoutes, sitemapPaths } from "../src/lib/seo.js";
 import { loadNotes } from "./notes.mjs";
 import { loadCaseStudies } from "./case-studies.mjs";
-import { incidents } from "../src/lib/incidents.js";
+import { incidents, incidentMarkdown } from "../src/lib/incidents.js";
+import { mdToHtml } from "./mdlite.mjs";
+import { aboutMe } from "../src/constants/index.js";
 
 const dist = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "dist");
 const template = fs.readFileSync(path.join(dist, "index.html"), "utf8");
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+// Sitemap and feed dates must be YYYY-MM-DD; some incident/note dates are only year-month.
+const fullDate = (d) => (/^\d{4}-\d{2}$/.test(d ?? "") ? `${d}-01` : /^\d{4}-\d{2}-\d{2}$/.test(d ?? "") ? d : null);
 
 const headTags = (r) =>
   [
@@ -25,6 +30,8 @@ const headTags = (r) =>
     `<link rel="canonical" href="${SITE}${r.path}" />`,
     `<meta property="og:type" content="${r.type ?? "website"}" />`,
     `<meta property="og:site_name" content="Avinash Gupta" />`,
+    `<meta property="og:locale" content="en_US" />`,
+    ...(r.published && fullDate(r.published) ? [`<meta property="article:published_time" content="${fullDate(r.published)}" />`, `<meta property="article:author" content="${SITE}/" />`] : []),
     `<meta property="og:title" content="${esc(r.title)}" />`,
     `<meta property="og:description" content="${esc(r.description)}" />`,
     `<meta property="og:url" content="${SITE}${r.path}" />`,
@@ -37,14 +44,36 @@ const headTags = (r) =>
     `<meta name="twitter:description" content="${esc(r.description)}" />`,
     `<meta name="twitter:image" content="${r.image}" />`,
     `<meta name="robots" content="index, follow, max-image-preview:large" />`,
+    `<link rel="alternate" type="application/rss+xml" title="Avinash Gupta: notes and incident postmortems" href="${SITE}/rss.xml" />`,
     `<script type="application/ld+json">${JSON.stringify(jsonLdFor(r)).replace(/</g, "\\u003c")}</script>`,
   ].join("\n    ");
 
-const fallback = (r) =>
-  `<main><h1>${esc(r.title)}</h1><p>${esc(r.description)}</p><p><a href="/">avinashgupta.in</a></p></main>`;
-
 const studies = loadCaseStudies();
 const published = loadNotes();
+
+// The text a crawler without JavaScript reads. Detail pages carry their full text; index pages
+// carry a list of links.
+const links = (items) => `<ul>${items.map(([href, label]) => `<li><a href="${href}">${esc(label)}</a></li>`).join("")}</ul>`;
+const bodyFor = (r) => {
+  const inc = incidents.find((i) => `/incidents/${i.id}` === r.path);
+  if (inc) return mdToHtml(incidentMarkdown(inc).split("
+").slice(1).join("
+"));
+  const note = published.find((n) => `/notes/${n.slug}` === r.path);
+  if (note) return mdToHtml(note.body);
+  const study = studies.find((s) => caseStudyPath(s.slug) === r.path);
+  if (study) return mdToHtml(study.body);
+  if (r.path === "/incidents") return links(incidents.map((i) => [`/incidents/${i.id}`, `${i.id}: ${i.title}`]));
+  if (r.path === "/notes") return links(published.map((n) => [`/notes/${n.slug}`, n.title]));
+  if (r.path === "/case-studies") return links(studies.map((s) => [caseStudyPath(s.slug), s.title]));
+  return "";
+};
+
+const nav = `<nav><a href="/">Home</a> <a href="/case-studies">Case studies</a> <a href="/incidents">Incidents</a> <a href="/notes">Notes</a></nav>`;
+const fallback = (r) =>
+  `<main><h1>${esc(r.title.split(" | ")[0])}</h1><p>${esc(r.description)}</p>${bodyFor(r)}${nav}</main>`;
+
+const homeFallback = `<main><h1>${esc(aboutMe.name)}</h1><p>${esc(aboutMe.tagLine)}</p><p>${esc(aboutMe.intro)}</p>${nav}<h2>Case studies</h2>${links(studies.map((s) => [caseStudyPath(s.slug), s.title]))}<h2>Incidents</h2>${links(incidents.map((i) => [`/incidents/${i.id}`, `${i.id}: ${i.title}`]))}<h2>Notes</h2>${links(published.map((n) => [`/notes/${n.slug}`, n.title]))}<p><a href="https://github.com/laladwesh">GitHub</a> <a href="https://www.linkedin.com/in/avinash-gupta-58171828a/">LinkedIn</a></p></main>`;
 const allRoutes = [...prerenderRoutes, ...studies.map(caseStudySeo), ...published.map(noteSeo)];
 const allPaths = [...sitemapPaths, ...studies.map((s) => caseStudyPath(s.slug)), ...published.map((n) => `/notes/${n.slug}`)];
 
@@ -80,18 +109,22 @@ const homeTags = [
   `<meta name="twitter:image" content="${homeImage}" />`,
   `<meta name="robots" content="index, follow, max-image-preview:large" />`,
   `<link rel="me" href="https://github.com/laladwesh" />`,
+  `<link rel="alternate" type="application/rss+xml" title="Avinash Gupta: notes and incident postmortems" href="${SITE}/rss.xml" />`,
+  `<meta name="author" content="Avinash Gupta" />`,
+  `<meta property="og:locale" content="en_US" />`,
   `<script type="application/ld+json">${JSON.stringify(homeJsonLd).replace(/</g, "\\u003c")}</script>`,
 ].join("\n    ");
 fs.writeFileSync(
   path.join(dist, "index.html"),
-  template.replace(/<title>.*?<\/title>/s, `<title>${esc(homeTitle)}</title>`).replace("</head>", `    ${homeTags}\n  </head>`)
+  template
+    .replace(/<title>.*?<\/title>/s, `<title>${esc(homeTitle)}</title>`)
+    .replace("</head>", `    ${homeTags}\n  </head>`)
+    .replace('<div id="root"></div>', `<div id="root">${homeFallback}</div>`)
 );
 console.log("prerender: dist/index.html (title, share tags, JSON-LD)");
 
 const today = new Date().toISOString().slice(0, 10);
 const noteDate = (p) => published.find((n) => `/notes/${n.slug}` === p)?.date;
-// Sitemap dates must be YYYY-MM-DD; some incident/note dates are only year-month.
-const fullDate = (d) => (/^\d{4}-\d{2}$/.test(d ?? "") ? `${d}-01` : /^\d{4}-\d{2}-\d{2}$/.test(d ?? "") ? d : null);
 const lastmod = (p) =>
   fullDate(p.startsWith("/incidents/") ? incidents.find((i) => `/incidents/${i.id}` === p)?.date : noteDate(p)) ?? today;
 const urls = allPaths.map((p) => `  <url><loc>${SITE}${p === "/" ? "/" : p}</loc><lastmod>${lastmod(p)}</lastmod></url>`).join("\n");
@@ -100,3 +133,16 @@ fs.writeFileSync(
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`
 );
 console.log("prerender: dist/sitemap.xml");
+
+// RSS feed: notes and incidents, newest first (case studies carry no date).
+const feedItems = [
+  ...published.map((n) => ({ path: `/notes/${n.slug}`, title: n.title, summary: n.summary, date: fullDate(n.date) })),
+  ...incidents.map((i) => ({ path: `/incidents/${i.id}`, title: `${i.id}: ${i.title}`, summary: i.summary, date: fullDate(i.date) })),
+].sort((a, b) => (a.date < b.date ? 1 : -1));
+const rssItem = (i) =>
+  `    <item><title>${esc(i.title)}</title><link>${SITE}${i.path}</link><guid>${SITE}${i.path}</guid><pubDate>${new Date(i.date ?? today).toUTCString()}</pubDate><description>${esc(i.summary ?? "")}</description></item>`;
+fs.writeFileSync(
+  path.join(dist, "rss.xml"),
+  `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n  <channel>\n    <title>Avinash Gupta</title>\n    <link>${SITE}/</link>\n    <description>Notes and incident postmortems by Avinash Gupta.</description>\n    <language>en</language>\n${feedItems.map(rssItem).join("\n")}\n  </channel>\n</rss>\n`
+);
+console.log("prerender: dist/rss.xml");
