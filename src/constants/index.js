@@ -74,6 +74,7 @@ export const navLinks = [
   { id: "contact", title: "service.yaml", primary: true },
   { id: "incidents", title: "incidents.log" },
   { id: "caseStudies", title: "case-studies" },
+  { id: "notes", title: "notes", to: "/notes" },
   { id: "skills", title: "Dockerfile" },
   { id: "images", title: "images" },
   { id: "dashboard", title: "grafana" },

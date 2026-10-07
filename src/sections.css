@@ -1803,3 +1803,82 @@ a.inc-head:hover .inc-title {
   align-self: flex-start;
   margin-top: 4px;
 }
+
+/* ───────── Notes and drafts ───────── */
+.draft-banner {
+  margin: 0 0 16px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  border: 1px dashed var(--text);
+}
+
+.draft-tag {
+  margin-left: 10px;
+  padding: 0 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  border: 1px dashed var(--muted);
+  white-space: nowrap;
+}
+
+.note-meta .draft-tag {
+  margin-left: 12px;
+}
+
+.note-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  color: var(--text);
+  text-decoration: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.note-row:hover {
+  color: var(--text);
+  background: var(--surface);
+  border-color: var(--text);
+}
+
+.note-row:hover .note-title {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.note-meta,
+.note-tags {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.note-title {
+  font-family: "Clash Display", "JetBrains Mono", sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.note-summary {
+  max-width: 72ch;
+}
+
+.cs-meta--note {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cs-meta--note .cs-meta-item:first-child {
+  grid-column: auto;
+}
+
+@media (min-width: 620px) {
+  .cs-meta--note {
+    grid-template-columns: 1fr 1fr 2fr;
+  }
+}

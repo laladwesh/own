@@ -8,7 +8,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { SITE, caseStudyPath, caseStudySeo, prerenderRoutes, sitemapPaths } from "../src/lib/seo.js";
+import { SITE, caseStudyPath, caseStudySeo, noteSeo, prerenderRoutes, sitemapPaths } from "../src/lib/seo.js";
+import { loadNotes } from "./notes.mjs";
 import { loadCaseStudies } from "./case-studies.mjs";
 import { incidents } from "../src/lib/incidents.js";
 
@@ -41,8 +42,9 @@ const fallback = (r) =>
   `<main><h1>${esc(r.title)}</h1><p>${esc(r.description)}</p><p><a href="/">avinashgupta.in</a></p></main>`;
 
 const studies = loadCaseStudies();
-const allRoutes = [...prerenderRoutes, ...studies.map(caseStudySeo)];
-const allPaths = [...sitemapPaths, ...studies.map((s) => caseStudyPath(s.slug))];
+const published = loadNotes();
+const allRoutes = [...prerenderRoutes, ...studies.map(caseStudySeo), ...published.map(noteSeo)];
+const allPaths = [...sitemapPaths, ...studies.map((s) => caseStudyPath(s.slug)), ...published.map((n) => `/notes/${n.slug}`)];
 
 for (const r of allRoutes) {
   const html = template

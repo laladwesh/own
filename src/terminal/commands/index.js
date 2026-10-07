@@ -55,10 +55,11 @@ import incidents from "./incidents.js";
 import ghostOa from "./ghost-oa.js";
 import oaCheck from "./oa-check.js";
 import agnigarh from "./agnigarh.js";
+import notesCmd from "./notes.js";
 
 export const commands = [
   help, man, ls, cd, pwd, cat, tree, open, history, clear, exit,
-  whoami, neofetch, git, hire, journalctl, incidents, ghostOa, oaCheck, agnigarh,
+  whoami, neofetch, git, hire, journalctl, incidents, ghostOa, oaCheck, agnigarh, notesCmd,
   kubectl, docker, gh, systemctl, helm, terraform, uptime, top,
   scope, resistor, bin, hex, ohm,
   grep, wc, head, sort, theme,

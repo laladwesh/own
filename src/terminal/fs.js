@@ -14,6 +14,7 @@ import { slug, startOf, hashOf } from "../lib/util.js";
 import { aboutSpec, dockerfileLines, projectLinks, serviceSpec } from "../lib/data.js";
 import { linesToText, yamlLines } from "../lib/yaml.js";
 import { caseStudies } from "../lib/caseStudies.js";
+import { notePath, notes } from "../lib/notes.js";
 import { incidentMarkdown, incidents } from "../lib/incidents.js";
 
 export { slug, startOf, hashOf };
@@ -69,6 +70,15 @@ export const root = dir("~", [
     skills.map((g) => file(`${slug(g.title)}.txt`, g.items.map((i) => i.name).join("\n")))
   ),
   dir("projects", projects.map(projectDir)),
+  dir(
+    "notes",
+    notes.map((n) =>
+      file(`${n.slug}.md`, `# ${n.title}\n${n.date} / ${n.minutes} min read / ${n.tags.join(", ")}\n\n${n.body}`, {
+        route: notePath(n.slug),
+        routeLabel: "open the note",
+      })
+    )
+  ),
   dir(
     "case-studies",
     Object.values(caseStudies).map((c) =>

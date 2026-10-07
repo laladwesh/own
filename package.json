@@ -8,7 +8,8 @@
     "build": "node scripts/og.mjs && vite build && node scripts/prerender.mjs",
     "preview": "vite preview",
     "generate:projects": "node scripts/generate-projects.js",
-    "og": "node scripts/og.mjs"
+    "og": "node scripts/og.mjs",
+    "drafts": "node scripts/drafts.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.23.22",

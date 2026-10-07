@@ -1,8 +1,13 @@
 // Derived views of the incident data, shared by the page section and the terminal.
 import { incidents as raw } from "../constants/incidents.js";
+import { SHOW_DRAFTS, isDraftObject } from "./drafts.js";
+
+export const isDraftIncident = isDraftObject;
 
 // Newest first, everywhere.
-export const incidents = [...raw].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+export const incidents = [...raw]
+  .filter((i) => SHOW_DRAFTS || !isDraftObject(i))
+  .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 
 export const stepText = (s) => (s.time ? `${s.time}  ${s.event}` : s.event);
 
@@ -50,7 +55,7 @@ export const incidentSpec = (inc) => ({
   summary: inc.summary,
   timeline: inc.timeline.map(stepText),
   rootCause: inc.rootCause,
-  whatFailed: inc.whatFailed,
+  whatFailed: inc.whatFailed ?? [],
   resolution: inc.resolution,
   actionItems: inc.actionItems.map((a) => `${a.done ? "[x]" : "[ ]"} ${a.text}`),
   lesson: inc.lesson,
@@ -88,7 +93,7 @@ export const incidentMarkdown = (inc) =>
     ...(inc.badCommand ? ["", "    " + mergedCommand(inc)] : []),
     "",
     "## What didn't work",
-    ...inc.whatFailed.map((f) => `- ~~${f}~~`),
+    ...(inc.whatFailed ?? []).map((f) => `- ~~${f}~~`),
     "",
     "## Resolution",
     ...inc.resolution.map((r) => `- ${r}`),

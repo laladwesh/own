@@ -36,6 +36,25 @@ export const caseStudySeo = (cs) => ({
   imageAlt: `Case study: ${cs.title}`,
 });
 
+export const NOTES_INTRO =
+  "Things I fixed, set up or got wrong, written down while I still remember the details.";
+
+export const noteSeo = (n) => ({
+  title: `${n.title} | ${NAME}`,
+  description: truncate(n.summary),
+  path: `/notes/${n.slug}`,
+  image: ogImage(`note-${n.slug}`),
+  imageAlt: `Note: ${n.title}`,
+});
+
+export const notesIndexSeo = {
+  title: `Notes | ${NAME}`,
+  description: NOTES_INTRO,
+  path: "/notes",
+  image: ogImage("notes"),
+  imageAlt: "Notes by Avinash Gupta",
+};
+
 export const indexSeo = {
   title: `Incidents | ${NAME}`,
   description: INDEX_INTRO,
@@ -45,6 +64,6 @@ export const indexSeo = {
 };
 
 // Every route that gets its own prerendered page, with the tags it needs.
-export const prerenderRoutes = [indexSeo, ...incidents.map(incidentSeo)];
+export const prerenderRoutes = [indexSeo, notesIndexSeo, ...incidents.map(incidentSeo)];
 
-export const sitemapPaths = ["/", "/incidents", ...incidents.map((i) => incidentPath(i.id))];
+export const sitemapPaths = ["/", "/incidents", "/notes", ...incidents.map((i) => incidentPath(i.id))];

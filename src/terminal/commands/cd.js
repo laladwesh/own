@@ -15,9 +15,9 @@ export default {
     if (!res) return h(Muted, null, `cd: ${target}: no such file or directory`);
     if (!isDir(res.node)) return h(Muted, null, `cd: ${target}: not a directory`);
     ctx.setCwd(res.path);
-    if (res.path.length === 1 && res.path[0] === "incidents") {
-      ctx.navigate("/incidents");
-      return h(Muted, null, "opening /incidents");
+    if (res.path.length === 1 && (res.path[0] === "incidents" || res.path[0] === "notes")) {
+      ctx.navigate(`/${res.path[0]}`);
+      return h(Muted, null, `opening /${res.path[0]}`);
     }
     const section = SECTION_OF[res.path[0]];
     if (section) ctx.scrollTo(section);

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { incidentPath } from "../lib/seo.js";
-import { incidents } from "../lib/incidents.js";
+import { notePath, notes } from "../lib/notes.js";
+import { incidents, isDraftIncident } from "../lib/incidents.js";
 import SectionHeading from "./SectionHeading";
 
 // One log line, as a link to the full report.
@@ -11,7 +12,10 @@ export const IncidentLine = ({ incident }) => (
       <span className="inc-date">{incident.date}</span>
       <span className="inc-id">{incident.id}</span>
       {incident.kind ? <span className="inc-kind">{incident.kind}</span> : <span />}
-      <span className="inc-title">{incident.title}</span>
+      <span className="inc-title">
+        {incident.title}
+        {isDraftIncident(incident) && <span className="draft-tag">draft</span>}
+      </span>
       <span className="inc-dur">{incident.duration}</span>
     </Link>
   </li>
@@ -29,6 +33,11 @@ const Incidents = () => (
     <p className="incident-more">
       <Link to="/incidents">read all postmortems &rarr;</Link>
     </p>
+    {notes[0] && (
+      <p className="incident-more">
+        latest note: <Link to={notePath(notes[0].slug)}>{notes[0].title} &rarr;</Link>
+      </p>
+    )}
   </section>
 );
 

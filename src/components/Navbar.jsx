@@ -55,6 +55,12 @@ const Navbar = () => {
   const go = (id) => {
     setMoreOpen(false);
     setToggle(false);
+    // Some entries are pages of their own (notes), not sections.
+    const page = navLinks.find((n) => n.id === id)?.to;
+    if (page) {
+      navigate(page);
+      return;
+    }
     // Off the homepage, go to that section on the homepage (/#section).
     if (pathname === "/") scrollToSection(id);
     else navigate({ pathname: "/", hash: `#${id}` });

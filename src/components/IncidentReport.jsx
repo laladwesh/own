@@ -1,4 +1,5 @@
-import { mergedCommand } from "../lib/incidents.js";
+import { isDraftIncident, mergedCommand } from "../lib/incidents.js";
+import { DRAFT_BANNER } from "../lib/drafts.js";
 import { DIAGRAMS } from "./IncidentDiagrams";
 
 // `code` in the data becomes an inline code span.
@@ -41,6 +42,11 @@ export const Report = ({ incident: inc, titleAs: Title = "h1" }) => {
   const Diagram = DIAGRAMS[inc.diagram];
   return (
   <article className="report" aria-label={`${inc.id} postmortem`}>
+    {isDraftIncident(inc) && (
+      <p className="draft-banner" role="note">
+        {DRAFT_BANNER}
+      </p>
+    )}
     <p className="report-meta">
       <strong>{inc.id}</strong>
       <span aria-hidden="true">/</span>
@@ -104,14 +110,16 @@ export const Report = ({ incident: inc, titleAs: Title = "h1" }) => {
       {inc.badCommand && <BadCommand incident={inc} />}
     </section>
 
-    <section className="report-sec">
-      <Label>WHAT DIDN&apos;T WORK</Label>
-      <ul className="report-failed">
-        {inc.whatFailed.map((f) => (
-          <li key={f}>{f}</li>
-        ))}
-      </ul>
-    </section>
+    {inc.whatFailed?.length > 0 && (
+      <section className="report-sec">
+        <Label>WHAT DIDN&apos;T WORK</Label>
+        <ul className="report-failed">
+          {inc.whatFailed.map((f) => (
+            <li key={f}>{f}</li>
+          ))}
+        </ul>
+      </section>
+    )}
 
     <section className="report-sec">
       <Label>RESOLUTION</Label>

@@ -12,6 +12,7 @@ import { Resvg } from "@resvg/resvg-js";
 import wawoff2 from "wawoff2";
 import { incidents } from "../src/lib/incidents.js";
 import { loadCaseStudies } from "./case-studies.mjs";
+import { loadNotes } from "./notes.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outDir = path.join(root, "public", "og");
@@ -122,6 +123,8 @@ try {
   const jobs = [
     { name: "incidents", label: "$ journalctl --priority=crit", title: "Incidents" },
     ...incidents.map((i) => ({ name: i.id, label: `${i.id} / ${i.severity}`, title: i.title })),
+    { name: "notes", label: "$ ls notes/", title: "Notes", footer: "avinashgupta.in/notes" },
+    ...loadNotes().map((n) => ({ name: `note-${n.slug}`, label: `Note / ${n.date}`, title: n.title, footer: "avinashgupta.in/notes" })),
     ...loadCaseStudies().map((c) => ({ name: c.slug, label: "Case study", title: c.title, footer: `avinashgupta.in/projects/${c.slug}` })),
   ];
   for (const job of jobs) {

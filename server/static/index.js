@@ -106,6 +106,6 @@ http
       res.writeHead(503, { "Content-Type": "text/plain; charset=utf-8" });
       return res.end("not built yet");
     }
-    return send(req, res, shell, /^\/(incidents|projects)\//.test(pathname) ? 404 : 200);
+    return send(req, res, shell, /^\/(incidents|projects|notes)\//.test(pathname) ? 404 : 200);
   })
   .listen(port, host, () => console.log(`static: ${root} on ${host}:${port}`));

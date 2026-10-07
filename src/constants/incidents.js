@@ -3,6 +3,8 @@
 //
 // Fields: id, title, date, severity, duration, impact, summary, timeline[] {time?, event},
 // rootCause, whatFailed[], resolution[], actionItems[] {done, text}, lesson, tags[].
+// A draft is any incident containing the text NEEDS CONFIRMATION in square brackets: it shows
+// in `npm run dev` only (see src/lib/drafts.js and `npm run drafts`).
 // Optional: status, kind ("outage" | "operational"), credits, diagram (id of a schematic),
 // badCommand { pasted[] }.
 export const incidents = [
@@ -151,5 +153,65 @@ export const incidents = [
       "Some infrastructure problems aren't technical. The script kept us alive; the emails, the visits to the network office and the paperwork actually fixed it. And a server should never depend on a login meant for a human.",
     tags: ["networking", "firewall", "nginx", "linux", "campus-infra"],
     diagram: "ccd-internet-before-after",
+  },
+  {
+    id: "INC-004",
+    kind: "outage",
+    status: "RESOLVED",
+    severity: "SEV-1",
+    date: "2026-08-14",
+    title: "A client's store went dark, and I debugged the wrong thing twice",
+    duration: "[NEEDS CONFIRMATION]",
+    impact:
+      "nufab.store returned Cloudflare 522 errors to many visitors; the client was getting customer calls while it was down.",
+    summary:
+      "I assumed the backend host was the problem, then a free-tier cold start. Both were wrong. The frontend actually lived on Cloudflare Pages, and a detach/reattach of the custom domain had left it stuck and deleted its DNS record.",
+    timeline: [
+      { event: "Reports of 522 'host error' on the root domain" },
+      { event: "First theory: backend on Render was down / cold-starting" },
+      { event: "Ruled out: the Render service was on a paid always-on plan" },
+      { event: "Checked DNS: the root domain pointed at Cloudflare Pages, not Render" },
+      { event: "Found the custom domain stuck as 'already associated' after an earlier detach/reattach; the root CNAME had been deleted" },
+      { event: "Restored the root CNAME to the Pages project (proxied)" },
+      { event: "Re-attached the custom domain: Verifying → Active, SSL issued" },
+      { event: "Remaining 'still down' reports were stale local DNS caches; flushed and confirmed" },
+    ],
+    rootCause:
+      "Changing a custom-domain attachment removed the DNS record the domain depended on, and I didn't have an up-to-date map of which service served which part of the site.",
+    whatFailed: ["Diagnosing the backend host first", "Assuming a free-tier cold start"],
+    resolution: ["Restore DNS record", "Re-attach custom domain", "Verify SSL", "Flush stale client DNS caches"],
+    actionItems: [
+      { done: false, text: "Keep an infra map: domain → DNS → host per service" },
+      { done: false, text: "External uptime check on the root domain" },
+    ],
+    lesson:
+      "Before debugging, confirm where the thing actually runs. I spent the first part of the outage fixing a service that was fine.",
+    tags: ["cloudflare", "dns", "render", "incident-response"],
+  },
+  {
+    id: "INC-005",
+    kind: "outage",
+    status: "RESOLVED",
+    severity: "SEV-2",
+    date: "2026-06",
+    title: "Moved a domain's DNS, and the business email quietly stopped",
+    duration: "[NEEDS CONFIRMATION]",
+    impact:
+      "After moving an Australian client's nameservers to a new DNS provider, their business mailboxes (including the one used for customer quotes) stopped receiving mail.",
+    summary:
+      "The website records came across but MX, SPF and DKIM didn't. I traced it record by record until every mail check passed.",
+    timeline: [
+      { event: "Nameservers switched from the old host to the new DNS provider" },
+      { event: "Mail issues reported; the old host's domain health check showed MX, SPF and DKIM warnings" },
+      { event: "Compared zones: the new DNS zone had no MX records at all" },
+      { event: "Identified the required MX hosts/priorities and SPF/DKIM values" },
+      { event: "Restored the records [NEEDS CONFIRMATION: added manually, or resolved after propagation?]" },
+      { event: "All four checks green (MX, SPF, DKIM, DMARC); tested send/receive" },
+    ],
+    rootCause: "Only web records were recreated in the new DNS zone; mail records were never migrated.",
+    resolution: ["Restore MX, SPF, DKIM", "Verify all mail checks", "Test both directions"],
+    actionItems: [{ done: true, text: "Export and diff the full DNS zone before any nameserver change" }],
+    lesson: "A DNS move isn't 'the website works'. Email is part of the zone too, and it fails silently.",
+    tags: ["dns", "email", "mx", "spf", "dkim"],
   },
 ];
