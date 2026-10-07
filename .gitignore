@@ -41,3 +41,28 @@ skills-lock.json
 .netlify/
 */linkedin-export/*
 __pycache__/
+
+# Tool caches and build leftovers
+.vite/
+.cache/
+.parcel-cache/
+.eslintcache
+*.tsbuildinfo
+coverage/
+.playwright-mcp/
+*.tmp
+*.bak
+*.orig
+
+# Keys and certificates must never be committed
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+
+# PM2 runtime files
+.pm2/
+*.pid
+
+# NOT ignored on purpose: public/og/*.png (share cards made by `npm run og`) are committed,
+# so the production build still has them if image generation is unavailable on the server.

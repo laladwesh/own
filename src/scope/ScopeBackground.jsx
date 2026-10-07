@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { DIVS_X, DIVS_Y, SCROLL_PX_PER_SEC, formatFreq, scope, vpp } from "./scopeStore";
 
 // Channel colours: the only colours outside the tokens.
@@ -18,6 +19,15 @@ const ScopeBackground = () => {
   const wrapRef = useRef(null);
   const gridRef = useRef(null);
   const traceRef = useRef(null);
+  const { pathname } = useLocation();
+  const homeRef = useRef(pathname === "/");
+  const fadeRef = useRef(null);
+  homeRef.current = pathname === "/";
+
+  // Other pages are all reading text, so the scope stays at its quiet level there.
+  useEffect(() => {
+    fadeRef.current?.();
+  }, [pathname]);
 
   useEffect(() => {
     const wrap = wrapRef.current;
@@ -142,7 +152,7 @@ const ScopeBackground = () => {
     // On phones the text sits right on top of the scope, so it is much quieter there.
     const narrow = window.matchMedia("(max-width: 767px)");
     const fade = () => {
-      const f = clamp(window.scrollY / (window.innerHeight * 0.7), 0, 1);
+      const f = homeRef.current ? clamp(window.scrollY / (window.innerHeight * 0.7), 0, 1) : 1;
       const top = narrow.matches ? 0.28 : 1; // strength in the hero
       const low = narrow.matches ? 0.07 : 0.18; // strength further down the page
       wrap.style.opacity = String(top + (low - top) * f);
@@ -210,6 +220,7 @@ const ScopeBackground = () => {
     };
 
     resize();
+    fadeRef.current = fade;
     fade();
     window.addEventListener("resize", resize);
     window.addEventListener("scroll", fade, { passive: true });

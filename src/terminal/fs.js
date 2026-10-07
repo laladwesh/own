@@ -71,7 +71,7 @@ export const root = dir("~", [
   ),
   dir(
     "incidents",
-    incidents.map((i) => file(`${i.id}.md`, incidentMarkdown(i)))
+    incidents.map((i) => file(`${i.id}.md`, incidentMarkdown(i), { route: `/incidents/${i.id}` }))
   ),
   dir(
     "education",
@@ -99,7 +99,6 @@ export const root = dir("~", [
 export const SECTION_OF = {
   projects: "deployments",
   experience: "pipeline",
-  incidents: "incidents",
   skills: "skills",
   education: "education",
   achievements: "releases",

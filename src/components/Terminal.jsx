@@ -1,5 +1,6 @@
 import { forwardRef, memo, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { aboutMe, socialMedia } from "../constants";
 import { completeInfo, execute, ghostFor, visible } from "../terminal/engine.js";
@@ -335,6 +336,7 @@ const Terminal = forwardRef(function Terminal(
           setTheme,
           discover,
           scrollTo: (id) => document.getElementById(id) && scrollToSection(id),
+          navigate: (path) => navigateRef.current(path),
           openUrl: (u) => window.open(u, "_blank", "noopener,noreferrer"),
           openMail: (u) => {
             window.location.href = u;
@@ -362,6 +364,9 @@ const Terminal = forwardRef(function Terminal(
 
   // ── guided tour ──
   const startTourRef = useRef(null);
+  const navigate = useNavigate();
+  const navigateRef = useRef(navigate);
+  navigateRef.current = navigate;
   startTourRef.current = () => {
     const token = { cancel: false };
     tourToken.current = token;

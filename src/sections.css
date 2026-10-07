@@ -1235,3 +1235,123 @@
     display: block;
   }
 }
+
+/* ───────── Incident pages ───────── */
+a.inc-head {
+  text-decoration: none;
+}
+
+a.inc-head:hover {
+  color: var(--text);
+  background: var(--surface);
+  border-color: var(--text);
+}
+
+a.inc-head:hover .inc-title {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.incident-more {
+  margin-top: 16px;
+}
+
+.page-intro {
+  max-width: 64ch;
+  margin-bottom: 24px;
+  color: var(--muted);
+}
+
+.inc-count {
+  margin-top: 16px;
+}
+
+.crumbs {
+  margin-bottom: 16px;
+  color: var(--muted);
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+.crumbs a {
+  color: var(--text);
+}
+
+.report-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+.report-toolbar .mode-toggle {
+  min-height: 44px;
+  align-items: center;
+}
+
+.copy-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.copy-status {
+  min-width: 8ch;
+  text-align: right;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.copy-btn {
+  min-height: 44px;
+}
+
+.incident-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.incident-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.incident-nav-step {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 24px;
+}
+
+.nf-term {
+  max-width: 640px;
+}
+
+.nf-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin-top: 24px;
+}
+
+.nf-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.copy-wrap {
+  margin-left: auto;
+}
+
+.copy-status:empty {
+  display: none;
+}

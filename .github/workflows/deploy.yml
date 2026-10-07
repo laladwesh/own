@@ -38,10 +38,13 @@ jobs:
             echo "Building..."
             npm run build
 
-            echo "Restarting PM2 server on port 6012..."
-            pm2 describe portfolio > /dev/null 2>&1 \
-              && pm2 reload portfolio \
-              || pm2 serve dist 6012 --spa --name portfolio
+            echo "Serving dist/ on port 6012 (static server that knows the prerendered pages)..."
+            # One-time migration: the old `pm2 serve --spa` process (named "portfolio") cannot
+            # serve /incidents/..., and it holds port 6012. Remove it if it is still there.
+            pm2 describe portfolio > /dev/null 2>&1 && pm2 delete portfolio || true
+            pm2 describe portfolio-static > /dev/null 2>&1 \
+              && pm2 reload portfolio-static \
+              || pm2 start server/static/ecosystem.config.cjs
 
             echo "Deploying leetcode-api proxy..."
             cd server/leetcode-api

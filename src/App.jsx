@@ -1,67 +1,45 @@
+import { Route, Routes, useLocation } from "react-router-dom";
 import { motion, MotionConfig } from "framer-motion";
 import styles from "./style";
 import ScopeBackground from "./scope/ScopeBackground";
 import Daemon from "./daemon/Daemon";
-import {
-  Navbar,
-  Hero,
-  About,
-  Pipeline,
-  Incidents,
-  Skills,
-  Deployments,
-  Images,
-  Dashboard,
-  Releases,
-  OpenSource,
-  Education,
-  Cronjobs,
-  Ships,
-  Contact,
-  Footer,
-} from "./components";
+import ScrollManager from "./components/ScrollManager";
+import { Navbar, Footer } from "./components";
+import Home from "./pages/Home";
+import IncidentsIndex from "./pages/IncidentsIndex";
+import IncidentPage from "./pages/IncidentPage";
+import NotFound from "./pages/NotFound";
 
-const App = () => (
-  <MotionConfig reducedMotion="user">
-    <div className="w-full">
-      <a href="#home" className="skip-link">Skip to content</a>
-      <ScopeBackground />
-      <Daemon />
+const App = () => {
+  const { pathname } = useLocation();
+  return (
+    <MotionConfig reducedMotion="user">
+      <div className="w-full">
+        <a href={pathname === "/" ? "#home" : "#content"} className="skip-link">Skip to content</a>
+        <ScopeBackground />
+        <Daemon />
+        <ScrollManager />
 
-      {/* One 200ms fade on load; nothing slides or zooms. */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }}>
-        <Navbar />
+        {/* One 200ms fade on load; nothing slides or zooms. */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }}>
+          <Navbar />
 
-        <div className="pt-[80px]">
-          <Hero />
-        </div>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/incidents" element={<IncidentsIndex />} />
+            <Route path="/incidents/:id" element={<IncidentPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
 
-        <main className={`${styles.paddingX} flex justify-center`}>
-          <div className={styles.boxWidth}>
-            <About />
-            <Pipeline />
-            <Incidents />
-            <Skills />
-            <Deployments />
-            <Images />
-            <Dashboard />
-            <Releases />
-            <OpenSource />
-            <Education />
-            <Cronjobs />
-            <Ships />
-            <Contact />
+          <div className={`${styles.paddingX} flex justify-center`}>
+            <div className={styles.boxWidth}>
+              <Footer />
+            </div>
           </div>
-        </main>
-
-        <div className={`${styles.paddingX} flex justify-center`}>
-          <div className={styles.boxWidth}>
-            <Footer />
-          </div>
-        </div>
-      </motion.div>
-    </div>
-  </MotionConfig>
-);
+        </motion.div>
+      </div>
+    </MotionConfig>
+  );
+};
 
 export default App;

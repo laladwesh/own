@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { close, menu } from "../assets";
 import { navLinks } from "../constants";
 import { scrollToSection } from "../lib/helperFunctions";
@@ -11,6 +12,8 @@ const Navbar = () => {
   const [toggle, setToggle] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("");
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const moreRef = useRef(null);
 
   useEffect(() => {
@@ -52,14 +55,16 @@ const Navbar = () => {
   const go = (id) => {
     setMoreOpen(false);
     setToggle(false);
-    scrollToSection(id);
+    // Off the homepage, go to that section on the homepage (/#section).
+    if (pathname === "/") scrollToSection(id);
+    else navigate({ pathname: "/", hash: `#${id}` });
   };
 
   return (
     <nav className={`nav-styles sm:px-16 px-6${scrolled ? " nav-styles--scrolled" : ""}`} aria-label="Sections">
-      <a href="#home" className="nav-ctx" translate="no">
+      <Link to={{ pathname: "/", hash: "#home" }} className="nav-ctx" translate="no">
         ctx: avinash@prod
-      </a>
+      </Link>
 
       <ul className="list-none lg:flex hidden items-center gap-5">
         {PRIMARY.map((n) => (
