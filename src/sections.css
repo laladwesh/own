@@ -1733,6 +1733,10 @@ a.inc-head:hover .inc-title {
   gap: 16px;
 }
 
+.cs-cards--one {
+  grid-template-columns: 1fr;
+}
+
 .cs-card {
   display: flex;
   flex-direction: column;
@@ -2054,5 +2058,45 @@ a.inc-head:hover .inc-title {
 .ships-live {
   margin-top: 16px;
   font-size: 14px;
+  color: var(--muted);
+}
+
+/* "You might also read" at the end of a case study */
+.cs-more {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.cs-more-title {
+  margin: 0 0 12px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.cs-more-list {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cs-more-list li {
+  display: grid;
+  gap: 2px;
+  max-width: 70ch;
+}
+
+.cs-more-list a {
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cs-more-list span {
+  font-size: 13px;
   color: var(--muted);
 }

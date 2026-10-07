@@ -4,7 +4,7 @@ import styles from "../style";
 import { CASE_DIAGRAMS } from "../components/CaseStudyDiagrams";
 import { Md } from "../components/Markdown";
 import { caseStudies } from "../lib/caseStudies";
-import { caseStudySeo } from "../lib/seo";
+import { caseStudyPath, caseStudySeo } from "../lib/seo";
 import { copyText } from "../lib/clipboard";
 import { DRAFT_BANNER } from "../lib/drafts";
 import { useSeo } from "../lib/useSeo";
@@ -34,6 +34,7 @@ const MetaItem = ({ label, children }) => (
 
 const CaseStudyView = ({ study }) => {
   const seo = useMemo(() => caseStudySeo(study), [study]);
+  const others = Object.values(caseStudies).filter((c) => c.slug !== study.slug);
   useSeo(seo);
   const [copied, setCopied] = useState("");
   const timer = useRef(0);
@@ -49,12 +50,12 @@ const CaseStudyView = ({ study }) => {
     <main id="content" tabIndex={-1} className={`${styles.paddingX} flex justify-center pt-[112px] pb-[96px]`}>
       <div className={`${styles.boxWidth} page-body`}>
         <nav className="crumbs" aria-label="Breadcrumb">
-          <Link to="/">~</Link>/<Link to={{ pathname: "/", hash: "#caseStudies" }}>projects</Link>/
+          <Link to="/">~</Link>/<Link to="/case-studies">case-studies</Link>/
           {study.slug}/<span aria-current="page">CASE_STUDY.md</span>
         </nav>
 
         <div className="report-toolbar">
-          <Link to={{ pathname: "/", hash: "#caseStudies" }} className="cs-back">
+          <Link to="/case-studies" className="cs-back">
             &larr; all case studies
           </Link>
           <span className="copy-wrap">
@@ -88,8 +89,22 @@ const CaseStudyView = ({ study }) => {
           </div>
         </article>
 
+        {others.length > 0 && (
+          <section className="cs-more" aria-label="More case studies">
+            <h2 className="cs-more-title">You might also read</h2>
+            <ul className="cs-more-list">
+              {others.map((o) => (
+                <li key={o.slug}>
+                  <Link to={caseStudyPath(o.slug)}>{o.title}</Link>
+                  <span>{o.summary}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         <nav className="incident-nav" aria-label="More">
-          <Link to={{ pathname: "/", hash: "#caseStudies" }}>&larr; all case studies</Link>
+          <Link to="/case-studies">&larr; all case studies</Link>
         </nav>
       </div>
     </main>
