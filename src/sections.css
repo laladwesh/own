@@ -1699,3 +1699,8 @@ a.inc-head:hover .inc-title {
     font-size: 16px;
   }
 }
+
+.describe-link {
+  margin-top: 12px;
+  font-weight: 700;
+}

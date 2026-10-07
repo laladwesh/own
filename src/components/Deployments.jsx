@@ -34,6 +34,11 @@ const Describe = ({ project }) => (
         />
       }
     />
+    {project.caseStudy && (
+      <p className="describe-link">
+        <Link to={`/projects/${project.caseStudy}`}>read case study &rarr;</Link>
+      </p>
+    )}
   </div>
 );
 
