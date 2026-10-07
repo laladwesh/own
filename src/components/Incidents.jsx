@@ -38,6 +38,11 @@ const Incidents = () => (
         latest note: <Link to={notePath(notes[0].slug)}>{notes[0].title} &rarr;</Link>
       </p>
     )}
+    {notes.length > 0 && (
+      <p className="incident-more">
+        <Link to="/notes">all notes &rarr;</Link>
+      </p>
+    )}
   </section>
 );
 
