@@ -271,6 +271,7 @@ const OpenSource = () => {
               <RepoCard key={r.key} repo={r} onOpen={() => setOpen(r)} />
             ))}
           </div>
+          <p className="panel-sub os-note">The filled part of each bar is lines added, the rest is lines removed. Click a card for every pull request.</p>
 
           <h3 className="sub-heading os-sub">Latest</h3>
           <RecentLog prs={s.recent} />
