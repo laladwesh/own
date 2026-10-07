@@ -10,18 +10,18 @@ status: "In use, still improving"
 
 ## The challenge
 
-During internship season, most online assessments are taken from hostel rooms on students' own laptops. The test platform watches the browser, but a remote-control or screen-sharing app running in the background lets someone else see or drive the screen. We needed every laptop clean before the test started, on Windows and macOS, for every student sitting that OA.
+During internship season, every online assessment takes place in rooms we allocate, under our invigilation, on students' own laptops. The test platform watches the browser, but students were using remote-access apps on those laptops, and a remote-control or screen-sharing app running in the background lets someone else see or drive the screen. We needed every laptop clean before the test started, on Windows and macOS, for every student sitting that OA.
 
 ## Version 1: a script and a one-liner
 
 We started simple. We hosted a check script on our server and gave students one line to paste into PowerShell or Terminal:
 
 ```powershell
-irm https://<our-server>/check | iex
+irm https://iitg.ac.in/oa-check | iex
 ```
 
 ```bash
-curl -fsSL https://<our-server>/check | bash
+curl -fsSL https://iitg.ac.in/oa-check | bash
 ```
 
 `irm` is short for Invoke-RestMethod. It fetches whatever the URL serves, and `iex` runs it straight away. The script scanned the machine and reported back with the student's roll number to a small dashboard.
