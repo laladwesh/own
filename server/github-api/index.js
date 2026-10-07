@@ -17,17 +17,26 @@ import express from "express";
 import cors from "cors";
 import { readFileSync } from "node:fs";
 
-// Minimal .env loader (the deploy workflow writes GITHUB_TOKEN to server/github-api/.env).
-try {
-  for (const line of readFileSync(new URL("./.env", import.meta.url), "utf-8").split("\n")) {
-    const t = line.trim();
-    if (!t || t.startsWith("#")) continue;
-    const eq = t.indexOf("=");
-    if (eq > 0 && !process.env[t.slice(0, eq).trim()]) {
-      process.env[t.slice(0, eq).trim()] = t.slice(eq + 1).trim().replace(/^["']|["']$/g, "");
+// Minimal .env loader. GITHUB_TOKEN can live in server/github-api/.env or, if it is not
+// there (or empty), in the project's root .env (e.g. ~/portfolio/.env on the server). Real
+// environment variables win over both files. From the root file only GITHUB_TOKEN is read.
+const loadEnv = (url, only) => {
+  try {
+    for (const line of readFileSync(url, "utf-8").split("\n")) {
+      const t = line.trim();
+      if (!t || t.startsWith("#")) continue;
+      const eq = t.indexOf("=");
+      if (eq <= 0) continue;
+      const key = t.slice(0, eq).trim();
+      if ((only && !only.includes(key)) || process.env[key]) continue;
+      process.env[key] = t.slice(eq + 1).trim().replace(/^["']|["']$/g, "");
     }
+  } catch {
+    /* the file is optional */
   }
-} catch {}
+};
+loadEnv(new URL("./.env", import.meta.url));
+loadEnv(new URL("../../.env", import.meta.url), ["GITHUB_TOKEN"]);
 
 const PORT = Number(process.env.PORT) || 4002;
 const USERNAME = process.env.GITHUB_USERNAME || "laladwesh";

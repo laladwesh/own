@@ -57,7 +57,13 @@ jobs:
             echo "Deploying github-api proxy (token stays on the server)..."
             cd server/github-api
             npm install --production
-            ( umask 077; echo "GITHUB_TOKEN=${{ secrets.GH_API_TOKEN }}" > .env )
+            # Only write the token when the secret has a value. An empty secret used to blank
+            # the working .env on every deploy; now the token already on the server is kept.
+            if [ -n "${{ secrets.GH_API_TOKEN }}" ]; then
+              ( umask 077; echo "GITHUB_TOKEN=${{ secrets.GH_API_TOKEN }}" > .env )
+            else
+              echo "WARNING: GH_API_TOKEN secret is empty; keeping the existing server/github-api/.env"
+            fi
             cd ~/portfolio
             pm2 describe github-api > /dev/null 2>&1 \
               && pm2 reload github-api --update-env \
