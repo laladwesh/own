@@ -6,6 +6,7 @@ export { default as Pipeline } from "./Pipeline";
 export { default as Incidents } from "./Incidents";
 export { default as Skills } from "./Skills";
 export { default as Deployments } from "./Deployments";
+export { default as CaseStudies } from "./CaseStudies";
 export { default as Images } from "./Images";
 export { default as Dashboard } from "./Dashboard";
 export { default as Releases } from "./Releases";

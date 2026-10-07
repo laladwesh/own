@@ -85,13 +85,13 @@ const CaseStudyView = ({ study }) => {
     <main id="content" tabIndex={-1} className={`${styles.paddingX} flex justify-center pt-[112px] pb-[96px]`}>
       <div className={`${styles.boxWidth} page-body`}>
         <nav className="crumbs" aria-label="Breadcrumb">
-          <Link to="/">~</Link>/<Link to={{ pathname: "/", hash: "#deployments" }}>projects</Link>/
+          <Link to="/">~</Link>/<Link to={{ pathname: "/", hash: "#caseStudies" }}>projects</Link>/
           {study.slug}/<span aria-current="page">CASE_STUDY.md</span>
         </nav>
 
         <div className="report-toolbar">
-          <Link to={{ pathname: "/", hash: "#deployments" }} className="cs-back">
-            &larr; all projects
+          <Link to={{ pathname: "/", hash: "#caseStudies" }} className="cs-back">
+            &larr; all case studies
           </Link>
           <span className="copy-wrap">
             <span className="copy-status" role="status" aria-live="polite">
@@ -120,7 +120,7 @@ const CaseStudyView = ({ study }) => {
         </article>
 
         <nav className="incident-nav" aria-label="More">
-          <Link to={{ pathname: "/", hash: "#deployments" }}>&larr; all projects</Link>
+          <Link to={{ pathname: "/", hash: "#caseStudies" }}>&larr; all case studies</Link>
         </nav>
       </div>
     </main>

@@ -6,6 +6,7 @@ import {
   Incidents,
   Skills,
   Deployments,
+  CaseStudies,
   Images,
   Dashboard,
   Releases,
@@ -29,6 +30,7 @@ const Home = () => (
         <Incidents />
         <Skills />
         <Deployments />
+        <CaseStudies />
         <Images />
         <Dashboard />
         <Releases />

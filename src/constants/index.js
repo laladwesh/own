@@ -52,10 +52,9 @@ import {
   SiVite,
   SiLatex,
   SiLeetcode,
-  SiGnubash,
 } from "react-icons/si";
 
-import { FaAws, FaServer, FaTerminal } from "react-icons/fa";
+import { FaAws, FaServer } from "react-icons/fa";
 import { FaGolang } from "react-icons/fa6";
 import { DiCss3 } from "react-icons/di";
 import { BiLogoVisualStudio } from "react-icons/bi";
@@ -74,6 +73,7 @@ export const navLinks = [
   { id: "openSource", title: "open-source", primary: true },
   { id: "contact", title: "service.yaml", primary: true },
   { id: "incidents", title: "incidents.log" },
+  { id: "caseStudies", title: "case-studies" },
   { id: "skills", title: "Dockerfile" },
   { id: "images", title: "images" },
   { id: "dashboard", title: "grafana" },
@@ -433,27 +433,6 @@ export const projects = [
       { id: "p1-8", icon: SiNginx, name: "Nginx" },
       { id: "p1-9", icon: SiGithubactions, name: "GitHub Actions" },
       { id: "p1-10", icon: SiSentry, name: "Sentry" },
-    ],
-  },
-  {
-    id: "project-oa-check",
-    title: "OA Check",
-    github: "",
-    link: "",
-    // Internal to the placement cell: no public link and no repo (it lives inside the Intern Portal).
-    internal: "internal \u00b7 part of Intern Portal",
-    status: "Running",
-    caseStudy: "oa-check",
-    content:
-      "Pre-assessment laptop check for IIT Guwahati's placement cell: scans students' laptops for remote-control and screen-sharing apps before every online assessment, built into the placement portal.",
-    stack: [
-      { id: "poa-1", icon: FaTerminal, name: "PowerShell" },
-      { id: "poa-2", icon: SiGnubash, name: "Bash" },
-      { id: "poa-3", icon: SiNodedotjs, name: "Node.js" },
-      { id: "poa-4", icon: SiExpress, name: "Express" },
-      { id: "poa-5", icon: SiMongodb, name: "MongoDB" },
-      { id: "poa-6", icon: SiReact, name: "React" },
-      { id: "poa-7", icon: SiDocker, name: "Docker" },
     ],
   },
   {

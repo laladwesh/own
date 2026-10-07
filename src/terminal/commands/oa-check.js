@@ -10,7 +10,7 @@ export default {
   example: "oa-check",
   description: "Prints a short version of the OA Check flow. The full case study is at /projects/oa-check.",
   run(args, ctx) {
-    const cmd = "open projects/oa-check/CASE_STUDY.md";
+    const cmd = "open case-studies/oa-check.md";
     return h(Lines, {
       lines: [
         ...CASE_ASCII["oa-check-flow"],

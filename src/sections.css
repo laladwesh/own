@@ -1725,3 +1725,81 @@ a.inc-head:hover .inc-title {
 .diagram--wide .diag-narrow {
   max-width: 340px;
 }
+
+/* ───────── Case studies (homepage section) ───────── */
+.cs-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: 16px;
+}
+
+.cs-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.cs-card:hover {
+  border-color: var(--text);
+}
+
+.cs-card-meta {
+  font-size: 13px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.cs-card-title {
+  margin: 0;
+  font-family: "Clash Display", "JetBrains Mono", sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.cs-card-title a {
+  text-decoration: none;
+}
+
+.cs-card-title a:hover {
+  color: var(--text);
+  background: transparent;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
+.cs-card-summary {
+  max-width: 62ch;
+}
+
+.cs-card-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cs-card-stack li {
+  padding: 0 8px;
+  font-size: 14px;
+  border: 1px solid var(--border);
+}
+
+.cs-card-role {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.cs-card-link {
+  align-self: flex-start;
+  margin-top: 4px;
+}

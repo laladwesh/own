@@ -70,6 +70,15 @@ export const root = dir("~", [
   ),
   dir("projects", projects.map(projectDir)),
   dir(
+    "case-studies",
+    Object.values(caseStudies).map((c) =>
+      file(`${c.slug}.md`, `${c.title}\n\n${c.summary}\n\nRead it: /projects/${c.slug}`, {
+        route: `/projects/${c.slug}`,
+        routeLabel: "read the case study",
+      })
+    )
+  ),
+  dir(
     "experience",
     commits.map((c) =>
       file(
@@ -108,6 +117,7 @@ export const root = dir("~", [
 // Which page section a folder scrolls to.
 export const SECTION_OF = {
   projects: "deployments",
+  "case-studies": "caseStudies",
   experience: "pipeline",
   skills: "skills",
   education: "education",
