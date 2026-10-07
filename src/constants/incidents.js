@@ -1,12 +1,14 @@
 // Postmortems. Add a new object to the array and it shows up on the page and in the terminal
 // (journalctl --priority=crit, cat incidents/<id>.md).
 //
-// Fields: id, title, date, severity, status, duration, impact, summary, timeline[] {time?, event},
-// rootCause, badCommand? { pasted[] }, whatFailed[], resolution[], actionItems[] {done, text},
-// lesson, tags[].
+// Fields: id, title, date, severity, duration, impact, summary, timeline[] {time?, event},
+// rootCause, whatFailed[], resolution[], actionItems[] {done, text}, lesson, tags[].
+// Optional: status, kind ("outage" | "operational"), credits, diagram (id of a schematic),
+// badCommand { pasted[] }.
 export const incidents = [
   {
     id: "INC-001",
+    kind: "outage",
     title: "I deleted my own home directory on a production server",
     date: "2026-06-10",
     severity: "SEV-1",
@@ -55,5 +57,55 @@ export const incidents = [
     lesson:
       "Data in the database survived because it lived outside the home directory. Everything else survived because it was in Git. The only things truly lost were the things I never backed up: secrets and keys. Now those are backed up daily.",
     tags: ["oracle-cloud", "linux", "ssh", "pm2", "nginx", "incident-response"],
+  },
+  {
+    id: "INC-002",
+    kind: "operational",
+    title: "One online assessment, three roles, one portal that couldn't model it",
+    date: "2026-07-10",
+    severity: "SEV-2",
+    duration: "backend same night / UI in 6 days",
+    impact:
+      "At the start of the internship season, a recruiting company announced a single online assessment covering 3 roles with overlapping shortlists. The portal could only run one OA per role, which meant uploading the same attendance three times and the same students appearing in every role's room sheet.",
+    summary:
+      "With my co-LSC from the technical team, I designed Ghost OA: a temporary 'conductor' that runs one shared OA and then distributes the results back to each real role. We shipped the backend the same night and ran it through manual API calls, then built a proper UI six days later so coordinators could run it themselves.",
+    timeline: [
+      { event: "10 Jul: co-LSC from the industry team flags it: one company, one OA, three roles, overlapping shortlisted students" },
+      {
+        event:
+          "The portal's design assumed 1 OA = 1 role; running three separate OA flows would mean duplicate room allocations and three attendance uploads that could drift apart",
+      },
+      {
+        event:
+          "Designed Ghost OA: a temporary job record, flagged as a ghost, linked to the real roles, reusing the existing job model so all OA tooling worked on it unchanged",
+      },
+      { event: "10 Jul, 21:47 IST: backend shipped (create, distribute, delete), no UI yet" },
+      { event: "Ran ghost OAs through manual API calls with an admin session in Postman during the first days of the season" },
+      {
+        event:
+          "16 Jul: full coordinator UI shipped and added to the sidebar; coordinators could now run it end to end without a developer",
+      },
+    ],
+    rootCause:
+      "A design assumption in the data model: every online assessment belonged to exactly one role. Real recruiters don't work that way.",
+    whatFailed: ["Running three independent OA flows (duplicate students across room sheets, attendance uploaded three times)"],
+    resolution: [
+      "Create: pick the company, select 2+ real roles, set the test date",
+      "Upload the shared OA candidate list once: a student registered for ANY linked role is valid",
+      "Finalize registration and OA appearing on the ghost",
+      "Upload attendance once",
+      "Distribute: for each real role, intersect its registered students with the ghost's attendance and write only those results into that role, finalising its OA steps and copying the test date",
+      "Delete: the ghost is permanently removed, leaving only clean per-role data",
+    ],
+    actionItems: [
+      { done: true, text: "Edge case: a student registered for Role A but not Role B appears only in Role A's results" },
+      { done: true, text: "Edge case: a student in the OA list but registered for no linked role is skipped" },
+      { done: true, text: "Coordinator UI so the flow no longer needs a developer mid-season" },
+    ],
+    lesson:
+      "Under a deadline, ship the smallest correct backend first and operate it by hand. Once the flow is proven in real use, build the UI. Reusing the existing model with a flag, instead of inventing a new one, meant every existing OA tool worked on day one.",
+    credits: "Built with my co-LSC (technical team); problem flagged by my co-LSC (industry team).",
+    tags: ["system-design", "data-modeling", "node", "mongodb", "react", "placements"],
+    diagram: "ghost-oa-fanout",
   },
 ];

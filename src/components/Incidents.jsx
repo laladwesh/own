@@ -4,6 +4,7 @@ import { incidents, incidentSpec, mergedCommand } from "../lib/incidents.js";
 import { yamlLines } from "../lib/yaml.js";
 import SectionHeading from "./SectionHeading";
 import { Manifest, ModeToggle } from "./Manifest";
+import { DIAGRAMS } from "./IncidentDiagrams";
 
 // `code` in the data becomes an inline code span.
 const Rich = ({ text }) =>
@@ -41,16 +42,28 @@ const BadCommand = ({ incident }) => {
   );
 };
 
-const Report = ({ incident: inc }) => (
+const Report = ({ incident: inc }) => {
+  const Diagram = DIAGRAMS[inc.diagram];
+  return (
   <article className="report" aria-label={`${inc.id} postmortem`}>
     <p className="report-meta">
       <strong>{inc.id}</strong>
       <span aria-hidden="true">/</span>
       <span>{inc.severity}</span>
+      {inc.kind && (
+        <>
+          <span aria-hidden="true">/</span>
+          <span className="inc-kind">{inc.kind}</span>
+        </>
+      )}
       <span aria-hidden="true">/</span>
       <span>DURATION {inc.duration}</span>
-      <span aria-hidden="true">/</span>
-      <span>STATUS {inc.status}</span>
+      {inc.status && (
+        <>
+          <span aria-hidden="true">/</span>
+          <span>STATUS {inc.status}</span>
+        </>
+      )}
     </p>
     <h3 className="sub-heading report-title">{inc.title}</h3>
 
@@ -63,6 +76,13 @@ const Report = ({ incident: inc }) => (
       <Label>SUMMARY</Label>
       <p>{inc.summary}</p>
     </section>
+
+    {Diagram && (
+      <section className="report-sec report-sec--wide">
+        <Label>SCHEMATIC</Label>
+        <Diagram />
+      </section>
+    )}
 
     <section className="report-sec">
       <Label>TIMELINE</Label>
@@ -127,9 +147,17 @@ const Report = ({ incident: inc }) => (
       <p className="report-lesson">{inc.lesson}</p>
     </section>
 
+    {inc.credits && (
+      <section className="report-sec">
+        <Label>CREDITS</Label>
+        <p>{inc.credits}</p>
+      </section>
+    )}
+
     <p className="report-tags">{inc.tags.map((t) => `#${t}`).join("  ")}</p>
   </article>
-);
+  );
+};
 
 const Entry = ({ incident, open, onToggle }) => {
   const reduce = useReducedMotion();
@@ -147,6 +175,7 @@ const Entry = ({ incident, open, onToggle }) => {
         <span className="inc-sev">[{incident.severity}]</span>
         <span className="inc-date">{incident.date}</span>
         <span className="inc-id">{incident.id}</span>
+        {incident.kind ? <span className="inc-kind">{incident.kind}</span> : <span />}
         <span className="inc-title">{incident.title}</span>
         <span className="inc-dur">{incident.duration}</span>
       </button>
