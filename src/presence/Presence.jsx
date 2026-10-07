@@ -81,7 +81,13 @@ const Presence = () => {
       socket.volatile.emit("pos", { page: pathRef.current, x: pointer.current.x, y: pointer.current.y });
     };
 
-    import("socket.io-client")
+    // Ask the counts endpoint first. If the presence service is not there (it answers with the
+    // page, or an error), skip the socket, so a missing service leaves no failed requests behind.
+    fetch("/api/presence", { headers: { accept: "application/json" } })
+      .then((r) => {
+        if (!r.ok || !(r.headers.get("content-type") ?? "").includes("json")) throw new Error("presence offline");
+        return import("socket.io-client");
+      })
       .then(({ io }) => {
         if (gone) return;
         socket = io("/presence", {
