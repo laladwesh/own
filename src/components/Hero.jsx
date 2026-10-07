@@ -127,17 +127,31 @@ const Hero = () => {
     e.preventDefault();
     e.stopPropagation();
     const r = wrapRef.current.getBoundingClientRect();
-    resizing.current = { edge, x: e.clientX, y: e.clientY, w: r.width, h: r.height, left: r.left };
+    resizing.current = { edge, px: e.clientX, py: e.clientY, w: r.width, h: r.height, ox: x.get(), oy: y.get() };
     e.currentTarget.setPointerCapture(e.pointerId);
     wrapRef.current.classList.add("term-wrap--resizing");
   };
 
+  // Any edge or corner: the opposite side stays put, so west/north also move the window.
   const moveResize = (e) => {
     const d = resizing.current;
     if (!d) return;
     const el = wrapRef.current;
-    if (d.edge.includes("e")) el.style.width = `${clamp(d.w + e.clientX - d.x, 480, window.innerWidth - d.left - 8)}px`;
-    if (d.edge.includes("s")) el.style.height = `${clamp(d.h + e.clientY - d.y, 280, window.innerHeight - 100)}px`;
+    const dx = e.clientX - d.px;
+    const dy = e.clientY - d.py;
+    const maxW = window.innerWidth - 16;
+    const maxH = window.innerHeight - 100;
+    if (d.edge.includes("e") || d.edge.includes("w")) {
+      const w = clamp(d.edge.includes("e") ? d.w + dx : d.w - dx, 480, maxW);
+      el.style.width = `${w}px`;
+      if (d.edge.includes("w")) x.set(d.ox + d.w - w);
+    }
+    if (d.edge.includes("s") || d.edge.includes("n")) {
+      const h = clamp(d.edge.includes("s") ? d.h + dy : d.h - dy, 280, maxH);
+      el.style.height = `${h}px`;
+      // the hero centres the window vertically, so half of any height change shifts it already
+      y.set(d.oy + (d.edge.includes("n") ? d.h - h : h - d.h) / 2);
+    }
     if (!sized) setSized(true);
   };
 
@@ -149,6 +163,8 @@ const Hero = () => {
   const resetSize = () => {
     wrapRef.current.style.width = "";
     wrapRef.current.style.height = "";
+    animate(x, 0, SPRING);
+    animate(y, 0, SPRING);
     setSized(false);
   };
 
@@ -209,9 +225,9 @@ const Hero = () => {
           </motion.div>
           {canResize && (
             <>
-              <div {...handle("s")} />
-              <div {...handle("e")} />
-              <div {...handle("se")} />
+              {["n", "s", "e", "w", "ne", "nw", "se", "sw"].map((edge) => (
+                <div key={edge} {...handle(edge)} />
+              ))}
             </>
           )}
         </motion.div>

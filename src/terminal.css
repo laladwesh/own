@@ -336,39 +336,39 @@
   touch-action: none;
 }
 
+.term-resize--n,
 .term-resize--s {
   right: 14px;
-  bottom: -6px;
   left: 14px;
-  height: 12px;
+  height: 10px;
+  cursor: ns-resize;
 }
 
-.term-resize--e {
+.term-resize--e,
+.term-resize--w {
   top: 14px;
-  right: -6px;
   bottom: 14px;
-  width: 12px;
+  width: 10px;
+  cursor: ew-resize;
 }
 
-.term-resize--se {
-  right: -6px;
-  bottom: -6px;
+.term-resize--n { top: -5px; }
+.term-resize--s { bottom: -5px; }
+.term-resize--e { right: -5px; }
+.term-resize--w { left: -5px; }
+
+.term-resize--ne,
+.term-resize--nw,
+.term-resize--se,
+.term-resize--sw {
   width: 18px;
   height: 18px;
 }
 
-/* a small grip in the corner */
-.term-resize--se::after {
-  content: "";
-  position: absolute;
-  right: 7px;
-  bottom: 7px;
-  width: 8px;
-  height: 8px;
-  border-right: 2px solid var(--muted);
-  border-bottom: 2px solid var(--muted);
-  opacity: 0.7;
-}
+.term-resize--ne { top: -5px; right: -5px; cursor: nesw-resize; }
+.term-resize--sw { bottom: -5px; left: -5px; cursor: nesw-resize; }
+.term-resize--nw { top: -5px; left: -5px; cursor: nwse-resize; }
+.term-resize--se { right: -5px; bottom: -5px; cursor: nwse-resize; }
 
 .term-wrap--resizing {
   user-select: none;
