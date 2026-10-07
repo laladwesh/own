@@ -15,7 +15,7 @@ export const stepText = (s) => (s.time ? `${s.time}  ${s.event}` : s.event);
 export const mergedCommand = (inc) => inc.badCommand?.pasted.join("") ?? "";
 
 // One log line: [SEV-1] 2026-06-10  INC-001  title  ~3h
-export const logLine = (inc) => `[${inc.severity}] ${inc.date}  ${inc.id}  ${inc.title}  ${inc.duration}`;
+export const logLine = (inc) => [`[${inc.severity}] ${inc.date}  ${inc.id}  ${inc.title}`, inc.duration].filter(Boolean).join("  ");
 
 // Plain-text versions of the schematics (the terminal and the markdown file use these).
 export const DIAGRAM_ASCII = {
@@ -72,7 +72,7 @@ export const incidentMarkdown = (inc) =>
       `severity: ${inc.severity}`,
       inc.kind && `kind: ${inc.kind}`,
       `date: ${inc.date}`,
-      `duration: ${inc.duration}`,
+      inc.duration && `duration: ${inc.duration}`,
       inc.status && `status: ${inc.status}`,
     ]
       .filter(Boolean)
@@ -95,9 +95,7 @@ export const incidentMarkdown = (inc) =>
     "## What didn't work",
     ...(inc.whatFailed ?? []).map((f) => `- ~~${f}~~`),
     "",
-    "## Resolution",
-    ...inc.resolution.map((r) => `- ${r}`),
-    "",
+    ...(inc.resolution.length ? ["## Resolution", ...inc.resolution.map((r) => `- ${r}`), ""] : []),
     "## Action items",
     ...inc.actionItems.map((a) => `- [${a.done ? "x" : " "}] ${a.text}`),
     "",

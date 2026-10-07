@@ -59,8 +59,12 @@ export const Report = ({ incident: inc, titleAs: Title = "h1" }) => {
           <span className="inc-kind">{inc.kind}</span>
         </>
       )}
-      <span aria-hidden="true">/</span>
-      <span>DURATION {inc.duration}</span>
+      {inc.duration && (
+        <>
+          <span aria-hidden="true">/</span>
+          <span>DURATION {inc.duration}</span>
+        </>
+      )}
       {inc.status && (
         <>
           <span aria-hidden="true">/</span>
@@ -131,14 +135,16 @@ export const Report = ({ incident: inc, titleAs: Title = "h1" }) => {
       </section>
     )}
 
-    <section className="report-sec">
-      <Label>RESOLUTION</Label>
-      <ul className="report-list">
-        {inc.resolution.map((r) => (
-          <li key={r}>{r}</li>
-        ))}
-      </ul>
-    </section>
+    {inc.resolution.length > 0 && (
+      <section className="report-sec">
+        <Label>RESOLUTION</Label>
+        <ul className="report-list">
+          {inc.resolution.map((r) => (
+            <li key={r}>{r}</li>
+          ))}
+        </ul>
+      </section>
+    )}
 
     <section className="report-sec">
       <Label>ACTION ITEMS</Label>

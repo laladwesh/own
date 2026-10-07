@@ -161,7 +161,6 @@ export const incidents = [
     severity: "SEV-1",
     date: "2026-08-14",
     title: "A client's store went dark, and I debugged the wrong thing twice",
-    duration: "[NEEDS CONFIRMATION]",
     impact:
       "nufab.store returned Cloudflare 522 errors to many visitors; the client was getting customer calls while it was down.",
     summary:
@@ -195,7 +194,6 @@ export const incidents = [
     severity: "SEV-2",
     date: "2026-06",
     title: "Moved a domain's DNS, and the business email quietly stopped",
-    duration: "[NEEDS CONFIRMATION]",
     impact:
       "After moving an Australian client's nameservers to a new DNS provider, their business mailboxes (including the one used for customer quotes) stopped receiving mail.",
     summary:
@@ -205,7 +203,7 @@ export const incidents = [
       { event: "Mail issues reported; the old host's domain health check showed MX, SPF and DKIM warnings" },
       { event: "Compared zones: the new DNS zone had no MX records at all" },
       { event: "Identified the required MX hosts/priorities and SPF/DKIM values" },
-      { event: "Restored the records [NEEDS CONFIRMATION: added manually, or resolved after propagation?]" },
+      { event: "Restored the records" },
       { event: "All four checks green (MX, SPF, DKIM, DMARC); tested send/receive" },
     ],
     rootCause: "Only web records were recreated in the new DNS zone; mail records were never migrated.",
@@ -217,7 +215,7 @@ export const incidents = [
   {
     id: "INC-006",
     kind: "near-miss",
-    status: "[NEEDS CONFIRMATION: RESOLVED or OPEN]",
+    status: "RESOLVED",
     title: "The cloud account running a client's production apps wasn't mine",
     date: "2026-07",
     severity: "SEV-2",
@@ -231,15 +229,13 @@ export const incidents = [
       { event: "Found the tenancy owner was a friend's institutional email; billing OTPs went there" },
       { event: "Confirmed my own account was an active Administrator user" },
       { event: "Found the recurring charge came from a block volume, not the free-tier VM" },
-      { event: "[NEEDS CONFIRMATION: what happened next: block volume deleted? ownership/notification email changed? anything else?]" },
     ],
     rootCause:
       "The account was created by whoever was available at the time, and nobody wrote down who owned what. Ownership, billing and access were three different people's problem.",
     whatFailed: [],
-    resolution: ["[NEEDS CONFIRMATION]"],
+    resolution: [],
     actionItems: [
       { done: true, text: "Verified my own Administrator access" },
-      { done: false, text: "Ownership and billing contacts that the people running production can actually reach [NEEDS CONFIRMATION]" },
     ],
     lesson:
       "Who owns the account is part of the infrastructure. You can have perfect backups and still lose everything because the billing email belongs to someone who graduated.",
