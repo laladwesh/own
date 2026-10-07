@@ -1,97 +1,114 @@
-import { useState, useEffect } from "react";
-import { close, menu, avinash } from "../assets";
+import { useEffect, useRef, useState } from "react";
+import { close, menu } from "../assets";
 import { navLinks } from "../constants";
 import { scrollToSection } from "../lib/helperFunctions";
-import { motion } from "framer-motion";
+
+const PRIMARY = navLinks.filter((n) => n.primary);
+const MORE = navLinks.filter((n) => !n.primary);
 
 const Navbar = () => {
+  const [moreOpen, setMoreOpen] = useState(false);
   const [toggle, setToggle] = useState(false);
-  const [showNavbar, setShowNavbar] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState("");
+  const moreRef = useRef(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY < lastScrollY) {
-        setShowNavbar(true);
-      } else {
-        setShowNavbar(false);
-      }
-      setLastScrollY(window.scrollY);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  // The section crossing the middle of the viewport is the active nav item.
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    navLinks.forEach((n) => {
+      const el = document.getElementById(n.id);
+      if (el) io.observe(el);
+    });
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!moreOpen) return;
+    const onDown = (e) => {
+      if (moreRef.current && !moreRef.current.contains(e.target)) setMoreOpen(false);
+    };
+    const onKey = (e) => e.key === "Escape" && setMoreOpen(false);
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [moreOpen]);
+
+  const linkCls = (id) =>
+    `nav-link${active === id ? " nav-link--active" : ""}`;
+
+  const go = (id) => {
+    setMoreOpen(false);
+    setToggle(false);
+    scrollToSection(id);
+  };
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: showNavbar ? 0 : -100 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="nav-styles sm:px-16 px-6"
-    >
-      {/* Logo */}
-      <a href="#home">
-        <img
-          src={avinash}
-          alt="Avinash Gupta"
-          className="w-[80px] h-[80px]"
-        />
+    <nav className={`nav-styles sm:px-16 px-6${scrolled ? " nav-styles--scrolled" : ""}`} aria-label="Sections">
+      <a href="#home" className="nav-ctx" translate="no">
+        ctx: avinash@prod
       </a>
 
-      {/* List of links */}
-      <ul className="list-none sm:flex hidden justify-end items-center flex-1 p-4">
-        {navLinks.map((nav, index) => (
-          <li
-            key={nav.id}
-            className={`font-poppins
-            font-normal
-            cursor-pointer
-            text-[16px]
-            ${index === navLinks.length - 1 ? "mr-0" : "mr-10"}
-            text-white hover:text-purple-300`}
-            onClick={() => scrollToSection(nav.id)}
-          >
-            {nav.title}
+      <ul className="list-none lg:flex hidden items-center gap-5">
+        {PRIMARY.map((n) => (
+          <li key={n.id}>
+            <button type="button" className={linkCls(n.id)} aria-current={active === n.id ? "true" : undefined} onClick={() => go(n.id)}>
+              {n.title}
+            </button>
           </li>
         ))}
+        <li className="relative" ref={moreRef}>
+          <button type="button" className="nav-link" aria-expanded={moreOpen} onClick={() => setMoreOpen((o) => !o)}>
+            More
+          </button>
+          {moreOpen && (
+            <ul className="nav-more">
+              {MORE.map((n) => (
+                <li key={n.id}>
+                  <button type="button" className={`${linkCls(n.id)} nav-more-item`} onClick={() => go(n.id)}>
+                    {n.title}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
       </ul>
 
-      {/* only for mobile devices, created separately */}
-      <div className="sm:hidden flex flex-1 justify-end items-center">
-        {/* shows toggle icon based on its state */}
-        <img
-          src={toggle ? close : menu}
-          alt="menu"
-          className="w-[28px] h-[28px] object-contain"
-          // correct way to change state using the prev
-          // version of the same state using a callback function
-          onClick={() => setToggle((prev) => !prev)}
-        />
-
-        <div
-          className={`${toggle ? "flex" : "hidden"} p-6 bg-black-gradient
-        absolute top-20 right-0 mx-4 my-2
-        min-w-[140px] rounded-xl sidebar`}
+      <div className="lg:hidden flex items-center">
+        <button
+          type="button"
+          aria-label={toggle ? "Close menu" : "Open menu"}
+          aria-expanded={toggle}
+          onClick={() => setToggle((t) => !t)}
         >
-          <ul className="list-none flex flex-col justify-end items-center flex-1">
-            {navLinks.map((nav, index) => (
-              <li
-                key={nav.id}
-                className={`font-poppins
-                font-normal
-                cursor-pointer
-                text-[16px]
-                ${index === navLinks.length - 1 ? "mb-0" : "mb-4"}
-                text-white`}
-              >
-                <a href={`#${nav.id}`}>{nav.title}</a>
+          <img src={toggle ? close : menu} alt="" width={28} height={28} className="w-[28px] h-[28px] object-contain" />
+        </button>
+        {toggle && (
+          <ul className="nav-mobile sidebar">
+            {navLinks.map((n) => (
+              <li key={n.id}>
+                <button type="button" className={linkCls(n.id)} onClick={() => go(n.id)}>
+                  {n.title}
+                </button>
               </li>
             ))}
           </ul>
-        </div>
+        )}
       </div>
-    </motion.nav>
+    </nav>
   );
 };
 

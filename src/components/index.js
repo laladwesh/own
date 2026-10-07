@@ -1,38 +1,16 @@
-// This file just imports all components and
-// exports them from one place to make code more readable
-import Navbar from "./Navbar";
-import Hero from "./Hero";
-import Education from "./Education";
-import SkillsAndExperience from "./SkillsAndExperience";
-import Projects from "./Projects";
-import OpenSource from "./OpenSource";
-import ExtraCurricular from "./ExtraCurricular";
-import Footer from "./Footer";
-import Button from "./Button";
-import Stats from "./Stats";
-import Loading from "./Loading";
-import BlogPosts from "./BlogPosts";
-import Achievements from "./Achievements";
-import GitHubStats from "./GitHubStats";
-import LeetCodeStats from "./LeetCodeStats";
-import GitHubRepos from "./GitHubRepos";
-
-
-export {
-    Navbar,
-    Hero,
-    Education,
-    SkillsAndExperience,
-    Projects,
-    OpenSource,
-    ExtraCurricular,
-    Footer,
-    Button,
-    Stats,
-    Loading,
-    BlogPosts,
-    Achievements,
-    GitHubStats,
-    LeetCodeStats,
-    GitHubRepos,
-};
+// All page sections, exported from one place.
+export { default as Navbar } from "./Navbar";
+export { default as Hero } from "./Hero";
+export { default as About } from "./About";
+export { default as Pipeline } from "./Pipeline";
+export { default as Skills } from "./Skills";
+export { default as Deployments } from "./Deployments";
+export { default as Images } from "./Images";
+export { default as Dashboard } from "./Dashboard";
+export { default as Releases } from "./Releases";
+export { default as OpenSource } from "./OpenSource";
+export { default as Education } from "./Education";
+export { default as Cronjobs } from "./Cronjobs";
+export { default as Ships } from "./Ships";
+export { default as Contact } from "./Contact";
+export { default as Footer } from "./Footer";

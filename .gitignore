@@ -1,5 +1,11 @@
+# Dependencies and build output
+node_modules/
+dist/
+dist-ssr/
+*.local
+
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,26 +13,31 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Secrets: any .env (root, server/github-api, ...) stays local. The *.example files are tracked.
+.env
+.env.*
+!.env.example
 
-# Editor directories and files
+# Editor and OS files
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
+Thumbs.db
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-.env
-# Local Netlify folder
-.netlify
 
-# LinkedIn Import related
+# AI-assistant tooling and browser-test output (may contain credentials)
+.agents/
+.claude/
+skills-lock.json
+.playwright/
+.playwright-cli/
+
+# Misc
+.netlify/
 */linkedin-export/*
 __pycache__/
-node_modules

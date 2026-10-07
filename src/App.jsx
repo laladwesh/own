@@ -1,86 +1,65 @@
-import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, MotionConfig } from "framer-motion";
 import styles from "./style";
-
+import ScopeBackground from "./scope/ScopeBackground";
+import Daemon from "./daemon/Daemon";
 import {
   Navbar,
   Hero,
-  Education,
-  SkillsAndExperience,
-  ExtraCurricular,
-  Footer,
+  About,
+  Pipeline,
+  Skills,
+  Deployments,
+  Images,
+  Dashboard,
+  Releases,
   OpenSource,
-  Projects,
-  BlogPosts,
-  Loading,
-  Achievements,
-  GitHubStats,
-  LeetCodeStats,
-  GitHubRepos,
+  Education,
+  Cronjobs,
+  Ships,
+  Contact,
+  Footer,
 } from "./components";
 
-const App = () => {
-  const [isLoading, setIsLoading] = React.useState(true);
+const App = () => (
+  <MotionConfig reducedMotion="user">
+    <div className="w-full">
+      <a href="#home" className="skip-link">Skip to content</a>
+      <ScopeBackground />
+      <Daemon />
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1200);
-  }, []);
+      {/* One 200ms fade on load; nothing slides or zooms. */}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }}>
+        <Navbar />
 
-  return (
-    // A div to wrap the entire application
-    <div className="bg-primary w-full">
-      <AnimatePresence>
-        {isLoading ? (
-          <Loading key="loading" />
-        ) : (
-          <motion.section
-            key="content"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          >
-            <div className={`${styles.paddingX} ${styles.flexCenter}`}>
-              <div className={`${styles.boxWidth}`}>
-                <Navbar />
-              </div>
-            </div>
+        <div className="pt-[80px]">
+          <Hero />
+        </div>
 
-            <div className={`bg-primary ${styles.flexStart} pt-[80px]`}>
-              <div className={`${styles.boxWidth}`}>
-                <Hero />
-              </div>
-            </div>
+        <main className={`${styles.paddingX} flex justify-center`}>
+          <div className={styles.boxWidth}>
+            <About />
+            <Pipeline />
+            <Skills />
+            <Deployments />
+            <Images />
+            <Dashboard />
+            <Releases />
+            <OpenSource />
+            <Education />
+            <Cronjobs />
+            <Ships />
+            <Contact />
+          </div>
+        </main>
 
-            <div
-              className={`bg-primary ${styles.flexCenter} ${styles.paddingX} overflow-x-clip`}
-            >
-              <div className={`${styles.boxWidth}`}>
-                <SkillsAndExperience />
-                <Education />
-              </div>
-            </div>
-            <Achievements />
-            <div
-              className={`bg-primary ${styles.flexCenter} ${styles.paddingX} overflow-x-clip`}
-            >
-              <div className={`${styles.boxWidth}`}>
-                <GitHubStats />
-                <LeetCodeStats />
-                <Projects />
-                <GitHubRepos />
-                <BlogPosts enabled={false} />
-                <OpenSource />
-                <ExtraCurricular />
-              </div>
-            </div>
+        <div className={`${styles.paddingX} flex justify-center`}>
+          <div className={styles.boxWidth}>
             <Footer />
-          </motion.section>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      </motion.div>
     </div>
-  );
-};
+  </MotionConfig>
+);
 
 export default App;

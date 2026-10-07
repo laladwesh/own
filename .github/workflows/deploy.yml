@@ -32,9 +32,6 @@ jobs:
             git reset --hard origin/master
             git clean -fd
 
-            echo "Writing env file..."
-            echo "VITE_GH_TOKEN=${{ secrets.VITE_GH_TOKEN }}" > .env
-
             echo "Installing dependencies..."
             npm install
 
@@ -53,6 +50,15 @@ jobs:
             pm2 describe leetcode-api > /dev/null 2>&1 \
               && pm2 reload leetcode-api \
               || pm2 start server/leetcode-api/ecosystem.config.cjs
+
+            echo "Deploying github-api proxy (token stays on the server)..."
+            cd server/github-api
+            npm install --production
+            ( umask 077; echo "GITHUB_TOKEN=${{ secrets.GH_API_TOKEN }}" > .env )
+            cd ~/portfolio
+            pm2 describe github-api > /dev/null 2>&1 \
+              && pm2 reload github-api --update-env \
+              || pm2 start server/github-api/ecosystem.config.cjs
 
             pm2 save
 

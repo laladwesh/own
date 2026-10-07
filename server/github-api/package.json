@@ -1,0 +1,15 @@
+{
+  "name": "github-api-proxy",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Tiny GitHub GraphQL proxy for the portfolio: the token stays on the server, responses are cached for 15 minutes, and the last good response is served if GitHub fails.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.1"
+  }
+}

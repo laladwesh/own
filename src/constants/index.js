@@ -51,6 +51,7 @@ import {
   SiTerraform,
   SiVite,
   SiLatex,
+  SiLeetcode,
 } from "react-icons/si";
 
 import { FaAws, FaServer } from "react-icons/fa";
@@ -61,19 +62,23 @@ import { BiLogoVisualStudio } from "react-icons/bi";
 export const resumeLink =
   "https://drive.google.com/file/d/1zj7bmu_I5WhgScijtEwWrV08V6-gIaGr/view?usp=sharing";
 export const repoLink = "https://github.com/laladwesh";
+export const leetcodeUrl = "https://leetcode.com/u/ibXDVQOY8i/";
+export const siteDomain = "avinashgupta.in";
 export const callToAction = "https://www.linkedin.com/in/avinash-gupta-58171828a/";
 
 export const navLinks = [
-  { id: "skills", title: "Skills & Experience" },
-  { id: "education", title: "Education" },
-  { id: "achievements", title: "Achievements" },
-  { id: "githubStats", title: "GitHub Stats" },
-  { id: "leetcodeStats", title: "LeetCode Stats" },
-  { id: "projects", title: "Projects" },
-  { id: "githubRepos", title: "Repositories" },
-  { id: "openSource", title: "Open Source" },
-  { id: "extraCurricular", title: "Extra Curricular" },
-  { id: "contactMe", title: "Contact Me" },
+  { id: "about", title: "about.yaml", primary: true },
+  { id: "pipeline", title: "pipeline", primary: true },
+  { id: "deployments", title: "deployments", primary: true },
+  { id: "openSource", title: "open-source", primary: true },
+  { id: "contact", title: "service.yaml", primary: true },
+  { id: "skills", title: "Dockerfile" },
+  { id: "images", title: "images" },
+  { id: "dashboard", title: "grafana" },
+  { id: "releases", title: "releases" },
+  { id: "education", title: "education.yaml" },
+  { id: "cronjobs", title: "cronjobs" },
+  { id: "ships", title: "deploy.yml" },
 ];
 
 export const educationList = [
@@ -84,7 +89,7 @@ export const educationList = [
     degree: "Bachelor of Technology",
     duration: "July 2023 – Present",
     content1: "Major: Electronics and Communication Engineering",
-    content2: "Roll No: 230102013",
+    content2: "",
   },
 ];
 
@@ -138,6 +143,7 @@ export const achievements = [
 export const skills = [
   {
     title: "Programming Languages",
+    key: "languages",
     items: [
       { id: "pl-1", icon: SiC, name: "C" },
       { id: "pl-2", icon: SiCplusplus, name: "C++" },
@@ -151,6 +157,7 @@ export const skills = [
   },
   {
     title: "Frameworks & Libraries",
+    key: "frameworks",
     items: [
       { id: "f-1", icon: SiReact, name: "ReactJS" },
       { id: "f-2", icon: SiNextdotjs, name: "Next.js" },
@@ -166,27 +173,42 @@ export const skills = [
     ],
   },
   {
-    title: "Tools & Platforms",
+    // Everything that appears in my projects or experience.
+    title: "In production",
+    key: "production",
     items: [
-      { id: "t-1", icon: SiMongodb, name: "MongoDB" },
-      { id: "t-2", icon: SiMysql, name: "MySQL" },
       { id: "t-3", icon: SiDocker, name: "Docker" },
-      { id: "t-4", icon: SiKubernetes, name: "Kubernetes" },
+      { id: "t-10", icon: SiNginx, name: "Nginx" },
+      { id: "t-16", icon: SiGithubactions, name: "GitHub Actions" },
+      { id: "t-12", icon: FaServer, name: "PM2" },
+      { id: "t-11", icon: SiVirtualbox, name: "Oracle VM" },
+      { id: "t-14", icon: SiLinux, name: "Linux" },
+      { id: "t-13", icon: SiRedis, name: "Redis" },
       { id: "t-5", icon: FaAws, name: "AWS" },
       { id: "t-6", icon: SiGit, name: "Git" },
       { id: "t-7", icon: AiFillGithub, name: "GitHub" },
-      { id: "t-8", icon: SiPostman, name: "Postman" },
-      { id: "t-9", icon: BiLogoVisualStudio, name: "VS Code" },
-      { id: "t-10", icon: SiNginx, name: "Nginx" },
-      { id: "t-11", icon: SiVirtualbox, name: "Oracle VM" },
-      { id: "t-12", icon: FaServer, name: "PM2" },
-      { id: "t-13", icon: SiRedis, name: "Redis" },
-      { id: "t-14", icon: SiLinux, name: "Linux" },
-      { id: "t-15", icon: SiFigma, name: "Figma" },
-      { id: "t-16", icon: SiGithubactions, name: "GitHub Actions" },
+      { id: "t-1", icon: SiMongodb, name: "MongoDB" },
+      { id: "t-2", icon: SiMysql, name: "MySQL" },
+    ],
+  },
+  {
+    // Learned, not yet needed at production scale.
+    title: "Learning",
+    key: "learning",
+    items: [
+      { id: "t-4", icon: SiKubernetes, name: "Kubernetes" },
+      { id: "t-19", icon: SiTerraform, name: "Terraform" },
       { id: "t-17", icon: SiJenkins, name: "Jenkins" },
       { id: "t-18", icon: SiArgo, name: "ArgoCD" },
-      { id: "t-19", icon: SiTerraform, name: "Terraform" },
+    ],
+  },
+  {
+    title: "Also used",
+    key: "other",
+    items: [
+      { id: "t-8", icon: SiPostman, name: "Postman" },
+      { id: "t-9", icon: BiLogoVisualStudio, name: "VS Code" },
+      { id: "t-15", icon: SiFigma, name: "Figma" },
       { id: "t-20", icon: SiApache, name: "Apache" },
       { id: "t-21", icon: SiVite, name: "Vite" },
       { id: "t-22", icon: SiLatex, name: "LaTeX" },
@@ -312,23 +334,6 @@ export const experiences = [
       },
     ],
   },
-  // {
-  //   organisation: "Shivalik Graphics, Delhi",
-  //   logo: placeicon,
-  //   link: "",
-  //   positions: [
-  //     {
-  //       title: "Web Developer Intern",
-  //       duration: "Dec 2024 – Jan 2025",
-  //       content: [
-  //         {
-  //           text: "Developed and deployed the complete company website end-to-end for this Delhi-based graphics and printing firm.",
-  //           link: "",
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
   {
     organisation: "Students' Web Committee, IIT Guwahati",
     logo: swc,
@@ -412,7 +417,6 @@ export const projects = [
     github: "https://github.com/tnp-iitg/Intern-Portal-IITG/tree/dev/",
     link: "https://iitg.ac.in/intern",
     hub: "https://ccd.avinashgupta.in",
-    image: placeicon,
     content:
       "Full-stack internship management portal for IIT Guwahati's CCD workflow — replaces fragmented manual coordination with a unified platform for students, companies, coordinators, verifiers and logistics. Secures 6 role-based access levels with JWT and Google/Microsoft OAuth2 SSO, a Multer-based upload pipeline with MIME validation and Azure Blob Storage, PDFKit/XLSX bulk exports, and Sentry monitoring.",
     stack: [
@@ -433,7 +437,6 @@ export const projects = [
     title: "Nufab India — E-Commerce Platform",
     github: "https://github.com/laladwesh/client",
     link: "",
-    image: placeicon,
     content:
       "Freelance full-stack e-commerce and operations platform for Nufab India — product browsing, cart, wishlist, coupons, checkout, order and refund management, Razorpay payments, Delhivery logistics (tracking, returns, exchanges), AWS S3 image storage, Google OAuth + OTP login, and an AdminJS dashboard for complete backend operations.",
     stack: [
@@ -456,7 +459,6 @@ export const projects = [
     github: "https://github.com/laladwesh/copy-checker/",
     link: "https://prasadacademic.in/",
     hub: "https://prasad.avinashgupta.in",
-    image: placeicon,
     content:
       "Freelance exam copy management platform for remote answer-script evaluation by external examiners — converts uploaded PDFs to per-page images, generates processed PDFs, and syncs with Google Drive. JWT-secured role-based access processed 8000+ copies with zero downtime via PM2 and RESTful Node.js APIs during peak evaluation cycles, self-hosted on a shared Oracle server behind an Nginx reverse proxy.",
     stack: [
@@ -478,7 +480,6 @@ export const projects = [
     github: "https://github.com/laladwesh/elective-portal",
     link: "https://elective.prasadacademic.in/",
     hub: "https://prasad.avinashgupta.in",
-    image: placeicon,
     content:
       "Full-stack elective course enrollment portal built for Prasad Academics — Google OAuth + JWT auth, role-based dashboards (Student/Admin), auto-activation of enrollment windows, bulk student upload via CSV/Excel, and PDF/Excel report generation. High-concurrency FCFS allocation using MongoDB atomic transactions, optimistic locking and compound indexing allotted 500+ seats across 50+ courses without overbooking.",
     stack: [
@@ -501,7 +502,6 @@ export const projects = [
     hub: "https://prasad.avinashgupta.in",
     playStore: "https://play.google.com/store/apps/details?id=com.pims.pims_app",
     appStore: "https://apps.apple.com/app/ease-exit/id6749087386",
-    image: placeicon,
     content:
       "Digitized end-to-end leave management system built for Prasad Academics (PIMS), replacing a paper-based process — role-based access for students, parents, wardens, guards and admins; multi-level approvals, document uploads, and push notifications via Firebase Cloud Messaging. Handled 15,000+ leave applications securely across web, Android (Play Store) and iOS (App Store).",
     stack: [
@@ -522,7 +522,6 @@ export const projects = [
     github: "https://github.com/laladwesh/status",
     link: "https://status.prasadacademic.in",
     hub: "https://prasad.avinashgupta.in",
-    image: placeicon,
     content:
       "Production-ready service status and infrastructure monitoring platform built for Prasad Academics (PIMS) — public dashboard with WebSocket-driven real-time server health, uptime/downtime tracking, resource utilization and centralized log aggregation via polling. Enables proactive incident response with near-100% uptime across all services, JWT-secured admin panel, and automated MongoDB backups to Google Drive.",
     stack: [
@@ -543,7 +542,6 @@ export const projects = [
     github: "https://github.com/laladwesh/live-placement-ccd/",
     link: "https://iitg.ac.in/dday",
     hub: "https://ccd.avinashgupta.in",
-    image: placeicon,
     content:
       "Real-time placement-day dashboard for IIT Guwahati with live event broadcasting via Socket.IO — role-based access across 5 roles, live offer creation, POCs updating real-time interview status, admin-approved confirmations, jsPDF-based exports, and auto-blocking of students from further placements once placed. Engineered a single sign-on handoff from the Placement Portal via short-lived, server-verified JWT tokens. Supports 1500+ students and 150+ POCs.",
     stack: [
@@ -560,7 +558,6 @@ export const projects = [
     title: "Lotus Traders Website",
     github: "",
     link: "",
-    image: placeicon,
     content:
       "Full-stack commercial website built with Next.js and MongoDB. Includes a secure admin panel and serves 30K+ monthly users with 200+ daily customer queries.",
     stack: [
@@ -574,7 +571,6 @@ export const projects = [
     title: "SWC One-Stop Portal",
     github: "https://github.com/swciitg/one-stop-2021",
     link: "",
-    image: placeicon,
     content:
       "Multi-service student platform for IIT Guwahati. Developed and maintained as a core contributor and maintainer within the Students' Web Committee.",
     stack: [
@@ -588,7 +584,6 @@ export const projects = [
     title: "PPT Extractor Pipeline",
     github: "",
     link: "",
-    image: placeicon,
     content:
       "AI pipeline built at Sera Innovation that uses the Groq API to parse investor pitch decks and auto-map extracted text to a structured 16-table schema on GCP BigQuery and ArcadeDB.",
     stack: [
@@ -601,7 +596,6 @@ export const projects = [
     title: "IACCC Conference Website",
     github: "",
     link: "",
-    image: placeicon,
     content:
       "Sole developer for the International Conference on Agriculture Centric Computation website — handled full-stack development, deployment and maintenance independently.",
     stack: [
@@ -616,7 +610,6 @@ export const projects = [
     title: "Onawie — Mini PaaS",
     github: "https://github.com/laladwesh/place-gfaad",
     link: "",
-    image: placeicon,
     content:
       "Self-hosted mini PaaS inspired by Vercel/Render — sign in with GitHub OAuth, select a repo, configure build settings, and ship to a live subdomain in one flow. Runs a Docker-based deployment pipeline with webhook-triggered redeploys, PR preview environments, deployment logs, rollbacks, project-level env variables, GitHub commit status updates, encrypted token storage, and optional Gemini-powered deployment insights. Hosted on Oracle VM, managed with PM2, routed via NGINX.",
     stack: [
@@ -637,7 +630,6 @@ export const projects = [
     title: "Prof. Gaurav Trivedi Portfolio",
     github: "https://github.com/laladwesh/gt",
     link: "https://iitg.ac.in/trivedi",
-    image: placeicon,
     content:
       "Editable academic portfolio for Prof. Gaurav Trivedi with a React frontend and AdminJS CMS — showcases publications, projects, students and downloadable resources with non-technical content management via an authenticated admin panel; no redeployment required.",
     stack: [
@@ -650,14 +642,6 @@ export const projects = [
       { id: "pgt-7", icon: FaServer, name: "Render" },
     ],
   },
-];
-
-export const blogPosts = [];
-
-export const stats = [
-  { id: "stats-1", title: "Organisations", value: "1+" },
-  { id: "stats-2", title: "Repos Maintained", value: "7+" },
-  { id: "stats-3", title: "Contributions", value: "50+" },
 ];
 
 export const extraCurricular = [
@@ -728,6 +712,12 @@ export const socialMedia = [
     label: "Email (IITG)",
   },
   {
+    id: "social-media-6",
+    icon: SiLeetcode,
+    link: leetcodeUrl,
+    label: "LeetCode",
+  },
+  {
     id: "social-media-4",
     icon: AiFillInstagram,
     link: "https://www.instagram.com/chholekulche_",
@@ -744,14 +734,3 @@ export const aboutMe = {
     "Electronics & Communication Engineering student at IIT Guwahati who loves building scalable web applications and exploring AI. Always looking for the next problem worth solving.",
 };
 
-export const itemsToFetch = 100;
-
-export const includedRepos = [
-  "swciitg/one-stop-2021",
-  "swciitg/Freshers_Portal",
-  "swciitg/Welfare_Board_Portal",
-  "swciitg/Sports_Board_Portal",
-  "tnp-iitg/CCD-App-backend",
-  "tnp-iitg/Intern-Portal-IITG",
-  "tnp-iitg/Placement-Portal-IITG"
-];
