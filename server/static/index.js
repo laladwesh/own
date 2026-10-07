@@ -98,7 +98,8 @@ const send = (req, res, file, status = 200) => {
     Vary: "Accept-Encoding",
   };
   const accept = String(req.headers["accept-encoding"] || "");
-  const enc = COMPRESSIBLE.has(ext) ? (/br/.test(accept) ? "br" : /gzip/.test(accept) ? "gzip" : null) : null;
+  const wants = (name) => accept.split(",").some((part) => part.trim().split(";")[0] === name);
+  const enc = COMPRESSIBLE.has(ext) ? (wants("br") ? "br" : wants("gzip") ? "gzip" : null) : null;
   if (enc) {
     const body = compressed(file, enc);
     res.writeHead(status, { ...headers, "Content-Encoding": enc, "Content-Length": body.length });

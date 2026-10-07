@@ -13,7 +13,7 @@ import { loadNotes } from "./notes.mjs";
 import { loadCaseStudies } from "./case-studies.mjs";
 import { incidents, incidentMarkdown } from "../src/lib/incidents.js";
 import { mdToHtml } from "./mdlite.mjs";
-import { aboutMe } from "../src/constants/index.js";
+import { aboutMe } from "../src/constants/profile.js";
 
 const dist = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "dist");
 const template = fs.readFileSync(path.join(dist, "index.html"), "utf8");
@@ -56,9 +56,7 @@ const published = loadNotes();
 const links = (items) => `<ul>${items.map(([href, label]) => `<li><a href="${href}">${esc(label)}</a></li>`).join("")}</ul>`;
 const bodyFor = (r) => {
   const inc = incidents.find((i) => `/incidents/${i.id}` === r.path);
-  if (inc) return mdToHtml(incidentMarkdown(inc).split("
-").slice(1).join("
-"));
+  if (inc) return mdToHtml(incidentMarkdown(inc).split("\n").slice(1).join("\n"));
   const note = published.find((n) => `/notes/${n.slug}` === r.path);
   if (note) return mdToHtml(note.body);
   const study = studies.find((s) => caseStudyPath(s.slug) === r.path);
