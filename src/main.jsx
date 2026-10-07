@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
 import './sections.css'
+import './terminal.css'
 import smoothscroll from 'smoothscroll-polyfill'
 
 smoothscroll.polyfill();

@@ -22,6 +22,7 @@ export default {
   group: "navigate",
   summary: "list directory contents",
   usage: "ls [-la] [path]",
+  example: "ls projects",
   paths: true,
   run(args, ctx) {
     const flags = args.filter((a) => a.startsWith("-")).join("");

@@ -7,6 +7,7 @@ export default {
   group: "navigate",
   summary: "show the directory tree",
   usage: "tree [path]",
+  example: "tree skills",
   paths: true,
   run(args, ctx) {
     const all = args.includes("-a");

@@ -16,6 +16,7 @@ export default {
   group: "ece",
   summary: "decode resistor colour bands",
   usage: "resistor <band> <band> <band> [tolerance]   e.g. resistor brown black red",
+  example: "resistor brown black red",
   run(args) {
     const bands = args.map((a) => a.toLowerCase());
     if (bands.length < 3 || bands.length > 5) return h(Muted, null, "usage: resistor brown black red   (3 to 5 bands)");

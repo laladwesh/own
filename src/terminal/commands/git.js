@@ -49,6 +49,7 @@ export default {
   group: "me",
   summary: "my career as a commit history",
   usage: "git log   |   git show <hash>   |   git status",
+  example: "git log",
   run(args, ctx) {
     const [sub, ...rest] = args;
     if (sub === "log") return log(ctx);

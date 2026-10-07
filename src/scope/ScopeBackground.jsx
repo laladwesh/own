@@ -139,9 +139,13 @@ const ScopeBackground = () => {
     };
 
     // Strong in the hero, fainter further down the page.
+    // On phones the text sits right on top of the scope, so it is much quieter there.
+    const narrow = window.matchMedia("(max-width: 767px)");
     const fade = () => {
       const f = clamp(window.scrollY / (window.innerHeight * 0.7), 0, 1);
-      wrap.style.opacity = String(1 - 0.82 * f);
+      const top = narrow.matches ? 0.28 : 1; // strength in the hero
+      const low = narrow.matches ? 0.07 : 0.18; // strength further down the page
+      wrap.style.opacity = String(top + (low - top) * f);
     };
 
     function frame(now) {

@@ -9,6 +9,7 @@ export default {
   group: "me",
   summary: "get in touch (opens an email draft)",
   usage: "hire avinash",
+  example: "hire avinash",
   run(args, ctx) {
     if ((args[0] ?? "").toLowerCase() !== "avinash") return h(Muted, null, "usage: hire avinash");
     const mail = find("Email (Gmail)");

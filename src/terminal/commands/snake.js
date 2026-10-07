@@ -2,7 +2,7 @@ import { daemonEvent } from "../../daemon/state.js";
 
 export default {
   name: "snake",
-  group: "fun",
+  group: "games",
   summary: "play snake inside the terminal",
   usage: "snake   (arrow keys to steer, q to quit)",
   run(args, ctx) {

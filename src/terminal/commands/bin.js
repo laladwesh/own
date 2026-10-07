@@ -23,6 +23,7 @@ export default {
   group: "ece",
   summary: "show a number in binary, hex and octal",
   usage: "bin <n>   (accepts 42, 0x2a, 0b101010)",
+  example: "bin 42",
   run(args) {
     const n = parseNumber(args[0]);
     if (n === null) return h(Muted, null, "usage: bin <non-negative integer>");

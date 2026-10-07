@@ -7,6 +7,7 @@ export default {
   group: "navigate",
   summary: "change directory (also scrolls the page to that section)",
   usage: "cd [path]   |   cd ..",
+  example: "cd projects",
   paths: true,
   run(args, ctx) {
     const target = args[0] ?? "~";

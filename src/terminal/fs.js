@@ -52,6 +52,7 @@ export const root = dir("~", [
   file("Dockerfile", linesToText(dockerfileLines)),
   file("service.yaml", linesToText(yamlLines(serviceSpec))),
   file("resume.pdf", "Opens in a new tab.", { href: resumeLink }),
+  file(".secrets", ["API_KEY=definitely-not-a-real-key", "DB_PASSWORD=hunter2 (just kidding)", "BEST_FRIEND=the daemon", "TODO=sleep, eventually", "LAST_WORDS=it worked on my machine"].join("\n")),
   dir(
     "skills",
     skills.map((g) => file(`${slug(g.title)}.txt`, g.items.map((i) => i.name).join("\n")))

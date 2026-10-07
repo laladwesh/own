@@ -1,0 +1,301 @@
+/* Terminal additions: ghost text, status hint, palette, modes, themes, smooth caret. */
+
+.term-window {
+  position: relative;
+}
+
+.term-flip {
+  height: 100%;
+  transform-origin: 0 0;
+}
+
+/* Smooth caret: it eases in and out, and stays solid while you type. */
+.term-cursor {
+  animation: cursor-fade 1s ease-in-out infinite;
+}
+
+@keyframes cursor-fade {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+
+.typing .term-cursor {
+  animation: none;
+  opacity: 1;
+}
+
+/* Ghost suggestion (fish-style) */
+.term-ghost {
+  color: var(--muted);
+  opacity: 0.8;
+  white-space: pre;
+}
+
+.term-tablist {
+  margin-top: 4px;
+  color: var(--muted);
+  white-space: pre-wrap;
+}
+
+.term-toast {
+  color: var(--accent);
+}
+
+.term-pre {
+  margin: 0;
+  font: inherit;
+  line-height: 1.3;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* Status bar: left info, right-hand discovery hint */
+.term-statusbar {
+  justify-content: space-between;
+  align-items: center;
+  white-space: normal;
+}
+
+.term-status-left {
+  white-space: pre-wrap;
+}
+
+.term-status-hint {
+  margin-left: auto;
+  white-space: pre;
+}
+
+.term-status-hint .term-run {
+  min-height: 0;
+  padding: 0;
+  font-size: 13px;
+}
+
+/* "new output" pill when the reader has scrolled up */
+.term-newout {
+  position: absolute;
+  right: 16px;
+  bottom: 44px;
+  z-index: 5;
+  padding: 4px 10px;
+  font-size: 13px;
+  color: var(--bg);
+  background: var(--accent);
+  border: 0;
+}
+
+/* Command palette, inside the window */
+.term-palette {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  max-height: 60%;
+  background: var(--surface);
+  border-top: 1px solid var(--accent);
+}
+
+.term-palette-input {
+  flex: 0 0 auto;
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  color: var(--text);
+  background: var(--bg);
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  outline: none;
+}
+
+.term-palette-input:focus-visible {
+  outline: none;
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+.term-palette-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.term-palette-group {
+  padding: 10px 16px 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.term-palette-row {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  width: 100%;
+  min-height: 36px;
+  padding: 6px 16px;
+  text-align: left;
+  color: var(--text);
+  background: transparent;
+  border: 0;
+}
+
+.term-palette-row[aria-selected="true"] {
+  color: var(--bg);
+  background: var(--text);
+}
+
+.term-palette-cmd {
+  flex: 0 0 120px;
+  font-weight: 700;
+}
+
+.term-palette-desc {
+  min-width: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.term-palette-row[aria-selected="true"] .term-palette-desc {
+  color: var(--bg);
+}
+
+.term-palette-empty {
+  padding: 16px;
+  color: var(--muted);
+}
+
+@media (max-width: 767px) {
+  .term-palette {
+    max-height: 70%;
+  }
+
+  .term-palette-row {
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .term-palette-cmd {
+    flex-basis: 104px;
+  }
+}
+
+/* Full-screen modes */
+.term-vim-row,
+.term-htop > div,
+.term-type-line {
+  white-space: pre-wrap;
+}
+
+.term-vim-row {
+  color: var(--muted);
+}
+
+.term-vim-status {
+  margin-top: 8px;
+  min-height: 24px;
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+}
+
+.term-htop {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.term-htop-head {
+  margin-top: 8px;
+  color: var(--bg);
+  background: var(--accent);
+}
+
+.term-type-line {
+  margin: 8px 0;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.term-type-ok {
+  color: var(--text);
+}
+
+.term-type-bad {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.term-type-cur {
+  color: var(--text);
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.term-type-next {
+  white-space: pre-wrap;
+}
+
+/* Tour caption (fixed to the viewport, so it stays visible while the page scrolls) */
+.tour-caption {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
+  z-index: 90;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 10px 14px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--bg);
+  background: var(--text);
+  border: 1px solid var(--text);
+}
+
+.tour-step {
+  font-weight: 700;
+}
+
+.tour-stop {
+  margin-left: 8px;
+  opacity: 0.7;
+}
+
+/* Terminal colour schemes. Only the window changes; amber is the default. */
+.term-window[data-theme="green"] {
+  --accent: #5fd38d;
+}
+
+.term-window[data-theme="ice"] {
+  --accent: #7cc4f0;
+  --text: #dde9f3;
+}
+
+.term-window[data-theme="mono"] {
+  --accent: #e6e6e6;
+}
+
+/* Quick feedback on pressed controls */
+.term-run:active,
+.term-palette-row:active,
+.term-pill:active {
+  transform: translateY(1px);
+}
+
+/* Finished steps of `deploy`: label on the left, time in a fixed column on the right. */
+.term-seq-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 4ch;
+  gap: 12px;
+  max-width: 72ch;
+}
+
+.term-seq-row > span:last-child {
+  text-align: right;
+}

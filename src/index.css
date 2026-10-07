@@ -40,7 +40,7 @@
 
 html {
   color-scheme: light;
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   background-color: var(--bg);
 }
 
@@ -194,23 +194,6 @@ input:focus-visible {
 
 .term-anim {
   height: 100%;
-  animation: term-enter 0.22s ease-out;
-  transition: transform 0.22s ease-in, opacity 0.22s ease-in;
-}
-
-.term-anim--closing {
-  transform: scale(0.6);
-  opacity: 0;
-}
-
-.term-anim--minimizing {
-  transform: translateY(40vh) scale(0.4);
-  opacity: 0;
-}
-
-@keyframes term-enter {
-  from { transform: scale(0.92); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
 }
 
 .term-window {
@@ -477,7 +460,6 @@ input:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .term-cursor { animation: none; }
-  .term-anim { animation: none; transition: none; }
   .sidebar { animation: none; }
 }
 

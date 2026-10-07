@@ -11,6 +11,7 @@ export default {
   group: "devops",
   summary: "service status of avinash.service",
   usage: "systemctl status avinash",
+  example: "systemctl status avinash",
   subcommands: ["status"],
   run(args) {
     if (args[0] !== "status" || args[1] !== "avinash") return h(Muted, null, "usage: systemctl status avinash");

@@ -7,6 +7,7 @@ export default {
   group: "devops",
   summary: "plan: one engineer to add",
   usage: "terraform plan",
+  example: "terraform plan",
   subcommands: ["plan"],
   run(args) {
     if (args[0] !== "plan") return h(Muted, null, "usage: terraform plan");

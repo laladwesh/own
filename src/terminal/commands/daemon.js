@@ -18,6 +18,7 @@ export default {
   group: "fun",
   summary: "the pixel companion that follows your pointer",
   usage: "daemon   |   daemon stop   |   daemon start",
+  example: "daemon",
   subcommands: ["stop", "start"],
   run(args) {
     const [sub] = args;

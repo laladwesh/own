@@ -6,6 +6,7 @@ export default {
   group: "navigate",
   summary: "manual page for a command",
   usage: "man <command>",
+  example: "man deploy",
   run(args, ctx) {
     const name = args[0];
     if (!name) return h(Muted, null, "usage: man <command>");
@@ -17,6 +18,8 @@ export default {
         `    ${c.name} - ${c.summary}`,
         h(Strong, null, "SYNOPSIS"),
         `    ${c.usage}`,
+        ...(c.description ? [h(Strong, null, "DESCRIPTION"), `    ${c.description}`] : []),
+        ...(c.example && c.example !== c.name ? [h(Strong, null, "EXAMPLE"), `    ${c.example}`] : []),
       ],
     });
   },

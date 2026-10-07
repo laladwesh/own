@@ -2,15 +2,34 @@ import { useEffect, useRef, useState } from "react";
 
 // Building blocks for command output. Everything is a React node (no innerHTML).
 
-export const Lines = ({ lines }) => (
-  <>
-    {lines.map((l, i) => (
-      <div key={i} className="term-out-line">
-        {l}
-      </div>
-    ))}
-  </>
-);
+const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// Long outputs stream in line by line (10ms per line); any key skips to the end.
+export const Lines = ({ lines }) => {
+  const total = lines.length;
+  const [shown, setShown] = useState(() => (total > 6 && !reducedMotion() ? 0 : total));
+
+  useEffect(() => {
+    if (shown >= total) return undefined;
+    const t = setTimeout(() => setShown((n) => n + 1), 10);
+    const skip = () => setShown(total);
+    window.addEventListener("keydown", skip);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("keydown", skip);
+    };
+  }, [shown, total]);
+
+  return (
+    <>
+      {lines.slice(0, shown).map((l, i) => (
+        <div key={i} className="term-out-line">
+          {l}
+        </div>
+      ))}
+    </>
+  );
+};
 
 export const Muted = ({ children }) => <span className="term-muted">{children}</span>;
 
@@ -136,3 +155,55 @@ export const Snake = ({ onExit }) => {
 export const Cell = ({ w, children }) => (
   <span style={{ display: "inline-block", minWidth: `${w}ch`, paddingRight: "2ch" }}>{children}</span>
 );
+
+// ───────────── progress bars ─────────────
+const CELLS = 14;
+export const barText = (pct) => {
+  const filled = Math.round((pct / 100) * CELLS);
+  return `[${"█".repeat(filled)}${"░".repeat(CELLS - filled)}] ${String(Math.round(pct)).padStart(3)}%`;
+};
+
+// Runs the steps one after another with a progress bar each. `secs` is the (pretend) time
+// shown next to a finished step; the animation itself runs much faster than that.
+export const Sequence = ({ steps, outro }) => {
+  const [idx, setIdx] = useState(() => (reducedMotion() ? steps.length : 0));
+  const [pct, setPct] = useState(0);
+
+  useEffect(() => {
+    if (idx >= steps.length) return undefined;
+    const dur = Math.min(1400, Math.max(260, steps[idx].secs * 90));
+    const tick = 40;
+    let p = 0;
+    const id = setInterval(() => {
+      p += (100 * tick) / dur;
+      if (p >= 100) {
+        clearInterval(id);
+        setPct(0);
+        setIdx((i) => i + 1);
+      } else setPct(p);
+    }, tick);
+    return () => clearInterval(id);
+  }, [idx, steps]);
+
+  const done = steps.slice(0, Math.min(idx, steps.length));
+  return (
+    <div>
+      {done.map((st) => (
+        <div key={st.label} className="term-seq-row">
+          <span>[ok] {st.label}</span>
+          <span className="term-muted">{st.secs}s</span>
+        </div>
+      ))}
+      {idx < steps.length && (
+        <div className="term-out-line">
+          {barText(pct)}  {steps[idx].label}...
+        </div>
+      )}
+      {idx >= steps.length && (
+        <div className="term-out-line">
+          <strong className="term-strong">{outro}</strong>
+        </div>
+      )}
+    </div>
+  );
+};

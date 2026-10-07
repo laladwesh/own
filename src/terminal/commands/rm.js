@@ -8,11 +8,13 @@ export default {
   group: "fun",
   summary: "remove files (not really)",
   usage: "rm -rf /",
-  run(args) {
+  example: "rm -rf /",
+  run(args, ctx) {
     const flags = args.filter((a) => a.startsWith("-")).join("");
     const target = args.find((a) => !a.startsWith("-"));
     if (flags.includes("r") && flags.includes("f") && target === "/") {
       daemonEvent("rm");
+      ctx.discover?.("rm");
       const lines = [
         ...root.children.map((c) => `removing ${c.name}${c.type === "dir" ? "/" : ""} ...`),
         "removing /dev/null ...",

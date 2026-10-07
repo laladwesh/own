@@ -58,6 +58,7 @@ export default {
   group: "devops",
   summary: "projects as deployments (get deployments | get pods | describe | version)",
   usage: "kubectl get deployments|pods|cronjobs   |   kubectl describe deployment <name>   |   kubectl version",
+  example: "kubectl get deployments",
   subcommands: ["get", "describe", "version"],
   run(args, ctx) {
     const [sub, ...rest] = args;

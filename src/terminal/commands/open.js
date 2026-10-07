@@ -7,6 +7,7 @@ export default {
   group: "navigate",
   summary: "open a file or link in a new tab",
   usage: "open <file>",
+  example: "open resume.pdf",
   paths: true,
   run(args, ctx) {
     if (!args.length) return h(Muted, null, "usage: open <file>   (try: open resume.pdf)");

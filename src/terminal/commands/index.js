@@ -33,13 +33,33 @@ import terraform from "./terraform.js";
 import uptime from "./uptime.js";
 import top from "./top.js";
 import daemonCmd from "./daemon.js";
+import grep from "./grep.js";
+import wc from "./wc.js";
+import head from "./head.js";
+import sort from "./sort.js";
+import fortune from "./fortune.js";
+import daemonsay from "./daemonsay.js";
+import curl from "./curl.js";
+import deploy from "./deploy.js";
+import ssh from "./ssh.js";
+import tour from "./tour.js";
+import ping from "./ping.js";
+import vim from "./vim.js";
+import typespeed from "./typespeed.js";
+import htop from "./htop.js";
+import theme from "./theme.js";
+import hi from "./hi.js";
+import achievements from "./achievements.js";
 
 export const commands = [
   help, man, ls, cd, pwd, cat, tree, open, history, clear, exit,
   whoami, neofetch, git, hire,
   kubectl, docker, gh, systemctl, helm, terraform, uptime, top,
   scope, resistor, bin, hex, ohm,
-  snake, sudo, rm, date, daemonCmd, overdrive,
+  grep, wc, head, sort, theme,
+  deploy, htop, ssh, tour, ping, curl, hi,
+  snake, typespeed, achievements,
+  sudo, rm, date, daemonCmd, daemonsay, fortune, vim, overdrive,
 ];
 
-export const byName = Object.fromEntries(commands.map((c) => [c.name, c]));
+export const byName = Object.fromEntries(commands.flatMap((c) => [c.name, ...(c.aliases ?? [])].map((n) => [n, c])));

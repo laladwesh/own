@@ -1,22 +1,33 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { animate, motion, useMotionValue } from "framer-motion";
 import ScopeHud from "../scope/ScopeHud";
 import Terminal from "./Terminal";
 
+const SPRING = { type: "spring", stiffness: 300, damping: 30 };
 const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), Math.max(lo, hi));
-const ANIM_MS = 220;
-const CHIPS = ["help", "neofetch", "git log", "kubectl get deployments", "ls projects", "scope wave square"];
+const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// The window states. Only transform and opacity animate.
+const VARIANTS = {
+  open: { opacity: 1, scale: 1, y: 0 },
+  closing: { opacity: 0, scale: 0.6, y: 0 },
+  minimizing: { opacity: 0, scale: 0.4, y: 260 },
+  closed: { opacity: 0, scale: 0.6, y: 0 },
+  min: { opacity: 0, scale: 0.4, y: 260 },
+};
 
 const Hero = () => {
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const heroRef = useRef(null);
   const wrapRef = useRef(null);
+  const flipRef = useRef(null);
   const drag = useRef(null);
-  const termRef = useRef(null);
+  const rectBefore = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
 
   // open | closing | minimizing | closed | min
   const [win, setWin] = useState("open");
   const [maximized, setMaximized] = useState(false);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
   const [desktop, setDesktop] = useState(() => window.matchMedia("(min-width: 768px)").matches);
 
@@ -27,12 +38,30 @@ const Hero = () => {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  const leave = (anim) => {
-    const final = anim === "closing" ? "closed" : "min";
-    if (reduce) return setWin(final);
-    setWin(anim);
-    setTimeout(() => setWin(final), ANIM_MS);
+  // Maximise / restore: FLIP from the old rectangle with a spring (transform only).
+  const toggleMax = () => {
+    rectBefore.current = flipRef.current?.getBoundingClientRect() ?? null;
+    setMaximized((m) => !m);
   };
+
+  useLayoutEffect(() => {
+    const before = rectBefore.current;
+    rectBefore.current = null;
+    const el = flipRef.current;
+    if (!before || !el || reduced()) return;
+    const after = el.getBoundingClientRect();
+    if (!after.width || !after.height) return;
+    animate(
+      el,
+      {
+        x: [before.left - after.left, 0],
+        y: [before.top - after.top, 0],
+        scaleX: [before.width / after.width, 1],
+        scaleY: [before.height / after.height, 1],
+      },
+      SPRING
+    );
+  }, [maximized]);
 
   const canDrag = desktop && !maximized;
 
@@ -41,43 +70,55 @@ const Hero = () => {
       if (!canDrag || e.button > 0 || e.target.closest("button")) return;
       const r = wrapRef.current.getBoundingClientRect();
       const h = heroRef.current.getBoundingClientRect();
-      const baseLeft = r.left - offset.x;
-      const baseTop = r.top - offset.y;
+      const baseLeft = r.left - x.get();
+      const baseTop = r.top - y.get();
       drag.current = {
         sx: e.clientX,
         sy: e.clientY,
-        ox: offset.x,
-        oy: offset.y,
+        ox: x.get(),
+        oy: y.get(),
         minX: h.left - baseLeft,
         maxX: h.right - (baseLeft + r.width),
         minY: h.top - baseTop,
         maxY: h.bottom - (baseTop + r.height),
       };
+      wrapRef.current.style.willChange = "transform";
       e.currentTarget.setPointerCapture(e.pointerId);
       setDragging(true);
     },
     onPointerMove: (e) => {
       const d = drag.current;
       if (!d) return;
-      setOffset({
-        x: clamp(d.ox + e.clientX - d.sx, d.minX, d.maxX),
-        y: clamp(d.oy + e.clientY - d.sy, d.minY, d.maxY),
-      });
+      // Past the edge it resists (rubber band); on release it springs back inside.
+      const rx = d.ox + e.clientX - d.sx;
+      const ry = d.oy + e.clientY - d.sy;
+      const cx = clamp(rx, d.minX, d.maxX);
+      const cy = clamp(ry, d.minY, d.maxY);
+      x.set(cx + (rx - cx) * 0.25);
+      y.set(cy + (ry - cy) * 0.25);
     },
-    onPointerUp: () => {
-      drag.current = null;
-      setDragging(false);
-    },
-    onPointerCancel: () => {
-      drag.current = null;
-      setDragging(false);
-    },
+    onPointerUp: () => endDrag(),
+    onPointerCancel: () => endDrag(),
     onDoubleClick: (e) => {
-      if (canDrag && !e.target.closest("button")) setOffset({ x: 0, y: 0 });
+      if (canDrag && !e.target.closest("button")) {
+        animate(x, 0, SPRING);
+        animate(y, 0, SPRING);
+      }
     },
   };
 
+  function endDrag() {
+    const d = drag.current;
+    drag.current = null;
+    setDragging(false);
+    if (!d) return;
+    animate(x, clamp(x.get(), d.minX, d.maxX), SPRING);
+    animate(y, clamp(y.get(), d.minY, d.maxY), SPRING);
+    if (wrapRef.current) wrapRef.current.style.willChange = "";
+  }
+
   const hidden = win === "closed" || win === "min";
+  const transition = reduced() ? { duration: 0 } : SPRING;
 
   return (
     <section
@@ -94,31 +135,34 @@ const Hero = () => {
           </button>
         )}
 
-        <div
+        <motion.div
           ref={wrapRef}
           className={`term-wrap${maximized ? " term-wrap--max" : ""}${hidden ? " term-wrap--hidden" : ""}`}
-          style={maximized ? undefined : { transform: `translate(${offset.x}px, ${offset.y}px)` }}
+          style={maximized ? undefined : { x, y }}
         >
-          <div className={`term-anim${win === "closing" || win === "minimizing" ? ` term-anim--${win}` : ""}`}>
-            <Terminal
-              ref={termRef}
-              maximized={maximized}
-              draggable={canDrag}
-              dragging={dragging}
-              barProps={barProps}
-              onClose={() => leave("closing")}
-              onMinimize={() => leave("minimizing")}
-              onMaximize={() => setMaximized((m) => !m)}
-            />
-          </div>
-          <div className="term-chips">
-            {CHIPS.map((c) => (
-              <button key={c} type="button" className="term-chip" onClick={() => termRef.current?.run(c)}>
-                {c}
-              </button>
-            ))}
-          </div>
-        </div>
+          <motion.div
+            className="term-anim"
+            initial={{ opacity: 0, scale: 0.92, y: 0 }}
+            animate={VARIANTS[win]}
+            transition={transition}
+            onAnimationComplete={() => {
+              if (win === "closing") setWin("closed");
+              else if (win === "minimizing") setWin("min");
+            }}
+          >
+            <div ref={flipRef} className="term-flip">
+              <Terminal
+                maximized={maximized}
+                draggable={canDrag}
+                dragging={dragging}
+                barProps={barProps}
+                onClose={() => setWin("closing")}
+                onMinimize={() => setWin("minimizing")}
+                onMaximize={toggleMax}
+              />
+            </div>
+          </motion.div>
+        </motion.div>
       </div>
 
       {win === "min" && (

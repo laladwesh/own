@@ -17,6 +17,7 @@ export default {
   group: "navigate",
   summary: "print a file",
   usage: "cat <file>",
+  example: "cat about.txt",
   paths: true,
   run(args, ctx) {
     if (!args.length) return h(Muted, null, "usage: cat <file>");
@@ -27,6 +28,7 @@ export default {
         const res = resolve(ctx.cwd, a);
         if (!res) return h("div", { key: i }, h(Muted, null, `cat: ${a}: no such file or directory`));
         if (isDir(res.node)) return h("div", { key: i }, h(Muted, null, `cat: ${a}: is a directory`));
+        if (res.node.name === ".secrets") ctx.discover?.("secrets");
         return h("div", { key: i }, render(res.node));
       })
     );

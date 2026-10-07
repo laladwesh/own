@@ -25,6 +25,7 @@ export default {
   group: "ece",
   summary: "change the oscilloscope trace behind the page",
   usage: "scope freq <hz> | amp <div> | wave sine|square|triangle|sawtooth | ch2 on|off | freeze | run | fft | reset",
+  example: "scope wave square",
   subcommands: ["freq", "amp", "wave", "ch2", "freeze", "run", "fft", "reset"],
   run(args) {
     const [sub, arg] = args;

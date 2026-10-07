@@ -15,6 +15,7 @@ export default {
   group: "ece",
   summary: "Ohm's law: give any two of v, i, r",
   usage: "ohm v=5 r=220",
+  example: "ohm v=5 r=220",
   run(args) {
     const vals = {};
     for (const a of args) {

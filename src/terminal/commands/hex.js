@@ -7,6 +7,7 @@ export default {
   group: "ece",
   summary: "convert a number (decimal or 0x-prefixed hex)",
   usage: "hex <n>   e.g. hex 255  or  hex 0xff",
+  example: "hex ff",
   run(args) {
     const raw = args[0];
     // Bare hex digits like "ff" are read as hex.

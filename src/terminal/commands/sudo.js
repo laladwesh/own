@@ -5,6 +5,7 @@ export default {
   group: "fun",
   summary: "try it",
   usage: "sudo <anything>",
+  example: "sudo ls",
   run() {
     daemonEvent("sudo");
     return "nice try. permission denied.";

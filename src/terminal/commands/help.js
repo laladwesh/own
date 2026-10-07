@@ -1,13 +1,7 @@
 import { h } from "../h.js";
 import { Lines, Muted, Run, Strong } from "../ui.jsx";
+import { GROUPS } from "../groups.js";
 
-const GROUPS = [
-  ["navigate", "navigate"],
-  ["me", "me"],
-  ["devops", "devops"],
-  ["ece", "ECE tools"],
-  ["fun", "fun"],
-];
 
 export default {
   name: "help",
@@ -18,7 +12,7 @@ export default {
     const all = args.includes("--all");
     const lines = [];
     for (const [key, title] of GROUPS) {
-      const cmds = ctx.commands.filter((c) => c.group === key && (!c.secret || (all && ctx.unlocked)));
+      const cmds = ctx.commands.filter((c) => c.group === key && !c.hidden && (!c.secret || (all && ctx.unlocked)));
       if (!cmds.length) continue;
       lines.push(h(Strong, null, title));
       for (const c of cmds) {

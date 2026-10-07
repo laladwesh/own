@@ -45,6 +45,7 @@ export default {
   group: "devops",
   summary: "projects as containers, repositories as images",
   usage: "docker ps   |   docker images [--all] [--filter category=<slug>]",
+  example: "docker ps",
   subcommands: ["ps", "images"],
   run(args, ctx) {
     const [sub, ...rest] = args;

@@ -9,6 +9,7 @@ export default {
   group: "devops",
   summary: "fake install: deploy an engineer",
   usage: "helm install avinash --set role=devops",
+  example: "helm install avinash --set role=devops",
   subcommands: ["install"],
   run(args) {
     const [sub, name, ...rest] = args;

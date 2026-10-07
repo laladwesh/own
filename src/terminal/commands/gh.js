@@ -35,6 +35,7 @@ export default {
   group: "devops",
   summary: "experience as a pipeline run, achievements as releases",
   usage: "gh run view [--log]   |   gh release list",
+  example: "gh run view",
   subcommands: ["run", "release"],
   run(args) {
     const [sub, action, ...rest] = args;
