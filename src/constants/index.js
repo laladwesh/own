@@ -72,6 +72,7 @@ export const navLinks = [
   { id: "deployments", title: "deployments", primary: true },
   { id: "openSource", title: "open-source", primary: true },
   { id: "contact", title: "service.yaml", primary: true },
+  { id: "incidents", title: "incidents.log" },
   { id: "skills", title: "Dockerfile" },
   { id: "images", title: "images" },
   { id: "dashboard", title: "grafana" },

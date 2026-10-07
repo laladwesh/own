@@ -13,6 +13,7 @@ import deployYml from "../../.github/workflows/deploy.yml?raw";
 import { slug, startOf, hashOf } from "../lib/util.js";
 import { aboutSpec, dockerfileLines, projectLinks, serviceSpec } from "../lib/data.js";
 import { linesToText, yamlLines } from "../lib/yaml.js";
+import { incidentMarkdown, incidents } from "../lib/incidents.js";
 
 export { slug, startOf, hashOf };
 
@@ -69,6 +70,10 @@ export const root = dir("~", [
     )
   ),
   dir(
+    "incidents",
+    incidents.map((i) => file(`${i.id}.md`, incidentMarkdown(i)))
+  ),
+  dir(
     "education",
     educationList.map((e) => file("iitg.txt", [e.degree, e.content1.replace("Major: ", ""), e.title, e.duration].join("\n")))
   ),
@@ -94,6 +99,7 @@ export const root = dir("~", [
 export const SECTION_OF = {
   projects: "deployments",
   experience: "pipeline",
+  incidents: "incidents",
   skills: "skills",
   education: "education",
   achievements: "releases",

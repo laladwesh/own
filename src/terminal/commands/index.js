@@ -50,10 +50,12 @@ import htop from "./htop.js";
 import theme from "./theme.js";
 import hi from "./hi.js";
 import achievements from "./achievements.js";
+import journalctl from "./journalctl.js";
+import incidents from "./incidents.js";
 
 export const commands = [
   help, man, ls, cd, pwd, cat, tree, open, history, clear, exit,
-  whoami, neofetch, git, hire,
+  whoami, neofetch, git, hire, journalctl, incidents,
   kubectl, docker, gh, systemctl, helm, terraform, uptime, top,
   scope, resistor, bin, hex, ohm,
   grep, wc, head, sort, theme,

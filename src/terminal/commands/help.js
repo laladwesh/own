@@ -21,7 +21,7 @@ export default {
             "span",
             null,
             "  ",
-            h(Run, { cmd: `man ${c.name}`, run: ctx.run, title: `man ${c.name}` }, c.name.padEnd(10)),
+            h(Run, { cmd: `man ${c.name}`, run: ctx.run, title: `man ${c.name}` }, c.name.padEnd(12)),
             h(Muted, null, c.secret ? `${c.summary} [secret]` : c.summary)
           )
         );

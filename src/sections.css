@@ -896,3 +896,260 @@
 .table-row--pad {
   visibility: hidden;
 }
+
+/* ───────── Incidents (postmortems) ───────── */
+.incident-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+}
+
+.inc-head {
+  display: grid;
+  grid-template-columns: auto auto auto minmax(0, 1fr) auto;
+  gap: 4px 16px;
+  align-items: baseline;
+  width: 100%;
+  padding: 10px 12px;
+  text-align: left;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.inc-head:hover,
+.inc-head[aria-expanded="true"] {
+  border-color: var(--text);
+}
+
+.inc-sev {
+  font-weight: 700;
+}
+
+.inc-date,
+.inc-dur {
+  color: var(--muted);
+}
+
+.inc-id {
+  color: var(--muted);
+}
+
+.inc-title {
+  min-width: 0;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.inc-panel {
+  overflow: hidden;
+}
+
+.inc-panel-inner {
+  padding: 12px 0 0;
+}
+
+/* The printed report: a sheet of paper with an ink border. */
+.report {
+  margin-top: 12px;
+  padding: 24px;
+  background: var(--bg);
+  border: 1px solid var(--text);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.report-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--text);
+  font-size: 14px;
+}
+
+.report-title {
+  margin-top: 16px;
+}
+
+.report-sec {
+  margin-top: 24px;
+  max-width: 78ch;
+}
+
+.inc-label {
+  margin-bottom: 6px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.inc-code {
+  padding: 0 4px;
+  font-family: inherit;
+  font-size: 0.93em;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  overflow-wrap: anywhere;
+}
+
+/* Timeline: a vertical ink line with numbered steps. */
+.report-timeline {
+  position: relative;
+  list-style: none;
+  padding-left: 0;
+}
+
+.report-timeline::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 11px;
+  width: 1px;
+  background: var(--text);
+}
+
+.report-timeline li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 12px;
+  padding: 4px 0;
+}
+
+.report-step {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--bg);
+  background: var(--text);
+}
+
+.report-time {
+  color: var(--muted);
+}
+
+/* The bad command, in a small dark device. */
+.inc-term {
+  margin-top: 12px;
+  overflow: hidden;
+  color: #E6E6E6;
+  background: #0D0D0D;
+  border: 1px solid #2A2A2A;
+  border-radius: 4px;
+  box-shadow: 0 20px 40px -12px rgba(26, 26, 26, 0.35), 0 2px 4px rgba(26, 26, 26, 0.15);
+}
+
+.inc-term-bar {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid #2A2A2A;
+  background: #141414;
+}
+
+.inc-term-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: #5A5A5A;
+}
+
+.inc-term-body {
+  padding: 12px 14px;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+.inc-term-line {
+  white-space: pre;
+}
+
+.inc-term-muted {
+  color: #8A8A8A;
+}
+
+.inc-term-prompt {
+  color: #E8A33D;
+  font-weight: 700;
+}
+
+.inc-bad {
+  color: #0D0D0D;
+  background: #E8A33D;
+}
+
+.report-failed,
+.report-list,
+.report-actions {
+  list-style: none;
+}
+
+.report-failed li {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+.report-list li {
+  position: relative;
+  padding-left: 2ch;
+}
+
+.report-list li::before {
+  content: "-";
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+
+.report-actions li {
+  display: grid;
+  grid-template-columns: 4ch minmax(0, 1fr);
+  gap: 8px;
+}
+
+.report-box {
+  font-weight: 700;
+}
+
+.report-lesson {
+  padding-top: 12px;
+  border-top: 1px solid var(--text);
+  font-size: 19px;
+  font-style: italic;
+  line-height: 1.55;
+}
+
+.report-tags {
+  margin-top: 24px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 619px) {
+  .inc-head {
+    grid-template-columns: auto auto minmax(0, 1fr) auto;
+    column-gap: 12px;
+  }
+
+  .inc-title {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .report {
+    padding: 16px;
+  }
+
+  .report-lesson {
+    font-size: 17px;
+  }
+}

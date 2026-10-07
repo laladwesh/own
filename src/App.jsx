@@ -7,6 +7,7 @@ import {
   Hero,
   About,
   Pipeline,
+  Incidents,
   Skills,
   Deployments,
   Images,
@@ -39,6 +40,7 @@ const App = () => (
           <div className={styles.boxWidth}>
             <About />
             <Pipeline />
+            <Incidents />
             <Skills />
             <Deployments />
             <Images />
