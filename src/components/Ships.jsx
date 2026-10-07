@@ -3,6 +3,7 @@ import deployYml from "../../.github/workflows/deploy.yml?raw";
 import { siteDomain } from "../constants";
 import SectionHeading from "./SectionHeading";
 import { Manifest, ModeToggle } from "./Manifest";
+import StatusRack from "./StatusRack";
 
 // Each step is taken from .github/workflows/deploy.yml and nginx.conf.
 const STEPS = [
@@ -11,7 +12,7 @@ const STEPS = [
   ["SSH", "appleboy/ssh-action"],
   ["Oracle VM", "git reset --hard origin/master"],
   ["npm build", "npm install, npm run build"],
-  ["PM2", "pm2 serve dist :6012 --spa"],
+  ["PM2", "portfolio-static :6012"],
   ["Nginx", "proxy_pass localhost:6012"],
   [siteDomain, "live"],
 ];
@@ -19,6 +20,7 @@ const STEPS = [
 const SERVICES = [
   ["leetcode-api", ":4001", "/api/leetcode/"],
   ["github-api", ":4002", "/api/github/"],
+  ["status-api", ":4003", "/api/status"],
 ];
 
 // Turn the raw YAML text into Manifest lines.
@@ -78,6 +80,7 @@ const Ships = () => {
           </p>
         </div>
       )}
+      <StatusRack />
     </section>
   );
 };

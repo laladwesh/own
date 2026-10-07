@@ -1904,3 +1904,105 @@ a.inc-head:hover .inc-title {
 .contact-open {
   margin: 12px 0 0;
 }
+
+.report-replay {
+  margin-top: 16px;
+}
+
+.report-replay .btn {
+  min-height: 44px;
+}
+
+/* ───────── Live status rack (a small dark device) ───────── */
+.status-rack {
+  margin-top: 32px;
+  max-width: 640px;
+  color: #E6E6E6;
+  background: #0D0D0D;
+  border: 1px solid #2A2A2A;
+  border-radius: 4px;
+  box-shadow: 0 20px 40px -12px rgba(26, 26, 26, 0.35), 0 2px 4px rgba(26, 26, 26, 0.15);
+}
+
+.status-plate {
+  margin: 12px;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: #E6E6E6;
+  background: #141414;
+  border: 1px solid #2A2A2A;
+}
+
+.status-units {
+  margin: 0;
+  padding: 0 0 8px;
+  list-style: none;
+}
+
+.status-unit {
+  display: grid;
+  grid-template-columns: 12px minmax(0, 1.4fr) auto auto auto;
+  align-items: center;
+  gap: 4px 14px;
+  min-height: 48px;
+  padding: 8px 16px;
+  font-size: 14px;
+  background: #141414;
+  border-top: 1px solid #2A2A2A;
+}
+
+.status-unit:last-child {
+  border-bottom: 1px solid #2A2A2A;
+}
+
+.status-name {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.status-name--off {
+  color: #8A8A8A;
+  font-weight: 500;
+}
+
+.status-state,
+.status-latency,
+.status-ago {
+  color: #8A8A8A;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* Steady LEDs, no blinking. The word next to each one says the same thing. */
+.st-led {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+.st-led--up { background: #5FD38D; }
+.st-led--degraded { background: #E8A33D; }
+.st-led--down { background: #E5534B; }
+.st-led--off { background: #5A5A5A; }
+
+@media (max-width: 619px) {
+  .status-unit {
+    grid-template-columns: 12px minmax(0, 1fr) auto;
+  }
+
+  .status-latency {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .status-state {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .status-ago {
+    grid-column: 2 / 4;
+    grid-row: 3;
+  }
+}

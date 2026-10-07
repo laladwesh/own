@@ -2,7 +2,7 @@
 
 const KEY = "term-discovered";
 
-// Exactly 30. `label` is what the in-terminal toast says.
+// 31 now. `label` is what the in-terminal toast says.
 export const DISCOVERABLE = [
   { id: "help", label: "asked for help" },
   { id: "ls", label: "listed files" },
@@ -34,6 +34,7 @@ export const DISCOVERABLE = [
   { id: "theme", label: "changed the theme" },
   { id: "curl", label: "curled the site" },
   { id: "secrets", label: "found the secrets" },
+  { id: "replay", label: "survived INC-001" },
 ];
 
 const found = new Set();

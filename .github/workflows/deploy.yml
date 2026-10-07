@@ -54,6 +54,11 @@ jobs:
               && pm2 reload leetcode-api \
               || pm2 start server/leetcode-api/ecosystem.config.cjs
 
+            echo "Deploying status-api (health checks for the status rack)..."
+            pm2 describe status-api > /dev/null 2>&1 \
+              && pm2 reload status-api \
+              || pm2 start server/status-api/ecosystem.config.cjs
+
             echo "Deploying github-api proxy (token stays on the server)..."
             cd server/github-api
             npm install --production

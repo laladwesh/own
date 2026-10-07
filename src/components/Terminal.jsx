@@ -1,11 +1,12 @@
 import { forwardRef, memo, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { aboutMe, socialMedia } from "../constants";
 import { completeInfo, execute, ghostFor, visible } from "../terminal/engine.js";
 import { pathString } from "../terminal/fs.js";
-import { Ext, Snake } from "../terminal/ui.jsx";
+import { Ext, Lines, Run, Snake } from "../terminal/ui.jsx";
+import { createSession, promptOf, step as replayStep, suggestions as replaySuggestions } from "../terminal/replay.js";
 import { Htop, TypeSpeed, Vim } from "../terminal/modes.jsx";
 import { discover as discoverId, getDiscovered, total as discoverTotal } from "../terminal/discovery.js";
 import { GROUPS } from "../terminal/groups.js";
@@ -194,6 +195,9 @@ const Terminal = forwardRef(function Terminal(
   const [cwd, setCwdState] = useState([]);
   const [mode, setMode] = useState(null); // snake | vim | htop | typespeed
   const [ask, setAsk] = useState(null); // { spec, i, answers }
+  const [replay, setReplay] = useState(null); // an incident replay in progress (see terminal/replay.js)
+  const replayRef = useRef(null);
+  replayRef.current = replay;
   const [tour, setTour] = useState(null); // { i }
   const [search, setSearch] = useState(null); // { q, idx }
   const [value, setValue] = useState("");
@@ -310,12 +314,43 @@ const Terminal = forwardRef(function Terminal(
 
   // ── running a line ──
   const runRef = useRef(null);
+
+  // While a replay is running, every line goes to the replay engine instead of the shell.
+  const runReplay = useCallback(
+    (input) => {
+      const cur = replayRef.current;
+      if (!cur) return;
+      const res = replayStep(cur, input);
+      stick.current = true;
+      const lines = [...res.lines];
+      if (res.completed && res.link) {
+        lines.push(
+          <span key="postmortem">
+            {res.link.text} &rarr;{" "}
+            <Run cmd={res.link.cmd} run={(c) => runRef.current(c)}>
+              {res.link.path}
+            </Run>
+          </span>
+        );
+      }
+      push({ prompt: promptOf(cur), cmd: input, node: lines.length ? <Lines lines={lines} /> : null });
+      replayRef.current = res.ended ? null : res.session;
+      setReplay(replayRef.current);
+      if (res.completed) discover("replay");
+      flushToasts();
+    },
+    [push, discover, flushToasts]
+  );
   const run = useCallback(
     (line) => {
       skip();
       setPalette(false);
       setTabList(null);
       const trimmed = line.trim();
+      if (replayRef.current) {
+        runReplay(trimmed);
+        return;
+      }
       const promptNow = `avinash@iitg:${pathString(cwdRef.current)}$`;
       let didClear = false;
       let node = null;
@@ -346,6 +381,12 @@ const Terminal = forwardRef(function Terminal(
           startMode: (m) => setMode(m),
           startTour: () => startTourRef.current(),
           ask: (spec) => setAsk({ spec, i: 0, answers: {} }),
+          startReplay: (script) => {
+            const s = createSession(script);
+            replayRef.current = s;
+            setReplay(s);
+            return s;
+          },
         };
         try {
           node = execute(trimmed, ctx);
@@ -358,7 +399,7 @@ const Terminal = forwardRef(function Terminal(
       if (!didClear) push({ prompt: promptNow, cmd: trimmed, node });
       flushToasts();
     },
-    [skip, setCwd, clearScreen, onClose, push, discover, flushToasts, setTheme]
+    [skip, setCwd, clearScreen, onClose, push, discover, flushToasts, setTheme, runReplay]
   );
   runRef.current = run;
   useImperativeHandle(ref, () => ({ run }), [run]);
@@ -368,6 +409,18 @@ const Terminal = forwardRef(function Terminal(
   const navigate = useNavigate();
   const navigateRef = useRef(navigate);
   navigateRef.current = navigate;
+
+  // /?replay=INC-001 (the link on an incident report) starts that replay in this terminal.
+  const location = useLocation();
+  useEffect(() => {
+    const id = new URLSearchParams(location.search).get("replay");
+    if (!id) return undefined;
+    const t = setTimeout(() => {
+      runRef.current(`replay ${id}`);
+      navigateRef.current({ pathname: "/", search: "" }, { replace: true });
+    }, 400);
+    return () => clearTimeout(t);
+  }, [location.search]);
   startTourRef.current = () => {
     const token = { cancel: false };
     tourToken.current = token;
@@ -544,9 +597,13 @@ const Terminal = forwardRef(function Terminal(
   const atEnd = caret >= value.length;
   const ghostText = useMemo(() => {
     if (!interactive || !atEnd) return "";
+    if (replay) {
+      const c = replaySuggestions(replay).find((x) => x.startsWith(value) && x.length > value.length);
+      return c ? c.slice(value.length) : "";
+    }
     if (!value) return GHOSTS[ghostIdx];
     return ghostFor(value, cwdRef.current, unlockedRef.current, histRef.current);
-  }, [interactive, atEnd, value, ghostIdx, cwd, histVersion]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [interactive, atEnd, value, ghostIdx, cwd, histVersion, replay]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const acceptGhost = useCallback(
     (andRun) => {
@@ -671,10 +728,10 @@ const Terminal = forwardRef(function Terminal(
     } else if (e.key === "Enter") {
       e.preventDefault();
       submit();
-    } else if (e.key === "ArrowUp" && !ask) {
+    } else if (e.key === "ArrowUp" && !ask && !replay) {
       e.preventDefault();
       if (histIdx.current > 0) setInput(histRef.current[--histIdx.current]);
-    } else if (e.key === "ArrowDown" && !ask) {
+    } else if (e.key === "ArrowDown" && !ask && !replay) {
       e.preventDefault();
       if (histIdx.current < histRef.current.length - 1) setInput(histRef.current[++histIdx.current]);
       else {
@@ -687,6 +744,15 @@ const Terminal = forwardRef(function Terminal(
     } else if (e.key === "Tab") {
       e.preventDefault();
       if (ask) return;
+      if (replay) {
+        // Tab walks through the ideas for this step that start with what you typed.
+        const list = replaySuggestions(replay).filter((x) => x.startsWith(value) || x === value);
+        if (list.length) {
+          const at = list.indexOf(value);
+          setInput(list[(at + 1) % list.length]);
+        }
+        return;
+      }
       if (ghostText) {
         acceptGhost(false);
         return;
@@ -703,6 +769,11 @@ const Terminal = forwardRef(function Terminal(
         push({ prompt: ask.spec.steps[ask.i].label, cmd: `${value}^C` });
         push({ node: "cancelled." });
         setAsk(null);
+      } else if (replay) {
+        push({ prompt: promptOf(replay), cmd: `${value}^C` });
+        push({ node: "replay ended. Nothing was harmed." });
+        replayRef.current = null;
+        setReplay(null);
       } else push({ prompt, cmd: `${value}^C`, node: null });
       setInput("");
     }
@@ -740,7 +811,7 @@ const Terminal = forwardRef(function Terminal(
     requestAnimationFrame(() => inputRef.current?.focus({ preventScroll: true }));
   };
 
-  const promptLabel = ask ? ask.spec.steps[ask.i].label : prompt;
+  const promptLabel = ask ? ask.spec.steps[ask.i].label : replay ? promptOf(replay) : prompt;
   const searchHit = search ? searchMatch(search) : "";
 
   return (

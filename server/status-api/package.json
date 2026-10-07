@@ -1,0 +1,11 @@
+{
+  "name": "status-api",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Health checks for the portfolio's own services. Returns only name, status, latency and check time. No dependencies.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  }
+}

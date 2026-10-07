@@ -10,7 +10,7 @@ import { isDiscoverable } from "./discovery.js";
 export { tokenize };
 
 // These unlock only when something specific happens, not when the command is typed.
-const DISCOVER_LATER = new Set(["rm", "vim", "typespeed"]);
+const DISCOVER_LATER = new Set(["rm", "vim", "typespeed", "replay"]);
 
 const distance = (a, b) => {
   const dp = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);

@@ -65,6 +65,7 @@ export default defineConfig({
     // Local stand-ins for the nginx routes used in production.
     proxy: {
       '/api/github': { target: 'http://127.0.0.1:4002', rewrite: (p) => p.replace(/^\/api\/github/, '') },
+      '/api/status': { target: 'http://127.0.0.1:4003', rewrite: () => '/status' },
       '/api/leetcode': { target: 'http://127.0.0.1:4001', rewrite: (p) => p.replace(/^\/api\/leetcode/, '') },
     },
   },

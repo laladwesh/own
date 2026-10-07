@@ -1,5 +1,7 @@
 import { isDraftIncident, mergedCommand } from "../lib/incidents.js";
 import { DRAFT_BANNER } from "../lib/drafts.js";
+import { Link } from "react-router-dom";
+import { findReplay } from "../terminal/replays/index.js";
 import { DIAGRAMS } from "./IncidentDiagrams";
 
 // `code` in the data becomes an inline code span.
@@ -67,6 +69,14 @@ export const Report = ({ incident: inc, titleAs: Title = "h1" }) => {
       )}
     </p>
     <Title className="sub-heading report-title">{inc.title}</Title>
+
+    {findReplay(inc.id) && (
+      <p className="report-replay">
+        <Link to={`/?replay=${inc.id}`} className="btn">
+          replay this incident &rarr;
+        </Link>
+      </p>
+    )}
 
     <section className="report-sec">
       <Label>IMPACT</Label>

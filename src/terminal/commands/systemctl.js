@@ -2,6 +2,7 @@ import { h } from "../h.js";
 import { Lines, Muted } from "../ui.jsx";
 import { aboutMe, educationList } from "../../constants/index.js";
 import { currentPosition } from "../../lib/data.js";
+import { ServicesLine } from "../statusUi.jsx";
 
 // "July 2023 – Present" -> "Jul 2023"
 const since = educationList[0].duration.split(" – ")[0].replace(/^(\w{3})\w*/, "$1");
@@ -22,6 +23,7 @@ export default {
         `   Active: active (running) since ${since}`,
         `     Role: ${currentPosition.title}`,
         `    Where: ${educationList[0].title}`,
+        h(ServicesLine, { key: "services" }),
       ],
     });
   },
