@@ -1355,3 +1355,129 @@ a.inc-head:hover .inc-title {
 .copy-status:empty {
   display: none;
 }
+
+/* ───────── Open source ───────── */
+.os-stats {
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+}
+
+.os-sub {
+  margin: 40px 0 12px;
+}
+
+.os-chart {
+  margin: 12px 0 0;
+  padding: 16px 16px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.os-chart-scroll {
+  overflow-x: auto;
+}
+
+.os-chart-svg {
+  display: block;
+  width: 100%;
+  min-width: 600px;
+  height: auto;
+  color: var(--text);
+  font-family: inherit;
+}
+
+.os-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.os-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 16px;
+  text-align: left;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.os-card:hover {
+  border-color: var(--text);
+}
+
+.os-card-org {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.os-card-name {
+  font-family: "Clash Display", "JetBrains Mono", sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.os-card-meta {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.os-diff {
+  display: block;
+  height: 6px;
+  margin: 8px 0 2px;
+  background: var(--bg);
+  border: 1px solid var(--text);
+}
+
+.os-diff-add {
+  display: block;
+  height: 100%;
+  background: var(--text);
+}
+
+/* The latest pull requests, drawn as a git log: one rail, one node each. */
+.os-log {
+  position: relative;
+  padding-left: 0;
+  list-style: none;
+}
+
+.os-log::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 5px;
+  width: 1px;
+  background: var(--text);
+}
+
+.os-log-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 11px minmax(0, 1fr);
+  gap: 16px;
+  padding: 6px 0;
+}
+
+.os-log-node {
+  width: 11px;
+  height: 11px;
+  margin-top: 7px;
+  background: var(--text);
+}
+
+.os-log-title {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.os-log-meta {
+  color: var(--muted);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
