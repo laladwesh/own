@@ -671,25 +671,35 @@
   margin: 12px 0 0;
 }
 
+/* The heatmap fills its panel: every week is an equal column and every day a square, so the
+   cells grow with the width. Narrow screens keep a minimum size and scroll sideways. */
 .heatmap {
   display: flex;
-  gap: 3px;
+  gap: 4px;
+  width: 100%;
+  min-width: 680px;
 }
 
 .heat-col {
   display: flex;
+  flex: 1 1 0;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
+  min-width: 0;
 }
 
 .heat-cell {
-  display: inline-block;
-  width: 11px;
-  height: 11px;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   background: var(--border);
 }
 
 .heat-cell--legend {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  aspect-ratio: auto;
   margin: 0 1px;
   vertical-align: middle;
 }
