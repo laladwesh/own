@@ -1427,6 +1427,7 @@ a.inc-head:hover .inc-title {
 
 .os-diff {
   display: block;
+  align-self: stretch;
   height: 6px;
   margin: 8px 0 2px;
   background: var(--bg);

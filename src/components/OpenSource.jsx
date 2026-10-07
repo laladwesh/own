@@ -99,12 +99,18 @@ const Activity = ({ months }) => {
                 <title>{`${m.key}: ${m.count} pull request${m.count === 1 ? "" : "s"}`}</title>
                 {h > 0 && <rect x={x} y={base - h} width={bar} height={h} fill="var(--text)" />}
                 {m.count > 0 && (
-                  <text x={x + bar / 2} y={base - h - 5} textAnchor="middle" fontSize="11" fill="var(--muted)">
+                  <text x={x + bar / 2} y={base - h - 5} textAnchor="middle" fontSize="9" fill="var(--muted)">
                     {m.count}
                   </text>
                 )}
                 {m.month % 3 === 1 && (
-                  <text x={x + bar / 2} y={base + 18} textAnchor="middle" fontSize="11" fill="var(--muted)">
+                  <text
+                    x={i === 0 ? x : x + bar / 2}
+                    y={base + 16}
+                    textAnchor={i === 0 ? "start" : "middle"}
+                    fontSize="9"
+                    fill="var(--muted)"
+                  >
                     {`${MONTHS[m.month - 1]} ${String(m.year).slice(2)}`}
                   </text>
                 )}
