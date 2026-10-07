@@ -5,7 +5,7 @@
 // rootCause, whatFailed[], resolution[], actionItems[] {done, text}, lesson, tags[].
 // A draft is any incident containing the text NEEDS CONFIRMATION in square brackets: it shows
 // in `npm run dev` only (see src/lib/drafts.js and `npm run drafts`).
-// Optional: status, kind ("outage" | "operational"), credits, diagram (id of a schematic),
+// Optional: status, kind ("outage" | "operational" | "near-miss"), credits, diagram (id of a schematic),
 // badCommand { pasted[] }.
 export const incidents = [
   {
@@ -213,5 +213,36 @@ export const incidents = [
     actionItems: [{ done: true, text: "Export and diff the full DNS zone before any nameserver change" }],
     lesson: "A DNS move isn't 'the website works'. Email is part of the zone too, and it fails silently.",
     tags: ["dns", "email", "mx", "spf", "dkim"],
+  },
+  {
+    id: "INC-006",
+    kind: "near-miss",
+    status: "[NEEDS CONFIRMATION: RESOLVED or OPEN]",
+    title: "The cloud account running a client's production apps wasn't mine",
+    date: "2026-07",
+    severity: "SEV-2",
+    duration: "Caught before impact",
+    impact:
+      "The Oracle Cloud tenancy hosting a client's production apps was owned by a friend's institutional email. Billing OTPs went to them, and a forgotten block volume was generating recurring charges. If that email had been deactivated or the bill left unpaid, the apps could have gone down with no way for me to fix it.",
+    summary:
+      "While recovering from INC-001, I checked who actually controlled the account. My own login had Administrator access, but ownership, billing and OTPs were tied to someone else's email. I worked out what I could change, and how to remove the recurring charge.",
+    timeline: [
+      { event: "During the INC-001 recovery, reviewed the cloud account's users, ownership and billing" },
+      { event: "Found the tenancy owner was a friend's institutional email; billing OTPs went there" },
+      { event: "Confirmed my own account was an active Administrator user" },
+      { event: "Found the recurring charge came from a block volume, not the free-tier VM" },
+      { event: "[NEEDS CONFIRMATION: what happened next: block volume deleted? ownership/notification email changed? anything else?]" },
+    ],
+    rootCause:
+      "The account was created by whoever was available at the time, and nobody wrote down who owned what. Ownership, billing and access were three different people's problem.",
+    whatFailed: [],
+    resolution: ["[NEEDS CONFIRMATION]"],
+    actionItems: [
+      { done: true, text: "Verified my own Administrator access" },
+      { done: false, text: "Ownership and billing contacts that the people running production can actually reach [NEEDS CONFIRMATION]" },
+    ],
+    lesson:
+      "Who owns the account is part of the infrastructure. You can have perfect backups and still lose everything because the billing email belongs to someone who graduated.",
+    tags: ["cloud", "oracle-cloud", "billing", "access-control"],
   },
 ];

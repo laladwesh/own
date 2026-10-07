@@ -1,7 +1,7 @@
 ---
 title: "What I'm learning: Kubernetes, ArgoCD and Terraform"
 date: "2026-10"
-updated: "2026-10-07"
+updated: "2026-10-08"
 summary: "A learning log. I run production apps on one VM with Docker, PM2 and Nginx. Here is what I am learning next, why, and the plan."
 tags: [kubernetes, argocd, terraform, learning]
 ---
@@ -15,6 +15,10 @@ I have learned Kubernetes, ArgoCD and Terraform, but I have not needed them at p
 ## Why learn them anyway
 
 So that when something outgrows one VM, I already know the path. I do not want to pick up a new platform in the middle of a bad week. Learning it while nothing is on fire is cheaper.
+
+## Done so far
+
+- [x] Grafana + Prometheus monitoring on my VM, including PM2 process metrics (app up/down, CPU, memory, restarts), behind Nginx + SSL
 
 ## The plan
 
