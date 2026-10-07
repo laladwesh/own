@@ -41,7 +41,7 @@ const Wide = () => {
         <g key={cy}>
           <path d={`M229 122 L356 ${cy} M384 ${cy} L520 ${cy}`} fill="none" stroke="currentColor" strokeWidth="1.5" />
           <Node x={370} y={cy} />
-          <text x="370" y={cy - 22} textAnchor="middle" fontSize="10.5" fill="var(--muted)">
+          <text x="452" y={cy - 6} textAnchor="middle" fontSize="10" fill="var(--muted)">
             {CAP}
           </text>
           <Box x="520" y={cy - 22} w="120" h="44">
