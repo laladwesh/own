@@ -1299,6 +1299,31 @@
   }
 }
 
+/* Tablets and small laptops: six columns leave the title a sliver, so stack the row here too. */
+@media (min-width: 620px) and (max-width: 899px) {
+  .inc-head {
+    grid-template-columns: auto auto minmax(0, 1fr);
+  }
+
+  .inc-title {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .inc-kind {
+    grid-column: 1 / 3;
+    grid-row: 3;
+    justify-self: start;
+  }
+
+  .inc-dur {
+    grid-column: 3;
+    grid-row: 3;
+    max-width: none;
+    font-size: 13px;
+  }
+}
+
 /* ───────── Incident pages ───────── */
 a.inc-head {
   text-decoration: none;
