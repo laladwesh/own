@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { getJson } from "../lib/api";
 import { aboutMe, leetcodeUrl } from "../constants";
 import SectionHeading from "./SectionHeading";
@@ -12,8 +13,14 @@ const Stat = ({ label, value, sub }) => (
   </div>
 );
 
-// Heatmap from a contiguous list of days [{ date, count }]. Four ink levels.
-const Heatmap = ({ days, caption }) => {
+const dayLabel = (iso) =>
+  new Date(`${iso}T00:00:00`).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
+
+// Heatmap from a contiguous list of days [{ date, count }]. Four ink levels. Hover (or tap) a
+// day to see its date and count.
+const Heatmap = ({ days, caption, unit = "contributions" }) => {
+  const [tip, setTip] = useState(null);
+
   const { weeks, max } = useMemo(() => {
     const cols = [];
     let col = [];
@@ -32,17 +39,49 @@ const Heatmap = ({ days, caption }) => {
 
   const level = (c) => (c === 0 ? 0 : Math.min(4, Math.ceil((c / max) * 4)));
 
+  const show = (e) => {
+    const cell = e.target.closest?.(".heat-cell[data-date]");
+    if (!cell) return setTip(null);
+    const r = cell.getBoundingClientRect();
+    setTip({ x: r.left + r.width / 2, y: r.top, date: cell.dataset.date, count: Number(cell.dataset.count) });
+  };
+
+  useEffect(() => {
+    if (!tip) return undefined;
+    const hide = () => setTip(null);
+    window.addEventListener("scroll", hide, { passive: true });
+    return () => window.removeEventListener("scroll", hide);
+  }, [tip]);
+
   return (
     <figure className="heatmap-wrap">
-      <div className="heatmap" role="img" aria-label={caption}>
+      <div className="heatmap" role="img" aria-label={caption} onPointerOver={show} onPointerDown={show} onPointerLeave={() => setTip(null)}>
         {weeks.map((w, i) => (
           <div key={i} className="heat-col">
             {w.map((d, j) => (
-              <span key={j} className="heat-cell" data-l={d ? level(d.count) : "x"} title={d ? `${d.date}: ${d.count}` : undefined} />
+              <span
+                key={j}
+                className="heat-cell"
+                data-l={d ? level(d.count) : "x"}
+                data-date={d?.date}
+                data-count={d?.count}
+              />
             ))}
           </div>
         ))}
       </div>
+      {tip &&
+        createPortal(
+          <div
+            className="heat-tip"
+            role="status"
+            style={{ left: Math.min(Math.max(tip.x, 90), window.innerWidth - 90), top: tip.y }}
+          >
+            <span className="heat-tip-date">{dayLabel(tip.date)}</span>
+            <span>{tip.count === 0 ? `No ${unit}` : `${tip.count.toLocaleString("en-US")} ${tip.count === 1 ? unit.replace(/s$/, "") : unit}`}</span>
+          </div>,
+          document.body
+        )}
       <figcaption className="panel-sub">
         {caption} / less{" "}
         {[0, 1, 2, 3, 4].map((l) => (
@@ -192,7 +231,7 @@ const LeetCodePanels = () => {
       {days.length > 0 && (
         <div className="panel panel--wide">
           <p className="panel-label">Submission heatmap / last 12 months</p>
-          <Heatmap days={days} caption="LeetCode submissions" />
+          <Heatmap days={days} caption="LeetCode submissions" unit="submissions" />
         </div>
       )}
     </div>
