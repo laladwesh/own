@@ -37,6 +37,8 @@ try {
 const GH_TOKEN   = process.env.VITE_GH_TOKEN || process.env.GITHUB_TOKEN;
 const GROQ_KEY   = process.env.GROQ_API_KEY;
 const GEMINI_KEY = process.env.GEMINI_API_KEY;
+// Groq retires models over time — override with GROQ_MODEL in .env if this one disappears.
+const GROQ_MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
 const USERNAME   = "laladwesh";
 const OUT_FILE   = join(ROOT, "src/data/github-projects.json");
 
@@ -52,7 +54,7 @@ if (!GROQ_KEY && !GEMINI_KEY) {
 // ── AI provider selection ─────────────────────────────────────────────────────
 // Groq is preferred: free, 30 RPM, no quota headaches
 const PROVIDER = GROQ_KEY ? "groq" : "gemini";
-console.log(`ℹ  AI provider: ${PROVIDER === "groq" ? "Groq (llama-3.3-70b)" : "Gemini"}\n`);
+console.log(`ℹ  AI provider: ${PROVIDER === "groq" ? `Groq (${GROQ_MODEL})` : "Gemini"}\n`);
 
 // Groq: 30 RPM → 2.5s between calls
 // Gemini free tier: 15 RPM → 4.5s between calls
@@ -137,13 +139,14 @@ async function askGroq(prompt) {
       Authorization: `Bearer ${GROQ_KEY}`,
     },
     body: JSON.stringify({
-      model: "llama-3.3-70b-versatile",
+      model: GROQ_MODEL,
       messages: [
         { role: "system", content: "You are a GitHub repository analyzer. Always respond with valid JSON only — no markdown fences." },
         { role: "user", content: prompt },
       ],
       temperature: 0.2,
-      max_tokens: 700,
+      max_tokens: 1500, // gpt-oss spends part of this on reasoning
+      reasoning_effort: "low",
       response_format: { type: "json_object" },
     }),
   });
@@ -265,6 +268,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 async function main() {
+  let previous = new Map();
+  try { previous = new Map(JSON.parse(readFileSync(OUT_FILE, "utf-8")).map((p) => [p.name, p])); } catch {}
+
   console.log("⟳  Fetching repositories from GitHub…");
   const repos = await fetchAllRepos();
   console.log(`✓  Found ${repos.length} non-fork repos\n`);
@@ -302,10 +308,17 @@ async function main() {
 
       console.log("✓");
     } catch (err) {
-      console.log(`⚠  ${err.message}`);
+      const prev = previous.get(repo.name);
+      if (prev) results.push(prev); // keep the last good summary instead of dropping the repo
+      console.log(`⚠  ${err.message.slice(0, 140)}${prev ? " (kept previous entry)" : ""}`);
     }
 
     if (i < repos.length - 1) await sleep(INTER_DELAY);
+  }
+
+  if (!results.length) {
+    console.error("\n❌  No repos were summarised — leaving " + OUT_FILE + " untouched.");
+    process.exit(1);
   }
 
   results.sort((a, b) => b.stars - a.stars || new Date(b.updatedAt) - new Date(a.updatedAt));
