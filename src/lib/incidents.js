@@ -15,14 +15,12 @@ export const logLine = (inc) => `[${inc.severity}] ${inc.date}  ${inc.id}  ${inc
 // Plain-text versions of the schematics (the terminal and the markdown file use these).
 export const DIAGRAM_ASCII = {
   "ghost-oa-fanout": [
-    "                    registered ∩ attended",
-    "  +- - - - - - - -+",
-    "  : GHOST OA      :   +-----(∩)-----> ROLE A",
-    "  : 1 candidate   :---+-----(∩)-----> ROLE B",
-    "  : list /        :   +-----(∩)-----> ROLE C",
-    "  : 1 attendance  :",
-    "  +- - - - - - - -+",
-    "  deleted after distribute",
+    "  +- - - - - - - - - -+       registered ∩ attended",
+    "  :  GHOST OA         :  +--(∩)--> ROLE A",
+    "  :  1 candidate list :--+--(∩)--> ROLE B",
+    "  :  / 1 attendance   :  +--(∩)--> ROLE C",
+    "  +- - - - - - - - - -+",
+    "   deleted after distribute",
     "",
     "  A only -> appears in A only",
     "  in list, no role -> skipped",
