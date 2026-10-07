@@ -1,20 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { close, menu } from "../assets";
 import { navLinks } from "../constants";
 import { scrollToSection } from "../lib/helperFunctions";
 
-const PRIMARY = navLinks.filter((n) => n.primary);
-const MORE = navLinks.filter((n) => !n.primary);
-
 const Navbar = () => {
-  const [moreOpen, setMoreOpen] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("");
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const moreRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -28,34 +23,28 @@ const Navbar = () => {
       (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
       { rootMargin: "-45% 0px -50% 0px" }
     );
+    if (pathname !== "/") return () => io.disconnect();
     navLinks.forEach((n) => {
       const el = document.getElementById(n.id);
       if (el) io.observe(el);
     });
     return () => io.disconnect();
-  }, []);
+  }, [pathname]);
 
-  useEffect(() => {
-    if (!moreOpen) return;
-    const onDown = (e) => {
-      if (moreRef.current && !moreRef.current.contains(e.target)) setMoreOpen(false);
-    };
-    const onKey = (e) => e.key === "Escape" && setMoreOpen(false);
-    document.addEventListener("mousedown", onDown);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("mousedown", onDown);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [moreOpen]);
+  // A page of its own is active while you are on it (or on something inside it).
+  const isActive = (n) => {
+    if (n.to) {
+      if (n.to === "/case-studies") return pathname === n.to || pathname.startsWith("/projects/");
+      return pathname === n.to || pathname.startsWith(`${n.to}/`);
+    }
+    return pathname === "/" && active === n.id;
+  };
 
-  const linkCls = (id) =>
-    `nav-link${active === id ? " nav-link--active" : ""}`;
+  const linkCls = (n) => `nav-link${isActive(n) ? " nav-link--active" : ""}`;
 
   const go = (id) => {
-    setMoreOpen(false);
     setToggle(false);
-    // Some entries are pages of their own (notes), not sections.
+    // Most entries are pages of their own; about and contact are sections of the homepage.
     const page = navLinks.find((n) => n.id === id)?.to;
     if (page) {
       navigate(page);
@@ -73,29 +62,13 @@ const Navbar = () => {
       </Link>
 
       <ul className="list-none lg:flex hidden items-center gap-5">
-        {PRIMARY.map((n) => (
+        {navLinks.map((n) => (
           <li key={n.id}>
-            <button type="button" className={linkCls(n.id)} aria-current={active === n.id ? "true" : undefined} onClick={() => go(n.id)}>
+            <button type="button" className={linkCls(n)} aria-current={isActive(n) ? "true" : undefined} onClick={() => go(n.id)}>
               {n.title}
             </button>
           </li>
         ))}
-        <li className="relative" ref={moreRef}>
-          <button type="button" className="nav-link" aria-expanded={moreOpen} onClick={() => setMoreOpen((o) => !o)}>
-            More
-          </button>
-          {moreOpen && (
-            <ul className="nav-more">
-              {MORE.map((n) => (
-                <li key={n.id}>
-                  <button type="button" className={`${linkCls(n.id)} nav-more-item`} onClick={() => go(n.id)}>
-                    {n.title}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </li>
       </ul>
 
       <div className="lg:hidden flex items-center">
@@ -111,7 +84,7 @@ const Navbar = () => {
           <ul className="nav-mobile sidebar">
             {navLinks.map((n) => (
               <li key={n.id}>
-                <button type="button" className={linkCls(n.id)} onClick={() => go(n.id)}>
+                <button type="button" className={linkCls(n)} aria-current={isActive(n) ? "true" : undefined} onClick={() => go(n.id)}>
                   {n.title}
                 </button>
               </li>

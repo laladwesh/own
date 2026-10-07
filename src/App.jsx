@@ -12,6 +12,7 @@ import IncidentPage from "./pages/IncidentPage";
 import CaseStudyPage from "./pages/CaseStudyPage";
 import NotesIndex from "./pages/NotesIndex";
 import CaseStudiesIndex from "./pages/CaseStudiesIndex";
+import SitePage from "./pages/SitePage";
 import NotePage from "./pages/NotePage";
 import NotFound from "./pages/NotFound";
 
@@ -35,6 +36,9 @@ const App = () => {
             <Route path="/incidents" element={<IncidentsIndex />} />
             <Route path="/incidents/:id" element={<IncidentPage />} />
             <Route path="/case-studies" element={<CaseStudiesIndex />} />
+            <Route path="/work" element={<SitePage page="work" />} />
+            <Route path="/background" element={<SitePage page="background" />} />
+            <Route path="/infra" element={<SitePage page="infra" />} />
             <Route path="/projects/:slug" element={<CaseStudyPage />} />
             <Route path="/notes" element={<NotesIndex />} />
             <Route path="/notes/:slug" element={<NotePage />} />

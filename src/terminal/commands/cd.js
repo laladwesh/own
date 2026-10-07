@@ -5,7 +5,7 @@ import { resolve, isDir, SECTION_OF } from "../fs.js";
 export default {
   name: "cd",
   group: "navigate",
-  summary: "change directory (also scrolls the page to that section)",
+  summary: "change directory (also opens that part of the site)",
   usage: "cd [path]   |   cd ..",
   example: "cd projects",
   paths: true,
@@ -20,6 +20,10 @@ export default {
       return h(Muted, null, `opening /${res.path[0]}`);
     }
     const section = SECTION_OF[res.path[0]];
+    if (section?.startsWith("/")) {
+      ctx.navigate(section);
+      return h(Muted, null, `opening ${section.split("#")[0]}`);
+    }
     if (section) ctx.scrollTo(section);
     return null;
   },

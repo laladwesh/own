@@ -66,22 +66,16 @@ export const leetcodeUrl = "https://leetcode.com/u/ibXDVQOY8i/";
 export const siteDomain = "avinashgupta.in";
 export const callToAction = "https://www.linkedin.com/in/avinash-gupta-58171828a/";
 
+// `to` is a page of its own; the others are sections of the homepage.
 export const navLinks = [
-  { id: "about", title: "about.yaml", primary: true },
-  { id: "pipeline", title: "pipeline", primary: true },
-  { id: "deployments", title: "deployments", primary: true },
-  { id: "openSource", title: "open-source", primary: true },
-  { id: "contact", title: "service.yaml", primary: true },
-  { id: "incidents", title: "incidents.log" },
-  { id: "caseStudies", title: "case-studies" },
+  { id: "about", title: "about" },
+  { id: "work", title: "work", to: "/work" },
+  { id: "caseStudies", title: "case-studies", to: "/case-studies" },
+  { id: "incidents", title: "incidents", to: "/incidents" },
   { id: "notes", title: "notes", to: "/notes" },
-  { id: "skills", title: "Dockerfile" },
-  { id: "images", title: "images" },
-  { id: "dashboard", title: "grafana" },
-  { id: "releases", title: "releases" },
-  { id: "education", title: "education.yaml" },
-  { id: "cronjobs", title: "cronjobs" },
-  { id: "ships", title: "deploy.yml" },
+  { id: "infra", title: "infra", to: "/infra" },
+  { id: "background", title: "background", to: "/background" },
+  { id: "contact", title: "contact" },
 ];
 
 export const educationList = [

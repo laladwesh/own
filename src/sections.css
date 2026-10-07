@@ -2125,3 +2125,46 @@ a.inc-head:hover .inc-title {
   font-size: 13px;
   color: var(--muted);
 }
+
+/* ───────── Homepage: Explore listing, and the pages that hold the moved sections ───────── */
+.explore-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.explore-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 16ch) minmax(0, 1fr);
+  gap: 4px 24px;
+  align-items: baseline;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.explore-list li:hover {
+  border-color: var(--text);
+}
+
+.explore-name {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.explore-note {
+  color: var(--muted);
+}
+
+@media (max-width: 619px) {
+  .explore-list li {
+    grid-template-columns: 1fr;
+  }
+}
+
+.site-page-sections .section:first-child {
+  margin-top: 48px;
+}

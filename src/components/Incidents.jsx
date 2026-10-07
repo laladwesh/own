@@ -26,12 +26,14 @@ const Incidents = () => (
   <section id="incidents" className="section">
     <SectionHeading command="$ journalctl --priority=crit" title="Incidents" />
     <ul className="incident-list">
-      {incidents.map((inc) => (
+      {incidents.slice(0, 3).map((inc) => (
         <IncidentLine key={inc.id} incident={inc} />
       ))}
     </ul>
     <p className="incident-more">
-      <Link to="/incidents">read all postmortems &rarr;</Link>
+      <Link to="/incidents">
+          {incidents.length > 3 ? `all ${incidents.length} postmortems` : "read all postmortems"} &rarr;
+        </Link>
     </p>
     {notes[0] && (
       <p className="incident-more">
