@@ -45,12 +45,17 @@ const cronjobs = () =>
     ],
   });
 
-const describe = (args) => {
+const describe = (args, ctx) => {
   const [kind, name] = args;
   if (kind !== "deployment" || !name) return h(Muted, null, "usage: kubectl describe deployment <name>");
   const p = projects.find((x) => slug(x.title) === name || x.id === name);
   if (!p) return h(Muted, null, `Error from server (NotFound): deployments "${name}" not found`);
-  return h(Lines, { lines: linesToText(yamlLines(describeObject(p))).split("\n") });
+  const lines = linesToText(yamlLines(describeObject(p))).split("\n");
+  if (p.caseStudy) {
+    const cmd = `open projects/${slug(p.title)}/CASE_STUDY.md`;
+    lines.push(" ", h("span", { key: "cs" }, h(Run, { cmd, run: ctx.run, title: cmd }, `case study \u2192 /projects/${p.caseStudy}`)));
+  }
+  return h(Lines, { lines });
 };
 
 export default {
@@ -63,7 +68,7 @@ export default {
   run(args, ctx) {
     const [sub, ...rest] = args;
     if (sub === "version") return h(Lines, { lines: ["client: learning", "server: none (no cluster yet)"] });
-    if (sub === "describe") return describe(rest);
+    if (sub === "describe") return describe(rest, ctx);
     if (sub === "get") {
       const what = rest[0];
       if (what === "deployments" || what === "deployment" || what === "deploy") return deployments(ctx);

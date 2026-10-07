@@ -53,10 +53,11 @@ import achievements from "./achievements.js";
 import journalctl from "./journalctl.js";
 import incidents from "./incidents.js";
 import ghostOa from "./ghost-oa.js";
+import oaCheck from "./oa-check.js";
 
 export const commands = [
   help, man, ls, cd, pwd, cat, tree, open, history, clear, exit,
-  whoami, neofetch, git, hire, journalctl, incidents, ghostOa,
+  whoami, neofetch, git, hire, journalctl, incidents, ghostOa, oaCheck,
   kubectl, docker, gh, systemctl, helm, terraform, uptime, top,
   scope, resistor, bin, hex, ohm,
   grep, wc, head, sort, theme,

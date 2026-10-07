@@ -11,6 +11,7 @@ import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
 import wawoff2 from "wawoff2";
 import { incidents } from "../src/lib/incidents.js";
+import { loadCaseStudies } from "./case-studies.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outDir = path.join(root, "public", "og");
@@ -64,7 +65,7 @@ const el = (type, style, children) => ({ type, props: { style, children } });
 
 const titleSize = (t) => (t.length <= 36 ? 80 : t.length <= 60 ? 68 : 58);
 
-const card = ({ label, title }) =>
+const card = ({ label, title, footer = "avinashgupta.in/incidents" }) =>
   el(
     "div",
     {
@@ -101,7 +102,7 @@ const card = ({ label, title }) =>
       el(
         "div",
         { display: "flex", paddingTop: 24, borderTop: `2px solid ${INK}`, fontFamily: "JetBrains Mono", fontSize: 28, color: MUTED },
-        "avinashgupta.in/incidents"
+        footer
       ),
     ]
   );
@@ -121,6 +122,7 @@ try {
   const jobs = [
     { name: "incidents", label: "$ journalctl --priority=crit", title: "Incidents" },
     ...incidents.map((i) => ({ name: i.id, label: `${i.id} / ${i.severity}`, title: i.title })),
+    ...loadCaseStudies().map((c) => ({ name: c.slug, label: "Case study", title: c.title, footer: `avinashgupta.in/projects/${c.slug}` })),
   ];
   for (const job of jobs) {
     fs.writeFileSync(path.join(outDir, `${job.name}.png`), await render(job, fonts));

@@ -16,7 +16,8 @@ import { slug, startOf } from "./util.js";
 
 // ───────────── projects ("kubectl get deployments") ─────────────
 // A live link = Running, GitHub only = Completed, no links = Private.
-export const projectStatus = (p) => (p.link ? "Running" : p.github ? "Completed" : "Private");
+// An explicit `status` wins (OA Check is in use but has no public link).
+export const projectStatus = (p) => p.status ?? (p.link ? "Running" : p.github ? "Completed" : "Private");
 
 export const projectLinks = (p) =>
   [
@@ -35,6 +36,8 @@ export const describeObject = (p) => ({
   repo: p.github,
   live: p.link,
   hub: p.hub,
+  access: p.internal,
+  caseStudy: p.caseStudy && `/projects/${p.caseStudy}`,
   store: p.playStore || p.appStore ? { play: p.playStore, "app-store": p.appStore } : undefined,
 });
 

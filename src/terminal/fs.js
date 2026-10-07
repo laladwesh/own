@@ -13,6 +13,7 @@ import deployYml from "../../.github/workflows/deploy.yml?raw";
 import { slug, startOf, hashOf } from "../lib/util.js";
 import { aboutSpec, dockerfileLines, projectLinks, serviceSpec } from "../lib/data.js";
 import { linesToText, yamlLines } from "../lib/yaml.js";
+import { caseStudies } from "../lib/caseStudies.js";
 import { incidentMarkdown, incidents } from "../lib/incidents.js";
 
 export { slug, startOf, hashOf };
@@ -41,7 +42,16 @@ const projectDir = (p) => {
   return dir(slug(p.title), [
     file("README.md", `${p.title}\n\n${p.content}`),
     file("stack.txt", p.stack.map((t) => t.name).join("\n")),
-    file("link", urls.join("\n"), { href: p.link || p.hub || p.github, urls: projectLinks(p).map(([, u]) => u) }),
+    file("link", urls.length ? urls.join("\n") : p.internal ?? "", { href: p.link || p.hub || p.github, urls: projectLinks(p).map(([, u]) => u) }),
+    ...(p.caseStudy
+      ? [
+          file(
+            "CASE_STUDY.md",
+            `${p.title}: case study\n\n${caseStudies[p.caseStudy]?.summary ?? p.content}\n\nRead it: /projects/${p.caseStudy}`,
+            { route: `/projects/${p.caseStudy}`, routeLabel: "read the case study" }
+          ),
+        ]
+      : []),
   ]);
 };
 

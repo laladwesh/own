@@ -8,7 +8,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { SITE, prerenderRoutes, sitemapPaths } from "../src/lib/seo.js";
+import { SITE, caseStudyPath, caseStudySeo, prerenderRoutes, sitemapPaths } from "../src/lib/seo.js";
+import { loadCaseStudies } from "./case-studies.mjs";
 import { incidents } from "../src/lib/incidents.js";
 
 const dist = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "dist");
@@ -39,7 +40,11 @@ const headTags = (r) =>
 const fallback = (r) =>
   `<main><h1>${esc(r.title)}</h1><p>${esc(r.description)}</p><p><a href="/">avinashgupta.in</a></p></main>`;
 
-for (const r of prerenderRoutes) {
+const studies = loadCaseStudies();
+const allRoutes = [...prerenderRoutes, ...studies.map(caseStudySeo)];
+const allPaths = [...sitemapPaths, ...studies.map((s) => caseStudyPath(s.slug))];
+
+for (const r of allRoutes) {
   const html = template
     .replace(/<title>.*?<\/title>/s, "")
     .replace("</head>", `    ${headTags(r)}\n  </head>`)
@@ -52,7 +57,7 @@ for (const r of prerenderRoutes) {
 
 const today = new Date().toISOString().slice(0, 10);
 const lastmod = (p) => (p.startsWith("/incidents/") ? incidents.find((i) => `/incidents/${i.id}` === p)?.date : null) ?? today;
-const urls = sitemapPaths.map((p) => `  <url><loc>${SITE}${p === "/" ? "/" : p}</loc><lastmod>${lastmod(p)}</lastmod></url>`).join("\n");
+const urls = allPaths.map((p) => `  <url><loc>${SITE}${p === "/" ? "/" : p}</loc><lastmod>${lastmod(p)}</lastmod></url>`).join("\n");
 fs.writeFileSync(
   path.join(dist, "sitemap.xml"),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`

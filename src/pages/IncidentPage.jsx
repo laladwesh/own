@@ -7,31 +7,8 @@ import { incidents, incidentSpec } from "../lib/incidents.js";
 import { incidentPath, incidentSeo } from "../lib/seo.js";
 import { yamlLines } from "../lib/yaml.js";
 import { useSeo } from "../lib/useSeo";
+import { copyText } from "../lib/clipboard";
 import NotFound from "./NotFound";
-
-const copyText = async (text) => {
-  try {
-    await navigator.clipboard.writeText(text);
-    return true;
-  } catch {
-    // Older browsers and insecure origins: fall back to a hidden textarea.
-    const ta = document.createElement("textarea");
-    ta.value = text;
-    ta.setAttribute("readonly", "");
-    ta.style.position = "fixed";
-    ta.style.opacity = "0";
-    document.body.appendChild(ta);
-    ta.select();
-    let ok = false;
-    try {
-      ok = document.execCommand("copy");
-    } catch {
-      ok = false;
-    }
-    ta.remove();
-    return ok;
-  }
-};
 
 const IncidentView = ({ incident, index }) => {
   const seo = useMemo(() => incidentSeo(incident), [incident]);

@@ -1,0 +1,27 @@
+// Short text versions of the case-study schematics, for the terminal.
+export const CASE_ASCII = {
+  "oa-check-flow": [
+    "  v1: public script + irm/bash, results not tied to an account",
+    "      |",
+    "      | 14 Aug",
+    "      v",
+    "  student logs in",
+    "      |",
+    "      v",
+    "  generate command (one-time token)",
+    "      |",
+    "      v",
+    "  laptop runs script",
+    "      |",
+    "      v",
+    "  +--------------------------------------------------+",
+    "  |  scan -> fix -> close background apps -> re-scan |",
+    "  +--------------------------------------------------+",
+    "      |",
+    "      v",
+    "  result -> portal shows Device clear / Issues detected",
+    "      |",
+    "      v",
+    "  coordinator dashboard + OA Report",
+  ],
+};

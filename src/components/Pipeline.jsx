@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { projects } from "../constants";
 import { isRunning, stages } from "../lib/data";
 import { startOf } from "../lib/util.js";
 import { placeicon } from "../assets";
@@ -29,6 +31,14 @@ const Job = ({ position, open, onToggle }) => {
               )}
             </p>
           ))}
+          {position.relatedProjects?.map((s) => {
+            const project = projects.find((p) => p.caseStudy === s);
+            return project ? (
+              <p key={s} className="job-related">
+                <Link to={`/projects/${s}`}>&rarr; case study: {project.title}</Link>
+              </p>
+            ) : null;
+          })}
         </div>
       )}
     </li>

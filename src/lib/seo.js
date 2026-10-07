@@ -26,6 +26,16 @@ export const incidentSeo = (inc) => ({
   imageAlt: `${inc.id} / ${inc.severity}: ${inc.title}`,
 });
 
+// A case study page: /projects/<slug>. `cs` is the front matter plus its slug.
+export const caseStudyPath = (slug) => `/projects/${slug}`;
+export const caseStudySeo = (cs) => ({
+  title: `${cs.title} | ${NAME}`,
+  description: truncate(cs.summary),
+  path: caseStudyPath(cs.slug),
+  image: ogImage(cs.slug),
+  imageAlt: `Case study: ${cs.title}`,
+});
+
 export const indexSeo = {
   title: `Incidents | ${NAME}`,
   description: INDEX_INTRO,

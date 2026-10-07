@@ -480,6 +480,10 @@
   gap: 4px 12px;
 }
 
+.row-case {
+  font-weight: 700;
+}
+
 .row-stack {
   color: var(--muted);
 }
@@ -1558,5 +1562,140 @@ a.inc-head:hover .inc-title {
 
   .os-stats .panel-number {
     font-size: 30px;
+  }
+}
+
+/* ───────── Case study pages ───────── */
+.job-related {
+  margin-top: 8px;
+}
+
+.cs-back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.cs {
+  padding-bottom: 40px;
+}
+
+.cs-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--text);
+  font-size: 14px;
+}
+
+.cs-meta-item {
+  min-width: 0;
+}
+
+.cs-meta-item:first-child {
+  grid-column: 1 / -1;
+}
+
+.cs-meta-item dt {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.cs-meta-item dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.cs-title {
+  margin: 24px 0 8px;
+  max-width: 24ch;
+  font-family: "Clash Display", "JetBrains Mono", sans-serif;
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+@media (min-width: 620px) {
+  .cs-meta {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .cs-title {
+    max-width: 30ch;
+    font-size: 52px;
+  }
+}
+
+.cs-body {
+  max-width: 68ch;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.cs-body h2 {
+  margin: 40px 0 12px;
+  font-family: "Clash Display", "JetBrains Mono", sans-serif;
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 1.25;
+}
+
+.cs-body p {
+  margin: 12px 0;
+}
+
+.cs-body ul {
+  margin: 12px 0;
+  list-style: none;
+}
+
+.cs-body li {
+  position: relative;
+  padding-left: 2ch;
+}
+
+.cs-body li + li {
+  margin-top: 6px;
+}
+
+.cs-body li::before {
+  content: "-";
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+
+.cs-body .diagram {
+  max-width: none;
+  margin: 28px 0;
+}
+
+.cs-code {
+  margin: 16px 0;
+}
+
+.cs-code .inc-term-bar {
+  align-items: center;
+}
+
+.cs-code-lang {
+  margin-left: auto;
+  font-size: 12px;
+  color: #8A8A8A;
+}
+
+.cs-pre {
+  margin: 0;
+  font: inherit;
+  white-space: pre;
+}
+
+@media (max-width: 619px) {
+  .cs-body {
+    font-size: 16px;
   }
 }

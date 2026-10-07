@@ -8,6 +8,7 @@ import { Navbar, Footer } from "./components";
 import Home from "./pages/Home";
 import IncidentsIndex from "./pages/IncidentsIndex";
 import IncidentPage from "./pages/IncidentPage";
+import CaseStudyPage from "./pages/CaseStudyPage";
 import NotFound from "./pages/NotFound";
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/incidents" element={<IncidentsIndex />} />
             <Route path="/incidents/:id" element={<IncidentPage />} />
+            <Route path="/projects/:slug" element={<CaseStudyPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
 

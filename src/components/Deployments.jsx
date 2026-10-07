@@ -2,6 +2,7 @@ import { useState } from "react";
 import { projects } from "../constants";
 import { slug } from "../lib/util.js";
 import { describeObject, projectLinks as links, projectStatus } from "../lib/data";
+import { Link } from "react-router-dom";
 import SectionHeading from "./SectionHeading";
 import { Switchable, Wide, yamlLines } from "./Manifest";
 
@@ -18,6 +19,8 @@ const Describe = ({ project }) => (
             ["Status", projectStatus(project)],
             ["Description", project.content],
             ["Stack", project.stack.map((t) => t.name).join(", ")],
+            ["Access", project.internal],
+            ["Case study", project.caseStudy ? <Link to={`/projects/${project.caseStudy}`}>read case study &rarr;</Link> : null],
             ["Links", links(project).length ? (
               <span className="wide-links">
                 {links(project).map(([label, href]) => (
@@ -66,6 +69,11 @@ const Deployments = () => {
                 <span role="cell" className={`status status--${status.toLowerCase()}`}>{status}</span>
                 <span role="cell" className="row-stack">{p.stack.slice(0, 4).map((t) => t.name).join(", ")}</span>
                 <span role="cell" className="row-links">
+                  {p.caseStudy && (
+                    <Link to={`/projects/${p.caseStudy}`} className="row-case">
+                      read case study &rarr;
+                    </Link>
+                  )}
                   {links(p).length ? (
                     links(p).map(([label, href]) => (
                       <a key={label} href={href} target="_blank" rel="noopener noreferrer">
@@ -73,7 +81,7 @@ const Deployments = () => {
                       </a>
                     ))
                   ) : (
-                    <span className="term-muted">none</span>
+                    <span className="term-muted">{p.internal ?? "none"}</span>
                   )}
                 </span>
               </div>

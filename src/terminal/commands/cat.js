@@ -3,7 +3,7 @@ import { Lines, Muted, Ext, Run } from "../ui.jsx";
 import { resolve, isDir } from "../fs.js";
 
 const render = (node, ctx) => {
-  if (node.urls) {
+  if (node.urls?.length) {
     return h(Lines, {
       lines: node.urls.map((u, i) => h("span", { key: i }, h(Ext, { href: u }, u))),
     });
@@ -12,7 +12,7 @@ const render = (node, ctx) => {
   const lines = node.content.split("\n").map((l) => (l === "" ? " " : l));
   if (node.route) {
     const cmd = `open ${node.route.slice(1)}`;
-    lines.push(" ", h("span", { key: "full" }, h(Run, { cmd, run: ctx.run, title: cmd }, `open full report \u2192 ${node.route}`)));
+    lines.push(" ", h("span", { key: "full" }, h(Run, { cmd, run: ctx.run, title: cmd }, `${node.routeLabel ?? "open full report"} \u2192 ${node.route}`)));
   }
   return h(Lines, { lines });
 };
