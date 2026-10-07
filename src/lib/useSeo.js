@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { SITE } from "./seo.js";
+import { SITE, jsonLdFor } from "./seo.js";
 
 // Sets <title> and the description / Open Graph / Twitter tags for the current route, and puts
 // the old ones back when the route changes. (The build also writes the same tags into the
@@ -43,7 +43,7 @@ export const useSeo = (seo) => {
       setMeta("name", "description", seo.description);
     } else {
       setMeta("name", "description", seo.description);
-      setMeta("property", "og:type", "article");
+      setMeta("property", "og:type", seo.type ?? "website");
       setMeta("property", "og:site_name", "Avinash Gupta");
       setMeta("property", "og:title", seo.title);
       setMeta("property", "og:description", seo.description);
@@ -56,6 +56,13 @@ export const useSeo = (seo) => {
       setMeta("name", "twitter:title", seo.title);
       setMeta("name", "twitter:description", seo.description);
       setMeta("name", "twitter:image", seo.image);
+
+      const ld = document.createElement("script");
+      ld.type = "application/ld+json";
+      ld.dataset.seo = "route";
+      ld.textContent = JSON.stringify(jsonLdFor(seo));
+      document.head.appendChild(ld);
+      undo.push(() => ld.remove());
 
       const { el, created } = upsert('link[rel="canonical"]', () => {
         const l = document.createElement("link");

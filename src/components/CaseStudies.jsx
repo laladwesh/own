@@ -36,6 +36,9 @@ const CaseStudies = () => {
           </article>
         ))}
       </div>
+      <p className="incident-more">
+        <Link to="/case-studies">all case studies &rarr;</Link>
+      </p>
     </section>
   );
 };

@@ -123,6 +123,8 @@ try {
   const jobs = [
     { name: "incidents", label: "$ journalctl --priority=crit", title: "Incidents" },
     ...incidents.map((i) => ({ name: i.id, label: `${i.id} / ${i.severity}`, title: i.title })),
+    { name: "home", label: "$ whoami", title: "Avinash Gupta", footer: "avinashgupta.in" },
+    { name: "case-studies", label: "$ ls case-studies/", title: "Case studies", footer: "avinashgupta.in/case-studies" },
     { name: "notes", label: "$ ls notes/", title: "Notes", footer: "avinashgupta.in/notes" },
     ...loadNotes().map((n) => ({ name: `note-${n.slug}`, label: `Note / ${n.date}`, title: n.title, footer: "avinashgupta.in/notes" })),
     ...loadCaseStudies().map((c) => ({ name: c.slug, label: "Case study", title: c.title, footer: `avinashgupta.in/projects/${c.slug}` })),

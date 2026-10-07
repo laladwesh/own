@@ -26,6 +26,8 @@ export const incidentSeo = (inc) => ({
   path: incidentPath(inc.id),
   image: ogImage(inc.id),
   imageAlt: `${inc.id} / ${inc.severity}: ${inc.title}`,
+  type: "article",
+  published: inc.date,
 });
 
 // A case study page: /projects/<slug>. `cs` is the front matter plus its slug.
@@ -36,7 +38,17 @@ export const caseStudySeo = (cs) => ({
   path: caseStudyPath(cs.slug),
   image: ogImage(cs.slug),
   imageAlt: `Case study: ${cs.title}`,
+  type: "article",
 });
+
+export const CASE_INTRO = "Things I built, how they changed along the way, and what I would do differently.";
+export const caseStudiesIndexSeo = {
+  title: `Case studies | ${NAME}`,
+  description: CASE_INTRO,
+  path: "/case-studies",
+  image: ogImage("case-studies"),
+  imageAlt: "Case studies by Avinash Gupta",
+};
 
 // An unfinished "open to" line (still carrying the draft marker) only shows in `npm run dev`.
 const openTo = isDraftText(now.lookingForShort) && !SHOW_DRAFTS ? "" : now.lookingForShort;
@@ -58,6 +70,8 @@ export const noteSeo = (n) => ({
   path: `/notes/${n.slug}`,
   image: ogImage(`note-${n.slug}`),
   imageAlt: `Note: ${n.title}`,
+  type: "article",
+  published: n.date,
 });
 
 export const notesIndexSeo = {
@@ -77,6 +91,62 @@ export const indexSeo = {
 };
 
 // Every route that gets its own prerendered page, with the tags it needs.
-export const prerenderRoutes = [indexSeo, notesIndexSeo, ...incidents.map(incidentSeo)];
+export const prerenderRoutes = [indexSeo, notesIndexSeo, caseStudiesIndexSeo, ...incidents.map(incidentSeo)];
 
-export const sitemapPaths = ["/", "/incidents", "/notes", ...incidents.map((i) => incidentPath(i.id))];
+export const sitemapPaths = ["/", "/incidents", "/notes", "/case-studies", ...incidents.map((i) => incidentPath(i.id))];
+
+// ---- structured data (JSON-LD) ----
+export const PERSON = {
+  "@type": "Person",
+  "@id": `${SITE}/#person`,
+  name: NAME,
+  url: SITE,
+  jobTitle: "Software developer",
+  alumniOf: { "@type": "CollegeOrUniversity", name: "Indian Institute of Technology Guwahati" },
+  sameAs: ["https://github.com/laladwesh", "https://www.linkedin.com/in/avinash-gupta-58171828a/"],
+};
+
+export const homeJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    PERSON,
+    { "@type": "WebSite", "@id": `${SITE}/#website`, url: SITE, name: NAME, inLanguage: "en", publisher: { "@id": `${SITE}/#person` } },
+  ],
+};
+
+const SECTION_NAMES = { incidents: "Incidents", notes: "Notes", "case-studies": "Case studies", projects: "Case studies" };
+
+// Breadcrumbs plus an Article (detail pages) or CollectionPage (index pages) for one route.
+export const jsonLdFor = (r) => {
+  const url = `${SITE}${r.path}`;
+  const parts = r.path.split("/").filter(Boolean);
+  const crumbs = [{ name: NAME, url: SITE }];
+  if (parts[0]) {
+    const base = parts[0] === "projects" ? "/case-studies" : `/${parts[0]}`;
+    crumbs.push({ name: SECTION_NAMES[parts[0]] ?? parts[0], url: `${SITE}${base}` });
+    if (parts[1]) crumbs.push({ name: r.title.split(" | ")[0], url });
+  }
+  const page =
+    r.type === "article"
+      ? {
+          "@type": "Article",
+          headline: r.title.split(" | ")[0],
+          description: r.description,
+          image: r.image,
+          mainEntityOfPage: url,
+          author: { "@id": `${SITE}/#person` },
+          ...(r.published ? { datePublished: r.published } : {}),
+        }
+      : { "@type": "CollectionPage", name: r.title.split(" | ")[0], description: r.description, url };
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      { ...page, author: page.author },
+      PERSON,
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: crumbs.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: c.url })),
+      },
+    ],
+  };
+};

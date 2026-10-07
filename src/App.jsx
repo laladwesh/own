@@ -11,6 +11,7 @@ import IncidentsIndex from "./pages/IncidentsIndex";
 import IncidentPage from "./pages/IncidentPage";
 import CaseStudyPage from "./pages/CaseStudyPage";
 import NotesIndex from "./pages/NotesIndex";
+import CaseStudiesIndex from "./pages/CaseStudiesIndex";
 import NotePage from "./pages/NotePage";
 import NotFound from "./pages/NotFound";
 
@@ -33,6 +34,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/incidents" element={<IncidentsIndex />} />
             <Route path="/incidents/:id" element={<IncidentPage />} />
+            <Route path="/case-studies" element={<CaseStudiesIndex />} />
             <Route path="/projects/:slug" element={<CaseStudyPage />} />
             <Route path="/notes" element={<NotesIndex />} />
             <Route path="/notes/:slug" element={<NotePage />} />
