@@ -24,7 +24,7 @@ irm https://iitg.ac.in/oa-check | iex
 curl -fsSL https://iitg.ac.in/oa-check | bash
 ```
 
-`irm` is short for Invoke-RestMethod. It fetches whatever the URL serves, and `iex` runs it straight away. The script scanned the machine and reported back with the student's roll number to a small dashboard.
+`irm` is short for Invoke-RestMethod. It fetches whatever the URL serves, and `iex` runs it straight away. The script scanned the machine and showed a green flag or a red flag.
 
 It worked, but the result wasn't tied to the student's portal account. We were trusting whatever got sent. I only properly understood how the irm flow worked, and what that meant for us, partway through the season. By then half the internship season had already gone by on version 1.
 
