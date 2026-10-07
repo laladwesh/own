@@ -29,6 +29,8 @@ const Hero = () => {
   const [win, setWin] = useState("open");
   const [maximized, setMaximized] = useState(false);
   const [dragging, setDragging] = useState(false);
+  const [sized, setSized] = useState(false);
+  const resizing = useRef(null);
   const [desktop, setDesktop] = useState(() => window.matchMedia("(min-width: 768px)").matches);
 
   useEffect(() => {
@@ -117,6 +119,49 @@ const Hero = () => {
     if (wrapRef.current) wrapRef.current.style.willChange = "";
   }
 
+  // Resize like a desktop window: drag the bottom edge, the right edge or the corner.
+  const canResize = desktop && !maximized;
+
+  const startResize = (edge) => (e) => {
+    if (!canResize || e.button > 0) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const r = wrapRef.current.getBoundingClientRect();
+    resizing.current = { edge, x: e.clientX, y: e.clientY, w: r.width, h: r.height, left: r.left };
+    e.currentTarget.setPointerCapture(e.pointerId);
+    wrapRef.current.classList.add("term-wrap--resizing");
+  };
+
+  const moveResize = (e) => {
+    const d = resizing.current;
+    if (!d) return;
+    const el = wrapRef.current;
+    if (d.edge.includes("e")) el.style.width = `${clamp(d.w + e.clientX - d.x, 480, window.innerWidth - d.left - 8)}px`;
+    if (d.edge.includes("s")) el.style.height = `${clamp(d.h + e.clientY - d.y, 280, window.innerHeight - 100)}px`;
+    if (!sized) setSized(true);
+  };
+
+  const endResize = () => {
+    resizing.current = null;
+    wrapRef.current?.classList.remove("term-wrap--resizing");
+  };
+
+  const resetSize = () => {
+    wrapRef.current.style.width = "";
+    wrapRef.current.style.height = "";
+    setSized(false);
+  };
+
+  const handle = (edge) => ({
+    className: `term-resize term-resize--${edge}`,
+    "aria-hidden": true,
+    onPointerDown: startResize(edge),
+    onPointerMove: moveResize,
+    onPointerUp: endResize,
+    onPointerCancel: endResize,
+    onDoubleClick: resetSize,
+  });
+
   const hidden = win === "closed" || win === "min";
   const transition = reduced() ? { duration: 0 } : SPRING;
 
@@ -137,7 +182,7 @@ const Hero = () => {
 
         <motion.div
           ref={wrapRef}
-          className={`term-wrap${maximized ? " term-wrap--max" : ""}${hidden ? " term-wrap--hidden" : ""}`}
+          className={`term-wrap${maximized ? " term-wrap--max" : ""}${hidden ? " term-wrap--hidden" : ""}${sized ? " term-wrap--sized" : ""}`}
           style={maximized ? undefined : { x, y }}
         >
           <motion.div
@@ -162,6 +207,13 @@ const Hero = () => {
               />
             </div>
           </motion.div>
+          {canResize && (
+            <>
+              <div {...handle("s")} />
+              <div {...handle("e")} />
+              <div {...handle("se")} />
+            </>
+          )}
         </motion.div>
       </div>
 

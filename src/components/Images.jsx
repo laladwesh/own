@@ -105,6 +105,15 @@ const Images = () => {
             <span role="cell">{day(r.updatedAt)}</span>
           </div>
         ))}
+        {/* Empty rows keep the table the same height on every page and filter. */}
+        {Array.from({ length: PAGE - slice.length }, (_, i) => (
+          <div key={`pad-${i}`} className="table-row table-row--pad" role="presentation" aria-hidden="true">
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+          </div>
+        ))}
       </div>
 
       <div className="pager">

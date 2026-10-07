@@ -753,20 +753,31 @@ const Terminal = forwardRef(function Terminal(
           {light("term-light--max", maximized ? "Restore terminal size" : "Maximize terminal", "+", onMaximize)}
         </span>
         <span className="term-title">avinash@iitg: {pathString(cwd)}</span>
-        {done ? (
-          <span />
-        ) : (
+        <span className="term-bar-right">
+          {!done && (
+            <button
+              type="button"
+              className="term-skip"
+              onClick={(e) => {
+                e.stopPropagation();
+                skip();
+              }}
+            >
+              skip
+            </button>
+          )}
           <button
             type="button"
-            className="term-skip"
+            className="term-close"
+            aria-label="Close terminal"
             onClick={(e) => {
               e.stopPropagation();
-              skip();
+              onClose();
             }}
           >
-            skip
+            close ×
           </button>
-        )}
+        </span>
       </div>
 
       {/* Screen readers get the intro at once; the typed lines are hidden from them. */}

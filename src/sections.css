@@ -891,3 +891,8 @@
 .term-col {
   max-width: clamp(768px, 60vw, 1280px);
 }
+
+/* Filler rows are invisible but take the same height as a real row. */
+.table-row--pad {
+  visibility: hidden;
+}

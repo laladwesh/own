@@ -43,7 +43,7 @@ const media = (q) => window.matchMedia(q);
 const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
 
 // The daemon IS the mouse pointer: it replaces the arrow, tracks the pointer exactly
-// (its top-left corner is the hotspot), reacts to links and project rows, and falls
+// (the centre of the ghost is the click point), reacts to links and project rows, and falls
 // asleep when idle. rAF + refs only; React never re-renders per move.
 const Daemon = () => {
   const [enabled, setEnabled] = useState(false);
@@ -104,6 +104,7 @@ html.has-custom-cursor .term-input{cursor:text !important}`;
       row: null,
       hop: { at: -1e9, count: 0 },
       bubbleUntil: 0,
+      pressAt: -1e9,
       shakeAt: -1e9,
       tiltAt: -1e9,
       hideUntil: 0,
@@ -127,8 +128,8 @@ html.has-custom-cursor .term-input{cursor:text !important}`;
       st.inWindow = true;
       if (!st.spawned) {
         st.spawned = true;
-        st.x = clamp(e.clientX + 28, 0, window.innerWidth - SIZE);
-        st.y = clamp(e.clientY + 28, 0, window.innerHeight - SIZE);
+        st.x = e.clientX - SIZE / 2;
+        st.y = e.clientY - SIZE / 2;
       }
       if (Math.abs(st.px - st.lastPx) > 1.5) st.face = st.px > st.lastPx ? 1 : -1;
       const row = e.target.closest?.(ROW) ?? null;
@@ -138,6 +139,11 @@ html.has-custom-cursor .term-input{cursor:text !important}`;
         st.bubbleUntil = now + 1400;
       }
       st.row = row;
+      touch();
+    };
+
+    const onDown = () => {
+      st.pressAt = performance.now();
       touch();
     };
 
@@ -177,11 +183,12 @@ html.has-custom-cursor .term-input{cursor:text !important}`;
       const hidden = daemon.stopped || overInput || now < st.hideUntil;
       const bar = t?.closest?.(".term-bar");
       const onDrag = !!bar && bar.classList.contains("term-bar--drag") && !t.closest("button");
+      const onResize = !!t?.closest?.(".term-resize");
 
-      // The pointer's hotspot is the sprite's top-left corner, like an arrow.
+      // The click point is the centre of the ghost, so what you aim at is what you hit.
       if (st.spawned && !st.sleeping) {
-        st.x = st.px;
-        st.y = st.py;
+        st.x = st.px - SIZE / 2;
+        st.y = st.py - SIZE / 2;
       }
       const html = document.documentElement;
       const wantCursor = st.spawned && !daemon.stopped;
@@ -199,6 +206,8 @@ html.has-custom-cursor .term-input{cursor:text !important}`;
       if (shakeT >= 0 && shakeT < 0.55) rot += Math.sin(shakeT * 30) * 10 * (1 - shakeT / 0.55);
       const tiltT = (now - st.tiltAt) / 1000;
       if (tiltT >= 0 && tiltT < 1.4) rot += 14 * Math.min(1, tiltT / 0.15, (1.4 - tiltT) / 0.3);
+      const pressT = (now - st.pressAt) / 1000;
+      const squish = pressT >= 0 && pressT < 0.14 ? 0.86 : 1; // small press feedback on click
       let peek = 0;
       const peekT = (now - st.peekAt) / 1000;
       if (peekT >= 0 && peekT < 0.45) peek = 40 * (1 - peekT / 0.45) ** 2;
@@ -222,10 +231,12 @@ html.has-custom-cursor .term-input{cursor:text !important}`;
 
       root.classList.toggle("dm-terminal", !!t?.closest?.(".term-window"));
       root.style.transform = `translate3d(${st.x}px, ${st.y + peek}px, 0)`;
-      sprite.style.transform = `translateY(${dy}px) rotate(${rot}deg) scaleX(${st.face})`;
+      sprite.style.transform = `translateY(${dy + (squish < 1 ? 3 : 0)}px) rotate(${rot}deg) scale(${st.face}, ${squish})`;
       const overlay = st.spawned && st.inWindow && !hidden;
       root.style.opacity = overlay ? "1" : "0";
-      drag.style.display = onDrag && !st.sleeping ? "" : "none";
+      drag.style.display = (onDrag || onResize) && !st.sleeping ? "" : "none";
+      const hint = onResize ? "resize" : "drag";
+      if (drag.textContent !== hint) drag.textContent = hint;
 
       bubble.style.display = now < st.bubbleUntil && !st.sleeping ? "" : "none";
       zz.style.display = st.sleeping ? "" : "none";
@@ -263,6 +274,7 @@ html.has-custom-cursor .term-input{cursor:text !important}`;
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("pointerdown", onDown, { passive: true });
     window.addEventListener("keydown", touch);
     window.addEventListener("daemon", onEvent);
     document.documentElement.addEventListener("mouseleave", onLeave);
@@ -272,6 +284,7 @@ html.has-custom-cursor .term-input{cursor:text !important}`;
     return () => {
       cancelAnimationFrame(st.raf);
       window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerdown", onDown);
       window.removeEventListener("keydown", touch);
       window.removeEventListener("daemon", onEvent);
       document.documentElement.removeEventListener("mouseleave", onLeave);
