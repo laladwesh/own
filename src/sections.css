@@ -1300,7 +1300,7 @@
 }
 
 /* Tablets and small laptops: six columns leave the title a sliver, so stack the row here too. */
-@media (min-width: 620px) and (max-width: 899px) {
+@media (min-width: 620px) and (max-width: 1099px) {
   .inc-head {
     grid-template-columns: auto auto minmax(0, 1fr);
   }
