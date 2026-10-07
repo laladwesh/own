@@ -1,5 +1,6 @@
 import { aboutMe, socialMedia } from "../constants";
 import { ports, serviceSpec as service } from "../lib/data";
+import { now } from "../constants/now";
 import SectionHeading from "./SectionHeading";
 import { Switchable, Wide, yamlLines } from "./Manifest";
 
@@ -14,14 +15,17 @@ const Contact = () => (
       label="service.yaml"
       yaml={yamlLines(service)}
       wide={
-        <Wide
+        <>
+          {now.lookingFor && <p className="contact-open">Open to opportunities: {now.lookingFor}.</p>}
+          <Wide
           rows={ports.map(([name, url]) => [
             name,
             <a key={name} href={url} target={url.startsWith("mailto:") ? undefined : "_blank"} rel="noopener noreferrer">
               {url.replace(/^mailto:|^https?:\/\/(www\.)?/, "")}
             </a>,
           ])}
-        />
+          />
+        </>
       }
     />
     <p className="contact-cta">

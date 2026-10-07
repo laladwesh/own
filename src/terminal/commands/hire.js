@@ -1,6 +1,7 @@
 import { h } from "../h.js";
 import { Lines, Muted, Ext } from "../ui.jsx";
 import { socialMedia } from "../../constants/index.js";
+import { now } from "../../constants/now.js";
 
 const find = (label) => socialMedia.find((s) => s.label === label)?.link;
 
@@ -17,6 +18,7 @@ export default {
     ctx.openMail(`${mail}?subject=${subject}`);
     return h(Lines, {
       lines: [
+        ...(now.lookingFor ? [`looking for: ${now.lookingFor}`] : []),
         "good choice. opening an email draft…",
         h("span", null, "Email     ", h(Ext, { href: mail }, mail.replace("mailto:", ""))),
         h("span", null, "LinkedIn  ", h(Ext, { href: find("LinkedIn") }, find("LinkedIn"))),

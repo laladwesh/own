@@ -1,6 +1,8 @@
 // Page titles, descriptions and share cards. Shared by the app (runtime) and by the build
 // scripts (scripts/og.mjs, scripts/prerender.mjs), so both always agree. No browser APIs here.
 import { incidents } from "./incidents.js";
+import { now } from "../constants/now.js";
+import { SHOW_DRAFTS, isDraftText } from "./drafts.js";
 
 export const SITE = "https://avinashgupta.in";
 export const NAME = "Avinash Gupta";
@@ -35,6 +37,17 @@ export const caseStudySeo = (cs) => ({
   image: ogImage(cs.slug),
   imageAlt: `Case study: ${cs.title}`,
 });
+
+// An unfinished "open to" line (still carrying the draft marker) only shows in `npm run dev`.
+const openTo = isDraftText(now.lookingForShort) && !SHOW_DRAFTS ? "" : now.lookingForShort;
+
+// The homepage: a description only (the title and the rest stay as they are).
+export const homeSeo = {
+  title: "Avinash Gupta",
+  descriptionOnly: true,
+  path: "/",
+  description: `${now.working}. Projects, incidents, case studies and notes.${openTo ? ` Open to ${openTo}.` : ""}`,
+};
 
 export const NOTES_INTRO =
   "Things I fixed, set up or got wrong, written down while I still remember the details.";

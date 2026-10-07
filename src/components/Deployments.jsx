@@ -3,6 +3,7 @@ import { projects } from "../constants";
 import { slug } from "../lib/util.js";
 import { describeObject, projectLinks as links, projectStatus } from "../lib/data";
 import { Link } from "react-router-dom";
+import { notes } from "../lib/notes";
 import SectionHeading from "./SectionHeading";
 import { Switchable, Wide, yamlLines } from "./Manifest";
 
@@ -74,6 +75,11 @@ const Deployments = () => {
                 <span role="cell" className={`status status--${status.toLowerCase()}`}>{status}</span>
                 <span role="cell" className="row-stack">{p.stack.slice(0, 4).map((t) => t.name).join(", ")}</span>
                 <span role="cell" className="row-links">
+                  {p.note && notes.some((n) => n.slug === p.note) && (
+                    <Link to={`/notes/${p.note}`} className="row-case">
+                      read the note &rarr;
+                    </Link>
+                  )}
                   {p.caseStudy && (
                     <Link to={`/projects/${p.caseStudy}`} className="row-case">
                       read case study &rarr;

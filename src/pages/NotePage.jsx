@@ -1,7 +1,8 @@
 import { useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styles from "../style";
-import { Md } from "../components/Markdown";
+import { MdWithDiagrams } from "../components/Markdown";
+import { NOTE_DIAGRAMS } from "../components/NoteDiagrams";
 import { notePath, notes } from "../lib/notes";
 import { noteSeo } from "../lib/seo";
 import { copyText } from "../lib/clipboard";
@@ -61,6 +62,7 @@ const NoteView = ({ note, index }) => {
           )}
           <dl className="cs-meta cs-meta--note">
             <MetaItem label="DATE">{note.date}</MetaItem>
+            {note.updated && <MetaItem label="UPDATED">{note.updated}</MetaItem>}
             <MetaItem label="READING TIME">{note.minutes} min</MetaItem>
             <MetaItem label="TAGS">{note.tags.join(", ")}</MetaItem>
           </dl>
@@ -68,9 +70,7 @@ const NoteView = ({ note, index }) => {
           <h1 className="cs-title">{note.title}</h1>
 
           <div className="cs-body">
-            <div className="cs-text">
-              <Md text={note.body} />
-            </div>
+            <MdWithDiagrams text={note.body} diagrams={NOTE_DIAGRAMS} />
           </div>
         </article>
 

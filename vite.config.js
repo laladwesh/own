@@ -42,6 +42,13 @@ const stripDrafts = () => {
         const kept = mod.incidents.filter((i) => !JSON.stringify(i).includes(MARK))
         return { code: `export const incidents = ${JSON.stringify(kept)};`, map: null }
       }
+      if (file.endsWith('/src/constants/now.js')) {
+        const mod = await import(pathToFileURL(file).href + '?strip=' + Date.now())
+        const clean = Object.fromEntries(
+          Object.entries(mod.now).map(([k, v]) => [k, typeof v === 'string' && v.includes(MARK) ? '' : v])
+        )
+        return { code: `export const now = ${JSON.stringify(clean)};\nexport const nowNotes = ${JSON.stringify(mod.nowNotes)};`, map: null }
+      }
       return null
     },
   }

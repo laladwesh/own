@@ -13,6 +13,8 @@ import {
 } from "../constants";
 import repoData from "../data/github-projects.json";
 import { slug, startOf } from "./util.js";
+import { now, nowNotes } from "../constants/now.js";
+import { notes } from "./notes.js";
 
 // ───────────── projects ("kubectl get deployments") ─────────────
 // A live link = Running, GitHub only = Completed, no links = Private.
@@ -128,6 +130,8 @@ export const ports = [
 ].filter(([, url]) => url);
 
 export const serviceSpec = {
+  // Only while "lookingFor" is filled in (see src/constants/now.js).
+  ...(now.lookingFor ? { "# open to opportunities": "", status: "open", lookingFor: now.lookingFor } : {}),
   kind: "Service",
   metadata: { name: "avinash" },
   spec: { ports: ports.map(([name, url]) => ({ name, url })) },
@@ -154,7 +158,15 @@ export const dockerfileLines = [
   { indent: 0, parts: [comment("# learned, not yet needed at production scale")] },
   {
     indent: 0,
-    parts: [kw("ARG"), key(" LEARNING="), val(`"${names("learning").map((n) => n.toLowerCase()).join(" ")}"`)],
+    parts: [
+      kw("ARG"),
+      key(" LEARNING="),
+      val(`"${names("learning").map((n) => n.toLowerCase()).join(" ")}"`),
+      // the learning log, when it is published
+      ...(notes.some((n) => n.slug === nowNotes.learning)
+        ? [{ t: "url", text: "  # learning log", href: `/notes/${nowNotes.learning}` }]
+        : []),
+    ],
   },
 ];
 

@@ -39,6 +39,8 @@ export const useSeo = (seo) => {
     const url = `${SITE}${seo.path}`;
     if (seo.noindex) {
       setMeta("name", "robots", "noindex");
+    } else if (seo.descriptionOnly) {
+      setMeta("name", "description", seo.description);
     } else {
       setMeta("name", "description", seo.description);
       setMeta("property", "og:type", "article");

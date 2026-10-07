@@ -611,6 +611,7 @@ export const projects = [
   },
   {
     id: "project-onawie",
+    note: "building-my-own-mini-vercel",
     title: "Onawie — Mini PaaS",
     github: "https://github.com/laladwesh/place-gfaad",
     link: "",

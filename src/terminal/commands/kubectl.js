@@ -67,7 +67,15 @@ export default {
   subcommands: ["get", "describe", "version"],
   run(args, ctx) {
     const [sub, ...rest] = args;
-    if (sub === "version") return h(Lines, { lines: ["client: learning", "server: none (no cluster yet)"] });
+    if (sub === "version") {
+      return h(Lines, {
+        lines: [
+          "client: learning",
+          "server: none (no cluster yet)",
+          h("span", { key: "log" }, "learning log \u2192 ", h(Run, { cmd: "open notes/what-im-learning-devops", run: ctx.run }, "/notes/what-im-learning-devops")),
+        ],
+      });
+    }
     if (sub === "describe") return describe(rest, ctx);
     if (sub === "get") {
       const what = rest[0];

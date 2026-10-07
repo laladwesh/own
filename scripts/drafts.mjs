@@ -2,6 +2,7 @@
 // and each line that still needs confirming. Drafts show in `npm run dev` and are left out of
 // the production build, the sitemap and the terminal.
 import { incidents } from "../src/constants/incidents.js";
+import { now } from "../src/constants/now.js";
 import { DRAFT_MARK, isDraftObject, isDraftText } from "../src/lib/drafts.js";
 import { loadNotes, notesDir } from "./notes.mjs";
 
@@ -17,6 +18,13 @@ const findInObject = (value, trail, out) => {
 };
 
 let count = 0;
+
+const nowHits = Object.entries(now).filter(([, v]) => isDraftText(v));
+if (nowHits.length) {
+  count += 1;
+  console.log("\nNOW (src/constants/now.js): the 'open to' lines stay hidden until these are filled in");
+  for (const [k, v] of nowHits) console.log(`  ${k}: ${v}`);
+}
 
 for (const inc of incidents.filter(isDraftObject)) {
   count += 1;

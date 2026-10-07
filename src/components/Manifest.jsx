@@ -18,7 +18,7 @@ export const Manifest = ({ lines, label }) => (
           ))}
           {line.parts.map((p, j) =>
             p.t === "url" ? (
-              <a key={j} href={p.href} target={p.href.startsWith("mailto:") ? undefined : "_blank"} rel="noopener noreferrer" className="mf-url">
+              <a key={j} href={p.href} target={p.href.startsWith("mailto:") || p.href.startsWith("/") ? undefined : "_blank"} rel="noopener noreferrer" className="mf-url">
                 {p.text}
               </a>
             ) : (

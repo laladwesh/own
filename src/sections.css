@@ -1882,3 +1882,25 @@ a.inc-head:hover .inc-title {
     grid-template-columns: 1fr 1fr 2fr;
   }
 }
+
+/* note extras: task lists, the contact line */
+.cs-body li.task-list-item {
+  padding-left: 0;
+}
+
+.cs-body li.task-list-item::before {
+  content: none;
+}
+
+.cs-body li.task-list-item input {
+  margin: 0 8px 0 0;
+  accent-color: var(--text);
+}
+
+.cs-meta--note .cs-meta-item:nth-child(4) {
+  grid-column: auto;
+}
+
+.contact-open {
+  margin: 12px 0 0;
+}

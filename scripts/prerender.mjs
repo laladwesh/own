@@ -8,7 +8,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { SITE, caseStudyPath, caseStudySeo, noteSeo, prerenderRoutes, sitemapPaths } from "../src/lib/seo.js";
+import { SITE, caseStudyPath, caseStudySeo, homeSeo, noteSeo, prerenderRoutes, sitemapPaths } from "../src/lib/seo.js";
 import { loadNotes } from "./notes.mjs";
 import { loadCaseStudies } from "./case-studies.mjs";
 import { incidents } from "../src/lib/incidents.js";
@@ -56,6 +56,13 @@ for (const r of allRoutes) {
   fs.writeFileSync(path.join(dir, "index.html"), html);
   console.log(`prerender: dist${r.path}/index.html`);
 }
+
+// The homepage keeps its own file; it only gains a description.
+fs.writeFileSync(
+  path.join(dist, "index.html"),
+  template.replace("</head>", `    <meta name="description" content="${esc(homeSeo.description)}" />\n  </head>`)
+);
+console.log("prerender: dist/index.html (description)");
 
 const today = new Date().toISOString().slice(0, 10);
 const lastmod = (p) => (p.startsWith("/incidents/") ? incidents.find((i) => `/incidents/${i.id}` === p)?.date : null) ?? today;

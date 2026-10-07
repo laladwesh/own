@@ -1,4 +1,6 @@
 import styles from "../style";
+import { homeSeo } from "../lib/seo";
+import { useSeo } from "../lib/useSeo";
 import {
   Hero,
   About,
@@ -17,7 +19,9 @@ import {
   Contact,
 } from "../components";
 
-const Home = () => (
+const Home = () => {
+  useSeo(homeSeo);
+  return (
   <>
     <div className="pt-[80px]">
       <Hero />
@@ -42,6 +46,7 @@ const Home = () => (
       </div>
     </main>
   </>
-);
+  );
+};
 
 export default Home;
