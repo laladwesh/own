@@ -213,6 +213,7 @@
   height: 180px;
   object-fit: cover;
   border-radius: 9999px;
+  filter: grayscale(1) contrast(1.05); /* black and white, to match the paper-and-ink page */
 }
 
 @media (min-width: 900px) {
