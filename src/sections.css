@@ -921,10 +921,22 @@
 }
 
 .site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
   padding: 24px 0 40px;
   border-top: 1px solid var(--border);
   color: var(--muted);
   font-size: 13px;
+}
+
+.footer-heart {
+  display: inline-block;
+  margin: 0 2px;
+  vertical-align: -1px;
+  color: var(--text);
 }
 
 /* The hero terminal grows with the screen: 768px on laptops, up to 1280px on wide monitors. */
