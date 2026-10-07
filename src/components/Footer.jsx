@@ -1,4 +1,5 @@
 import { siteDomain } from "../constants";
+import DeployLine from "./DeployLine";
 
 // A pixel heart in the same style as the daemon, drawn in the ink colour.
 const HEART = [
@@ -46,7 +47,7 @@ const Heart = () => (
 const Footer = () => (
   <footer className="site-footer">
     <p>
-      status: running / last deploy {__BUILD_DATE__} / {siteDomain}
+      <DeployLine /> / {siteDomain}
     </p>
     <p className="footer-credit">
       Made with <Heart /> by Avinash and <ClaudeCodeMark />

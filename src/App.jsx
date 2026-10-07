@@ -3,6 +3,7 @@ import { motion, MotionConfig } from "framer-motion";
 import styles from "./style";
 import ScopeBackground from "./scope/ScopeBackground";
 import Daemon from "./daemon/Daemon";
+import Presence from "./presence/Presence";
 import ScrollManager from "./components/ScrollManager";
 import { Navbar, Footer } from "./components";
 import Home from "./pages/Home";
@@ -21,6 +22,7 @@ const App = () => {
         <a href={pathname === "/" ? "#home" : "#content"} className="skip-link">Skip to content</a>
         <ScopeBackground />
         <Daemon />
+        <Presence />
         <ScrollManager />
 
         {/* One 200ms fade on load; nothing slides or zooms. */}

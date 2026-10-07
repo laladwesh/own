@@ -1,6 +1,7 @@
 import { h } from "../h.js";
 import { Lines, Muted, Run, Strong, Ext } from "../ui.jsx";
 import { commits } from "../fs.js";
+import { BUILD } from "../../lib/deploy.js";
 
 const log = (ctx) =>
   h(Lines, {
@@ -13,6 +14,18 @@ const log = (ctx) =>
         ` ${c.date} ${c.title}, ${c.org}`
       )
     ),
+  });
+
+// `git log -1`: the real last commit of this site, from the build.
+const lastCommit = () =>
+  h(Lines, {
+    lines: [
+      h(Strong, null, `commit ${BUILD.full || BUILD.sha}`),
+      "Author: Avinash Gupta",
+      `Date:   ${BUILD.date || "unknown"}`,
+      " ",
+      `    ${BUILD.message || "(no message)"}`,
+    ],
   });
 
 const show = (args) => {
@@ -48,10 +61,11 @@ export default {
   name: "git",
   group: "me",
   summary: "my career as a commit history",
-  usage: "git log   |   git show <hash>   |   git status",
+  usage: "git log   |   git log -1   |   git show <hash>   |   git status",
   example: "git log",
   run(args, ctx) {
     const [sub, ...rest] = args;
+    if (sub === "log" && rest.some((a) => /^-(n ?)?1$/.test(a) || a === "-n1")) return lastCommit();
     if (sub === "log") return log(ctx);
     if (sub === "show") return show(rest);
     if (sub === "status") return status();

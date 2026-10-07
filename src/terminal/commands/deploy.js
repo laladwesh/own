@@ -2,6 +2,7 @@ import { h } from "../h.js";
 import { Sequence } from "../ui.jsx";
 import deployYml from "../../../.github/workflows/deploy.yml?raw";
 import { siteDomain } from "../../constants/index.js";
+import { RealDeployLine } from "../deployUi.jsx";
 
 // The steps come from the real workflow file: its `- name:` entries and the `echo "..."`
 // progress lines inside the SSH script. The timings are made up and always add up to 42s.
@@ -31,6 +32,9 @@ export default {
     "Replays the steps of .github/workflows/deploy.yml (checkout, SSH to the VM, install, build, PM2, the two API proxies, nginx) with progress bars. The timings are invented and always sum to 42s.",
   example: "deploy",
   run() {
-    return h(Sequence, { steps, outro: `deployed to ${siteDomain} in ${TOTAL}s` });
+    return h(Sequence, {
+      steps,
+      outro: h("span", null, `deployed to ${siteDomain} in ${TOTAL}s`, h("br"), h(RealDeployLine)),
+    });
   },
 };

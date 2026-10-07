@@ -4,7 +4,7 @@ import { daemon } from "./state";
 // ───────────── sprite (original 16x16 ghost, drawn as <rect>s) ─────────────
 // O outline, B body, C detail colour. Eyes, cheeks and mouth are drawn separately so
 // they can move or close.
-const BODY = [
+export const BODY = [
   "......OOOO......",
   "....OOBBCCOO....",
   "...OBBBBBBBBO...",
@@ -27,7 +27,7 @@ const QUESTION = ["XXX.", "X.X.", "..X.", ".X..", "....", ".X.."];
 const Z_BIG = ["XXXXX", "...X.", "..X..", ".X...", "XXXXX"];
 const Z_SMALL = ["XXX", ".X.", "XXX"];
 
-const Pixels = ({ grid, cls }) =>
+export const Pixels = ({ grid, cls }) =>
   grid.flatMap((row, y) =>
     [...row].map((c, x) =>
       c === "." ? null : <rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" className={cls[c]} />

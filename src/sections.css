@@ -2006,3 +2006,53 @@ a.inc-head:hover .inc-title {
     grid-row: 3;
   }
 }
+
+/* ───────── Other visitors (presence) ───────── */
+.peer-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483640; /* just under my own daemon */
+  overflow: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.peer-daemon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32px;
+  opacity: 0.35;
+  pointer-events: none;
+  --dm-body: #1A1A1A;
+  --dm-eye: #ECE8DF;
+  --dm-detail: #6B665C;
+}
+
+/* Over the terminal, the same device colours as my own daemon. */
+.peer-daemon.dm-terminal {
+  --dm-body: #E6E6E6;
+  --dm-eye: #0D0D0D;
+  --dm-detail: #E8A33D;
+}
+
+.peer-name {
+  display: block;
+  margin-top: 2px;
+  text-align: center;
+  font-size: 9px;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--text);
+  transform: translateX(-0px);
+}
+
+.peer-daemon.dm-terminal .peer-name {
+  color: #E6E6E6;
+}
+
+.ships-live {
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--muted);
+}

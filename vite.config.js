@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { readdirSync, readFileSync } from 'node:fs'
+import { execSync } from 'node:child_process'
 
 // Drafts (anything containing "[NEEDS CONFIRMATION") are visible in `npm run dev` and removed
 // from `npm run build`: incident drafts are filtered out of the incidents module, and the
@@ -54,17 +55,39 @@ const stripDrafts = () => {
   }
 }
 
+// The commit this build was made from: short and full sha, the first line of the message (60
+// characters at most) and the commit date. Shown in the footer until /api/deploy answers.
+const git = (args, fallback = '') => {
+  try {
+    return execSync(`git ${args}`, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim() || fallback
+  } catch {
+    return fallback
+  }
+}
+const subject = git('log -1 --pretty=%s', 'unknown')
+const BUILD = {
+  sha: git('rev-parse --short HEAD', 'unknown'),
+  full: git('rev-parse HEAD'),
+  message: subject.length > 60 ? `${subject.slice(0, 57)}...` : subject,
+  date: git('log -1 --pretty=%cI'),
+  builtAt: new Date().toISOString(),
+}
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [stripDrafts(), react()],
   define: {
     // Shown in the footer as "last deploy".
     __BUILD_DATE__: JSON.stringify(new Date().toISOString().slice(0, 10)),
+    __BUILD__: JSON.stringify(BUILD),
   },
   server: {
     // Local stand-ins for the nginx routes used in production.
     proxy: {
       '/api/github': { target: 'http://127.0.0.1:4002', rewrite: (p) => p.replace(/^\/api\/github/, '') },
+      '/api/deploy': { target: 'http://127.0.0.1:4002', rewrite: () => '/deploy' },
+      '/api/presence': { target: 'http://127.0.0.1:4004', rewrite: () => '/counts' },
+      '/socket.io': { target: 'http://127.0.0.1:4004', ws: true },
       '/api/status': { target: 'http://127.0.0.1:4003', rewrite: () => '/status' },
       '/api/leetcode': { target: 'http://127.0.0.1:4001', rewrite: (p) => p.replace(/^\/api\/leetcode/, '') },
     },

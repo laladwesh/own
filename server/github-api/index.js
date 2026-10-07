@@ -163,9 +163,9 @@ async function fetchPrs() {
 const caches = new Map();
 const inflight = new Map();
 
-async function cached(key, loader) {
+async function cached(key, loader, ttl = TTL) {
   const hit = caches.get(key);
-  if (hit && Date.now() - hit.at < TTL) return { ...hit.data, stale: false };
+  if (hit && Date.now() - hit.at < ttl) return { ...hit.data, stale: false };
   if (!inflight.has(key)) {
     inflight.set(
       key,
@@ -204,5 +204,42 @@ const route = (path, key, loader) =>
 
 route("/stats", "stats", fetchStats);
 route("/prs", "prs", fetchPrs);
+
+// GET /deploy: the latest run of the deploy workflow. Only the status, the short sha and the
+// timings leave this process: no URLs, no run ids, no tokens. Cached for 5 minutes.
+const DEPLOY_REPO = process.env.DEPLOY_REPO || `${USERNAME}/own`;
+const DEPLOY_WORKFLOW = process.env.DEPLOY_WORKFLOW || "deploy.yml";
+const DEPLOY_TTL = 5 * 60 * 1000;
+
+async function fetchDeploy() {
+  const url = `https://api.github.com/repos/${DEPLOY_REPO}/actions/workflows/${DEPLOY_WORKFLOW}/runs?per_page=1&branch=master`;
+  const headers = { Accept: "application/vnd.github+json", "User-Agent": "portfolio-github-api" };
+  let res = await fetch(url, { headers: TOKEN ? { ...headers, Authorization: `Bearer ${TOKEN}` } : headers });
+  // The repo is public, so a bad token can fall back to an anonymous call.
+  if (res.status === 401 && TOKEN) res = await fetch(url, { headers });
+  if (!res.ok) throw new Error(`GitHub HTTP ${res.status}`);
+  const run = (await res.json()).workflow_runs?.[0];
+  if (!run) throw new Error("no workflow runs");
+  const done = run.status === "completed";
+  const startedAt = run.run_started_at ?? run.created_at;
+  const finishedAt = done ? run.updated_at : null;
+  return {
+    status: !done ? "running" : run.conclusion === "success" ? "success" : "failure",
+    sha: String(run.head_sha).slice(0, 7),
+    startedAt,
+    durationSec: done ? Math.max(0, Math.round((Date.parse(finishedAt) - Date.parse(startedAt)) / 1000)) : null,
+    finishedAt,
+  };
+}
+
+app.get("/deploy", async (_req, res) => {
+  try {
+    const { stale, ...data } = await cached("deploy", fetchDeploy, DEPLOY_TTL);
+    res.json(data);
+  } catch (err) {
+    console.error(`[github-api] deploy: ${err.message}`);
+    res.status(502).json({ error: "github unavailable" });
+  }
+});
 
 app.listen(PORT, "127.0.0.1", () => console.log(`[github-api] listening on 127.0.0.1:${PORT}`));

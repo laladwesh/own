@@ -1,4 +1,4 @@
-import { forwardRef, memo, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
+import { forwardRef, memo, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -13,6 +13,7 @@ import { GROUPS } from "../terminal/groups.js";
 import { countLines } from "../terminal/text.js";
 import { scrollToSection } from "../lib/helperFunctions";
 import { now } from "../constants/now";
+import { getPresence, subscribePresence } from "../presence/store";
 import { scope } from "../scope/scopeStore";
 
 const role = aboutMe.tagLine.split(" | ").join(" / ");
@@ -195,6 +196,7 @@ const Terminal = forwardRef(function Terminal(
   const [cwd, setCwdState] = useState([]);
   const [mode, setMode] = useState(null); // snake | vim | htop | typespeed
   const [ask, setAsk] = useState(null); // { spec, i, answers }
+  const presence = useSyncExternalStore(subscribePresence, getPresence);
   const [replay, setReplay] = useState(null); // an incident replay in progress (see terminal/replay.js)
   const replayRef = useRef(null);
   replayRef.current = replay;
@@ -1002,6 +1004,7 @@ const Terminal = forwardRef(function Terminal(
             ? commands
           </button>
           {"  /  tab complete"}
+          {presence.connected && presence.online.total > 0 && `  /  ${presence.online.total} online`}
           {now.lookingForShort && `  /  open to: ${now.lookingForShort}`}
         </span>
       </div>

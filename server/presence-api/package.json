@@ -1,0 +1,14 @@
+{
+  "name": "presence-api",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "In-memory visitor presence over Socket.IO. Nothing about a visitor is stored.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "socket.io": "^4.8.1"
+  }
+}

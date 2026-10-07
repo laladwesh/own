@@ -4,6 +4,7 @@ import { siteDomain } from "../constants";
 import SectionHeading from "./SectionHeading";
 import { Manifest, ModeToggle } from "./Manifest";
 import StatusRack from "./StatusRack";
+import DeployLine from "./DeployLine";
 
 // Each step is taken from .github/workflows/deploy.yml and nginx.conf.
 const STEPS = [
@@ -21,6 +22,7 @@ const SERVICES = [
   ["leetcode-api", ":4001", "/api/leetcode/"],
   ["github-api", ":4002", "/api/github/"],
   ["status-api", ":4003", "/api/status"],
+  ["presence-api", ":4004", "/socket.io/"],
 ];
 
 // Turn the raw YAML text into Manifest lines.
@@ -80,6 +82,9 @@ const Ships = () => {
           </p>
         </div>
       )}
+      <p className="ships-live">
+        <DeployLine />
+      </p>
       <StatusRack />
     </section>
   );

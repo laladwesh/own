@@ -1,6 +1,7 @@
 import { h } from "../h.js";
 import { Lines, Muted } from "../ui.jsx";
 import { daemon, setDaemonStopped } from "../../daemon/state.js";
+import { setPresenceEnabled } from "../../presence/store.js";
 
 const status = () => {
   const active = daemon.available && !daemon.stopped;
@@ -26,7 +27,8 @@ export default {
     if (!daemon.available) return h(Muted, null, "daemon: not available on touch devices or with reduced motion");
     if (sub === "stop") {
       setDaemonStopped(true);
-      return "daemon.service stopped";
+      setPresenceEnabled(false); // a stopped daemon is not shown to anyone either
+      return "daemon.service stopped (presence off too)";
     }
     if (sub === "start") {
       setDaemonStopped(false);

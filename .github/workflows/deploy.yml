@@ -54,6 +54,14 @@ jobs:
               && pm2 reload leetcode-api \
               || pm2 start server/leetcode-api/ecosystem.config.cjs
 
+            echo "Deploying presence-api (visitor presence over Socket.IO)..."
+            cd server/presence-api
+            npm install --production
+            cd ~/portfolio
+            pm2 describe presence-api > /dev/null 2>&1 \
+              && pm2 reload presence-api \
+              || pm2 start server/presence-api/ecosystem.config.cjs
+
             echo "Deploying status-api (health checks for the status rack)..."
             pm2 describe status-api > /dev/null 2>&1 \
               && pm2 reload status-api \

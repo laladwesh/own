@@ -59,10 +59,13 @@ import notesCmd from "./notes.js";
 import nowCmd from "./now.js";
 import replay from "./replay.js";
 import status from "./status.js";
+import who from "./who.js";
+import presenceCmd from "./presence.js";
+import wall from "./wall.js";
 
 export const commands = [
   help, man, ls, cd, pwd, cat, tree, open, history, clear, exit,
-  whoami, neofetch, git, hire, journalctl, incidents, ghostOa, oaCheck, agnigarh, notesCmd, nowCmd, replay, status,
+  whoami, neofetch, git, hire, journalctl, incidents, ghostOa, oaCheck, agnigarh, notesCmd, nowCmd, replay, status, who, presenceCmd, wall,
   kubectl, docker, gh, systemctl, helm, terraform, uptime, top,
   scope, resistor, bin, hex, ohm,
   grep, wc, head, sort, theme,
