@@ -15,6 +15,7 @@ import repoData from "../data/github-projects.json";
 import { slug, startOf } from "./util.js";
 import { now, nowNotes } from "../constants/now.js";
 import { notes } from "./notes.js";
+import { caseStudies } from "./caseStudies.js";
 
 // ───────────── projects ("kubectl get deployments") ─────────────
 // A live link = Running, GitHub only = Completed, no links = Private.
@@ -39,7 +40,7 @@ export const describeObject = (p) => ({
   live: p.link,
   hub: p.hub,
   access: p.internal,
-  caseStudy: p.caseStudy && `/projects/${p.caseStudy}`,
+  caseStudy: caseStudies[p.caseStudy] ? `/projects/${p.caseStudy}` : undefined,
   store: p.playStore || p.appStore ? { play: p.playStore, "app-store": p.appStore } : undefined,
 });
 

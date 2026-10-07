@@ -11,6 +11,8 @@ import { execSync } from 'node:child_process'
 const MARK = '[NEEDS CONFIRMATION'
 const NOTES_DIR = fileURLToPath(new URL('./src/content/notes/', import.meta.url))
 const VIRTUAL_NOTES = '\0virtual:notes'
+const CASE_DIR = fileURLToPath(new URL('./src/content/case-studies/', import.meta.url))
+const VIRTUAL_CASES = '\0virtual:case-studies'
 
 const stripDrafts = () => {
   let building = false
@@ -21,19 +23,22 @@ const stripDrafts = () => {
       building = config.command === 'build'
     },
     resolveId(id) {
-      return id === 'virtual:notes' ? VIRTUAL_NOTES : null
+      if (id === 'virtual:notes') return VIRTUAL_NOTES
+      if (id === 'virtual:case-studies') return VIRTUAL_CASES
+      return null
     },
+    // Notes and case studies: every markdown file, minus drafts in a production build.
     load(id) {
-      if (id !== VIRTUAL_NOTES) return null
-      const files = readdirSync(NOTES_DIR).filter((f) => f.endsWith('.md'))
-      const notes = []
-      for (const f of files) {
-        this.addWatchFile(NOTES_DIR + f)
-        const raw = readFileSync(NOTES_DIR + f, 'utf8')
+      const dir = id === VIRTUAL_NOTES ? NOTES_DIR : id === VIRTUAL_CASES ? CASE_DIR : null
+      if (!dir) return null
+      const items = []
+      for (const f of readdirSync(dir).filter((x) => x.endsWith('.md'))) {
+        this.addWatchFile(dir + f)
+        const raw = readFileSync(dir + f, 'utf8')
         if (building && raw.includes(MARK)) continue
-        notes.push({ slug: f.replace(/\.md$/, ''), raw })
+        items.push({ slug: f.replace(/\.md$/, ''), raw })
       }
-      return `export default ${JSON.stringify(notes)};`
+      return `export default ${JSON.stringify(items)};`
     },
     async transform(code, id) {
       if (!building) return null

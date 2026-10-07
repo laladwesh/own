@@ -3,6 +3,7 @@ import { Cell, Lines, Muted, Run } from "../ui.jsx";
 import { extraCurricular, projects } from "../../constants/index.js";
 import { describeObject, projectStatus } from "../../lib/data.js";
 import { slug } from "../../lib/util.js";
+import { caseStudies } from "../../lib/caseStudies.js";
 import { linesToText, yamlLines } from "../../lib/yaml.js";
 
 const header = (cells) => h("span", { className: "term-muted" }, ...cells.map(([w, t], i) => h(Cell, { key: i, w }, t)));
@@ -51,7 +52,7 @@ const describe = (args, ctx) => {
   const p = projects.find((x) => slug(x.title) === name || x.id === name);
   if (!p) return h(Muted, null, `Error from server (NotFound): deployments "${name}" not found`);
   const lines = linesToText(yamlLines(describeObject(p))).split("\n");
-  if (p.caseStudy) {
+  if (caseStudies[p.caseStudy]) {
     const cmd = `open projects/${slug(p.title)}/CASE_STUDY.md`;
     lines.push(" ", h("span", { key: "cs" }, h(Run, { cmd, run: ctx.run, title: cmd }, `case study \u2192 /projects/${p.caseStudy}`)));
   }

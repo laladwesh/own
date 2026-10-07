@@ -239,6 +239,7 @@ export const experiences = [
       {
         title: "Software Developer Intern (Summer)",
         duration: "May 2026 – Jul 2026",
+        relatedProjects: ["intern-portal"],
         content: [
           {
             text: "Architected and deployed two centralised platforms — Placement Portal and Intern Portal — using React, Ant Design, Redux Toolkit, Node.js/Express and MongoDB, securing 6 role-based access levels with JWT and Google/Microsoft OAuth2 SSO.",
@@ -257,6 +258,7 @@ export const experiences = [
       {
         title: "Student Coordinator",
         duration: "Sept 2025 – Feb 2026",
+        relatedProjects: ["dday-live-portal"],
         content: [
           {
             text: "Built and Dockerized the D-Day Live Placement Portal — real-time WebSocket dashboard with role-based access (admin/POC/student), PDF generation, interview slot management, and auto-blocking of placed students; deployed on IITG servers via SSH, supporting 150+ POCs and 1500+ students.",
@@ -417,6 +419,7 @@ export const experiences = [
 export const projects = [
   {
     id: "project-1",
+    caseStudy: "intern-portal",
     title: "Intern Portal CCD, IITG",
     github: "https://github.com/tnp-iitg/Intern-Portal-IITG/tree/dev/",
     link: "https://iitg.ac.in/intern",
@@ -522,6 +525,7 @@ export const projects = [
   },
   {
     id: "project-status",
+    caseStudy: "status-monitor",
     title: "Status & Infra Monitor",
     github: "https://github.com/laladwesh/status",
     link: "https://status.prasadacademic.in",
@@ -542,6 +546,7 @@ export const projects = [
   },
   {
     id: "project-dday",
+    caseStudy: "dday-live-portal",
     title: "D-Day Live Placement Portal",
     github: "https://github.com/laladwesh/live-placement-ccd/",
     link: "https://iitg.ac.in/dday",

@@ -5,6 +5,7 @@ import { incidents } from "../src/constants/incidents.js";
 import { now } from "../src/constants/now.js";
 import { DRAFT_MARK, isDraftObject, isDraftText } from "../src/lib/drafts.js";
 import { loadNotes, notesDir } from "./notes.mjs";
+import { caseDir, loadCaseStudies } from "./case-studies.mjs";
 
 // Walk an object and report where the marker appears, e.g. timeline[4].event
 const findInObject = (value, trail, out) => {
@@ -39,6 +40,14 @@ for (const note of loadNotes({ includeDrafts: true }).filter((n) => n.draft)) {
   console.log(`\nNOTE ${note.slug}: ${note.title}`);
   note.raw.split("\n").forEach((line, i) => {
     if (line.includes(DRAFT_MARK)) console.log(`  ${notesDir.split(/[\\/]/).slice(-3).join("/")}/${note.slug}.md:${i + 1}: ${line.trim()}`);
+  });
+}
+
+for (const cs of loadCaseStudies({ includeDrafts: true }).filter((c) => c.draft)) {
+  count += 1;
+  console.log(`\nCASE STUDY ${cs.slug}: ${cs.title}`);
+  cs.raw.split("\n").forEach((line, i) => {
+    if (line.includes(DRAFT_MARK)) console.log(`  ${caseDir.split(/[\\/]/).slice(-3).join("/")}/${cs.slug}.md:${i + 1}: ${line.trim()}`);
   });
 }
 

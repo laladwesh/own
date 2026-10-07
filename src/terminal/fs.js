@@ -44,7 +44,7 @@ const projectDir = (p) => {
     file("README.md", `${p.title}\n\n${p.content}`),
     file("stack.txt", p.stack.map((t) => t.name).join("\n")),
     file("link", urls.length ? urls.join("\n") : p.internal ?? "", { href: p.link || p.hub || p.github, urls: projectLinks(p).map(([, u]) => u) }),
-    ...(p.caseStudy
+    ...(caseStudies[p.caseStudy]
       ? [
           file(
             "CASE_STUDY.md",

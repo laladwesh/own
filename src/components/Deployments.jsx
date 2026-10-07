@@ -4,6 +4,7 @@ import { slug } from "../lib/util.js";
 import { describeObject, projectLinks as links, projectStatus } from "../lib/data";
 import { Link } from "react-router-dom";
 import { notes } from "../lib/notes";
+import { caseStudies } from "../lib/caseStudies";
 import SectionHeading from "./SectionHeading";
 import { Switchable, Wide, yamlLines } from "./Manifest";
 
@@ -21,7 +22,7 @@ const Describe = ({ project }) => (
             ["Description", project.content],
             ["Stack", project.stack.map((t) => t.name).join(", ")],
             ["Access", project.internal],
-            ["Case study", project.caseStudy ? <Link to={`/projects/${project.caseStudy}`}>read case study &rarr;</Link> : null],
+            ["Case study", caseStudies[project.caseStudy] ? <Link to={`/projects/${project.caseStudy}`}>read case study &rarr;</Link> : null],
             ["Links", links(project).length ? (
               <span className="wide-links">
                 {links(project).map(([label, href]) => (
@@ -35,7 +36,7 @@ const Describe = ({ project }) => (
         />
       }
     />
-    {project.caseStudy && (
+    {caseStudies[project.caseStudy] && (
       <p className="describe-link">
         <Link to={`/projects/${project.caseStudy}`}>read case study &rarr;</Link>
       </p>
@@ -80,7 +81,7 @@ const Deployments = () => {
                       read the note &rarr;
                     </Link>
                   )}
-                  {p.caseStudy && (
+                  {caseStudies[p.caseStudy] && (
                     <Link to={`/projects/${p.caseStudy}`} className="row-case">
                       read case study &rarr;
                     </Link>

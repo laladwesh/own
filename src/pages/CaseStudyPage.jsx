@@ -6,6 +6,7 @@ import { Md } from "../components/Markdown";
 import { caseStudies } from "../lib/caseStudies";
 import { caseStudySeo } from "../lib/seo";
 import { copyText } from "../lib/clipboard";
+import { DRAFT_BANNER } from "../lib/drafts";
 import { useSeo } from "../lib/useSeo";
 import NotFound from "./NotFound";
 
@@ -67,6 +68,11 @@ const CaseStudyView = ({ study }) => {
         </div>
 
         <article className="report cs" aria-label={`${study.title} case study`}>
+          {study.draft && (
+            <p className="draft-banner" role="note">
+              {DRAFT_BANNER}
+            </p>
+          )}
           <dl className="cs-meta">
             <MetaItem label="ROLE">{study.role}</MetaItem>
             <MetaItem label="TEAM">{study.team}</MetaItem>

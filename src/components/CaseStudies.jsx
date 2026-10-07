@@ -18,6 +18,7 @@ const CaseStudies = () => {
           <article key={s.slug} className="cs-card">
             <p className="cs-card-meta">
               {shortTitle(s)} / {s.timeline} / {s.status}
+              {s.draft && <span className="draft-tag">draft</span>}
             </p>
             <h3 className="cs-card-title">
               <Link to={`/projects/${s.slug}`}>{s.title}</Link>
