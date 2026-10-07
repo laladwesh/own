@@ -1,5 +1,6 @@
 // Printed schematics for postmortems: ink on paper, plain SVG, no colour.
 // A diagram is picked by the incident's `diagram` id.
+import CcdInternetBeforeAfter from "./ConnectivityDiagram";
 
 const ROLES = ["ROLE A", "ROLE B", "ROLE C"];
 const CAP = "registered ∩ attended";
@@ -106,4 +107,4 @@ const GhostOaFanout = () => (
   </figure>
 );
 
-export const DIAGRAMS = { "ghost-oa-fanout": GhostOaFanout };
+export const DIAGRAMS = { "ghost-oa-fanout": GhostOaFanout, "ccd-internet-before-after": CcdInternetBeforeAfter };

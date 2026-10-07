@@ -25,6 +25,16 @@ export const DIAGRAM_ASCII = {
     "  A only -> appears in A only",
     "  in list, no role -> skipped",
   ],
+  "ccd-internet-before-after": [
+    "  BEFORE",
+    "  CCD server -> login script (every ~40s) -> campus captive portal -> internet",
+    "                  x session drops -> apps lose DB / sign-in / email -> 502 on every portal",
+    "",
+    "  AFTER",
+    "  CCD server -> direct access + required outbound opened -> internet",
+    "",
+    "  fixed by emails, 5 trips to the network office and paperwork",
+  ],
 };
 
 // The object behind `-o yaml`.

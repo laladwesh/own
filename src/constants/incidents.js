@@ -108,4 +108,48 @@ export const incidents = [
     tags: ["system-design", "data-modeling", "node", "mongodb", "react", "placements"],
     diagram: "ghost-oa-fanout",
   },
+  {
+    id: "INC-003",
+    kind: "outage",
+    status: "RESOLVED",
+    title: "Our production server was logging into campus Wi-Fi every 40 seconds",
+    date: "2026-03",
+    severity: "SEV-1",
+    duration: "Intermittent, through the Student Coordinator → Lead Student Coordinator handover",
+    impact:
+      "CCD's on-campus server had no direct internet. Every time its network session dropped, the apps behind Nginx lost access to everything they depended on, and every CCD portal returned 502 Bad Gateway.",
+    summary:
+      "The server reached the internet through the campus captive portal (agnigarh), the same login page students use. A shell script logged it in again and again, because each session lasted about 40 seconds. Firewall policies kept changing, and whenever the loop broke, everything went down. The real fix wasn't code: emails, repeated visits to the network office and paperwork got the server direct internet access, and then the ports our portals needed.",
+    timeline: [
+      { event: "During the Student Coordinator → Lead Student Coordinator handover, I took over a server that reached the internet only through the campus captive portal" },
+      { event: "An auto-login shell script (auto-agnigarh.sh) kept logging the server into the gateway; each session stayed valid for about 40 seconds, so it refreshed constantly" },
+      { event: "Campus firewall policies changed several times as the network was tightened; each change could break the login loop" },
+      { event: "Whenever the loop failed, the apps couldn't reach their database, sign-in or email services, and every portal behind Nginx showed 502 Bad Gateway" },
+      { event: "Wrote to the network admins explaining that a production server can't depend on a 40-second human login" },
+      { event: "Followed up in person at the network office 4–5 times and completed the required paperwork" },
+      { event: "The server was given direct internet access: no captive portal, no login loop" },
+      { event: "Requested the outbound access our portals needed (database, OAuth / sign-in and Microsoft services), which had been blocked; it was opened" },
+      { event: "Retired the auto-login script" },
+    ],
+    rootCause:
+      "A production server depended on a captive portal designed for people, not machines: 40-second sessions, re-authenticated by a script, on a network whose policies were changing.",
+    whatFailed: [
+      "An auto-login loop against the captive portal: it kept things up most of the time, but any hiccup took every portal down",
+      "Adapting the script to each firewall change as it came",
+    ],
+    resolution: [
+      "Formal request to the network admins, with in-person follow-ups and paperwork",
+      "Direct internet access for the server",
+      "Outbound access opened for database, OAuth / sign-in and Microsoft services",
+      "Login loop retired",
+    ],
+    actionItems: [
+      { done: true, text: "Server no longer depends on the captive portal" },
+      { done: false, text: "Keep a written list of every outbound dependency the portals need, so the next request is one email" },
+    ],
+    lesson:
+      "Some infrastructure problems aren't technical. The script kept us alive; the emails, the visits to the network office and the paperwork actually fixed it. And a server should never depend on a login meant for a human.",
+    tags: ["networking", "firewall", "nginx", "linux", "campus-infra"],
+    diagram: "ccd-internet-before-after",
+  },
 ];

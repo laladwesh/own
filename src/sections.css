@@ -1716,3 +1716,12 @@ a.inc-head:hover .inc-title {
 .cs-body .diag-narrow {
   max-width: 340px;
 }
+
+/* A schematic with more boxes than the Ghost OA one gets more room. */
+.diagram--wide .diag-svg {
+  max-width: 880px;
+}
+
+.diagram--wide .diag-narrow {
+  max-width: 340px;
+}
