@@ -23,6 +23,11 @@ export const loadStatus = ({ force = false } = {}) => {
           status: s.status,
           latencyMs: Number.isFinite(s.latencyMs) ? s.latencyMs : null,
           checkedAt: s.checkedAt,
+          // The last results, oldest first (the rack's heartbeat strip). Only valid entries.
+          history: (Array.isArray(s.history) ? s.history : [])
+            .filter((x) => x && STATES.has(x.status))
+            .slice(-30)
+            .map((x) => ({ status: x.status, latencyMs: Number.isFinite(x.latencyMs) ? x.latencyMs : null })),
         }));
       cache = { at: Date.now(), services };
       return services;

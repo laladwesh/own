@@ -1,9 +1,12 @@
 // Live status for the portfolio's own services (GET /status, proxied as /api/status).
 //
 // It checks the health URLs listed in services.config.js, with a timeout, caches the result for
-// 60 seconds, and returns only { name, status, latencyMs, checkedAt } per service. No URLs, no
-// IPs and no error text ever leave this process. The URLs live here, on the server, not in the
-// client.
+// 60 seconds, and returns only { name, status, latencyMs, checkedAt, history } per service.
+// `history` is the last 30 results ({ status, latencyMs }, oldest first), kept in memory: the
+// heartbeat strip on the rack is drawn from it. A check also runs every TTL with nobody
+// watching, so the history is a steady timeline, not just "whenever someone looked". No URLs,
+// no IPs and no error text ever leave this process. The URLs live here, on the server, not in
+// the client.
 //
 //   up        answered 2xx/3xx within SLOW_MS
 //   degraded  answered, but slowly (over SLOW_MS) or with a 4xx
@@ -33,16 +36,23 @@ const check = async (svc) => {
   }
 };
 
+const HISTORY = 30;
+const history = new Map(); // name -> [{ status, latencyMs }], oldest first, in memory only
+
 let cache = { at: 0, data: null };
 let pending = null;
 
-const getStatus = () => {
-  if (cache.data && Date.now() - cache.at < TTL) return Promise.resolve(cache.data);
+const refresh = () => {
   if (!pending) {
     pending = Promise.all(services.map(check))
       .then((results) => {
         const checkedAt = new Date().toISOString();
-        cache = { at: Date.now(), data: results.map((r) => ({ ...r, checkedAt })) };
+        for (const r of results) {
+          const list = history.get(r.name) ?? [];
+          list.push({ status: r.status, latencyMs: r.latencyMs });
+          history.set(r.name, list.slice(-HISTORY));
+        }
+        cache = { at: Date.now(), data: results.map((r) => ({ ...r, checkedAt, history: history.get(r.name) })) };
         return cache.data;
       })
       .finally(() => {
@@ -51,6 +61,14 @@ const getStatus = () => {
   }
   return pending;
 };
+
+const getStatus = () => (cache.data && Date.now() - cache.at < TTL ? Promise.resolve(cache.data) : refresh());
+
+// Keep the timeline going when nobody is looking.
+refresh().catch(() => {});
+setInterval(() => {
+  if (Date.now() - cache.at >= TTL * 0.9) refresh().catch(() => {});
+}, TTL);
 
 const send = (req, res, code, body) => {
   const origin = req.headers.origin;

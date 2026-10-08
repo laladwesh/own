@@ -1942,97 +1942,286 @@ a.inc-head:hover .inc-title {
   min-height: 44px;
 }
 
-/* ───────── Live status rack (a small dark device) ───────── */
-.status-rack {
+/* ───────── Live status rack: a 19-inch rack of 1U units (a dark device) ───────── */
+.rack {
+  --rk-body: #0D0D0D;
+  --rk-panel: #141414;
+  --rk-plate: #1A1A1A;
+  --rk-ear: #181818;
+  --rk-line: #2A2A2A;
+  --rk-text: #E6E6E6;
+  --rk-muted: #8A8A8A;
+  --rk-up: #5FD38D;
+  --rk-warn: #E8A33D;
+  --rk-down: #E5534B;
+  --rk-off: #5A5A5A;
+  --rk-ear-w: 22px;
+  position: relative;
   margin-top: 32px;
   max-width: 640px;
-  color: #E6E6E6;
-  background: #0D0D0D;
-  border: 1px solid #2A2A2A;
+  padding: 10px var(--rk-ear-w);
+  color: var(--rk-text);
+  background: var(--rk-ear);
+  border: 1px solid var(--rk-line);
   border-radius: 4px;
   box-shadow: 0 20px 40px -12px rgba(26, 26, 26, 0.35), 0 2px 4px rgba(26, 26, 26, 0.15);
 }
 
-.status-plate {
-  margin: 12px;
-  padding: 6px 12px;
-  font-size: 13px;
-  color: #E6E6E6;
-  background: #141414;
-  border: 1px solid #2A2A2A;
+/* The two vertical rails (rack ears): a darker inset line on the inner side of each. */
+.rack::before,
+.rack::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--rk-ear-w);
+  pointer-events: none;
 }
 
-.status-units {
-  margin: 0;
-  padding: 0 0 8px;
-  list-style: none;
+.rack::before {
+  left: 0;
+  border-right: 1px solid #0A0A0A;
+  box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.04);
 }
 
-.status-unit {
-  display: grid;
-  grid-template-columns: 12px minmax(0, 1.4fr) auto auto auto;
+.rack::after {
+  right: 0;
+  border-left: 1px solid #0A0A0A;
+  box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+.rack-main {
+  background: var(--rk-body);
+}
+
+/* Engraved label plate: a slightly lighter rectangle with an inset border. */
+.rack-plate {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 4px 14px;
-  min-height: 48px;
-  padding: 8px 16px;
-  font-size: 14px;
-  background: #141414;
-  border-top: 1px solid #2A2A2A;
+  gap: 12px;
+  margin: 0 0 2px;
+  padding: 8px 12px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rk-muted);
+  background: var(--rk-plate);
+  box-shadow: inset 0 0 0 1px var(--rk-line), inset 0 0 0 3px var(--rk-plate), inset 0 0 0 4px #101010;
 }
 
-.status-unit:last-child {
-  border-bottom: 1px solid #2A2A2A;
+.rack-plate-id {
+  color: var(--rk-text);
 }
 
-.status-name {
-  font-weight: 700;
-  overflow-wrap: anywhere;
-}
-
-.status-name--off {
-  color: #8A8A8A;
-  font-weight: 500;
-}
-
-.status-state,
-.status-latency,
-.status-ago {
-  color: #8A8A8A;
-  font-size: 13px;
+.rack-plate-ago {
+  text-transform: none;
+  letter-spacing: 0.02em;
   white-space: nowrap;
 }
 
-/* Steady LEDs, no blinking. The word next to each one says the same thing. */
-.st-led {
-  width: 10px;
-  height: 10px;
-  border-radius: 9999px;
-  border: 1px solid rgba(0, 0, 0, 0.6);
+.rack-units {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.st-led--up { background: #5FD38D; }
-.st-led--degraded { background: #E8A33D; }
-.st-led--down { background: #E5534B; }
-.st-led--off { background: #5A5A5A; }
+/* One 1U unit. */
+.rack-unit {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 44px;
+  padding: 6px 14px;
+  font-size: 13px;
+  background: var(--rk-panel);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.7);
+}
 
-@media (max-width: 619px) {
-  .status-unit {
-    grid-template-columns: 12px minmax(0, 1fr) auto;
+/* Screw holes on the rails: two per unit, each a small circle with a slot. */
+.rack-unit::before,
+.rack-unit::after,
+.rack-plate::before,
+.rack-plate::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--rk-ear-w);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='44' viewBox='0 0 22 44'%3E%3Cg fill='%230A0A0A' stroke='%23333' stroke-width='1'%3E%3Ccircle cx='11' cy='10' r='3.5'/%3E%3Ccircle cx='11' cy='34' r='3.5'/%3E%3C/g%3E%3Cg stroke='%23444' stroke-width='1'%3E%3Cpath d='M9 12 L13 8'/%3E%3Cpath d='M9 36 L13 32'/%3E%3C/g%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  box-shadow: none;
+}
+
+.rack-unit::before,
+.rack-plate::before {
+  right: 100%;
+}
+
+.rack-unit::after,
+.rack-plate::after {
+  left: 100%;
+}
+
+.rack-plate {
+  position: relative;
+}
+
+/* The plate has room for one hole per side. */
+.rack-plate::before,
+.rack-plate::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='34' viewBox='0 0 22 34'%3E%3Ccircle cx='11' cy='17' r='3.5' fill='%230A0A0A' stroke='%23333'/%3E%3Cpath d='M9 19 L13 15' stroke='%23444'/%3E%3C/svg%3E");
+}
+
+/* The LED sits in a darker bezel: a steady 8x4 rectangle, no glow. */
+.rack-bezel {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 18px;
+  height: 12px;
+  background: #070707;
+  border: 1px solid #262626;
+  box-shadow: inset 0 1px 1px #000;
+}
+
+.rack-led {
+  width: 8px;
+  height: 4px;
+  background: var(--rk-off);
+}
+
+.rack-led--up { background: var(--rk-up); }
+.rack-led--degraded { background: var(--rk-warn); }
+.rack-led--down { background: var(--rk-down); }
+.rack-led--off { background: var(--rk-off); }
+
+/* The engraved name. */
+.rack-name {
+  flex: none;
+  min-width: 15ch;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rack-name--off {
+  color: var(--rk-muted);
+}
+
+/* Short vertical vent slots. */
+.rack-vents {
+  display: flex;
+  gap: 5px;
+  flex: none;
+}
+
+.rack-vents i {
+  width: 2px;
+  height: 16px;
+  background: #070707;
+  box-shadow: 1px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Heartbeat: the last 30 checks. Height is latency (scaled per unit), a gap is a missed answer. */
+.rack-beat {
+  display: flex;
+  align-items: flex-end;
+  gap: 1px;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 20px;
+  overflow: hidden;
+  justify-content: flex-end;
+}
+
+.rack-beat i {
+  flex: none;
+  width: 2px;
+  background: var(--rk-up);
+  opacity: 0.7;
+}
+
+.rack-beat i.rack-tick--degraded {
+  background: var(--rk-warn);
+  opacity: 0.9;
+}
+
+.rack-beat i.rack-tick--gap {
+  background: none;
+}
+
+/* Segment-style readout in a dark inset window. */
+.rack-readout {
+  flex: none;
+  min-width: 8ch;
+  padding: 3px 8px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+  white-space: pre;
+  color: var(--rk-up);
+  background: #070707;
+  border: 1px solid #1C1C1C;
+  box-shadow: inset 0 1px 2px #000;
+  opacity: 1;
+}
+
+.rack-readout span {
+  opacity: 0.7;
+}
+
+.rack-readout--degraded { color: var(--rk-warn); }
+.rack-readout--down { color: var(--rk-down); }
+.rack-readout--off { color: var(--rk-off); }
+
+@media (max-width: 599px) {
+  .rack {
+    --rk-ear-w: 14px;
+    padding-left: var(--rk-ear-w);
+    padding-right: var(--rk-ear-w);
   }
 
-  .status-latency {
-    grid-column: 3;
-    grid-row: 1;
+  .rack-unit {
+    gap: 10px;
+    padding: 6px 10px;
   }
 
-  .status-state {
-    grid-column: 2;
-    grid-row: 2;
+  .rack-name {
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
   }
 
-  .status-ago {
-    grid-column: 2 / 4;
-    grid-row: 3;
+  .rack-vents {
+    display: none;
+  }
+
+  /* the last 15 ticks only */
+  .rack-beat {
+    flex: none;
+    width: 44px;
+  }
+
+  .rack-beat i:nth-last-child(n + 16) {
+    display: none;
+  }
+
+  .rack-readout {
+    min-width: 7ch;
+    padding: 3px 6px;
+  }
+
+  .rack-plate {
+    flex-wrap: wrap;
+    gap: 2px 12px;
+    padding: 8px 10px;
   }
 }
 
