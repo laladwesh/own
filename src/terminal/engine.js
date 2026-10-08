@@ -39,7 +39,7 @@ export const suggest = (name, unlocked) => {
 };
 
 // One command, with optional piped-in text. Returns { node, ok }.
-const runStage = (argv, ctx, stdin) => {
+const runStage = (argv, ctx, stdin, pipedFrom) => {
   const [name, ...args] = argv;
   const cmd = byName[name.toLowerCase()];
   if (!cmd || (cmd.secret && !ctx.unlocked)) {
@@ -56,7 +56,7 @@ const runStage = (argv, ctx, stdin) => {
     };
   }
   if (isDiscoverable(cmd.name) && !DISCOVER_LATER.has(cmd.name)) ctx.discover?.(cmd.name);
-  const node = cmd.run(args, { ...ctx, stdin, invokedAs: name.toLowerCase(), commands: visible(ctx.unlocked) });
+  const node = cmd.run(args, { ...ctx, stdin, pipedFrom, invokedAs: name.toLowerCase(), commands: visible(ctx.unlocked), allCommands: commands });
   return { ok: true, node };
 };
 
@@ -71,7 +71,7 @@ export const execute = (line, ctx) => {
     let stdin;
     let res;
     for (let i = 0; i < stages.length; i++) {
-      res = runStage(stages[i], ctx, stdin);
+      res = runStage(stages[i], ctx, stdin, i > 0 ? stages[i - 1][0].toLowerCase() : undefined);
       if (i < stages.length - 1) stdin = nodeToText(res.node);
     }
     ok = res.ok;

@@ -8,7 +8,7 @@ import { pathString } from "../terminal/fs.js";
 import { Ext, Lines, Run, Snake } from "../terminal/ui.jsx";
 import { createSession, promptOf, step as replayStep, suggestions as replaySuggestions } from "../terminal/replay.js";
 import { Htop, TypeSpeed, Vim } from "../terminal/modes.jsx";
-import { discover as discoverId, getDiscovered, total as discoverTotal } from "../terminal/discovery.js";
+import { discover as discoverId, coreFound, isDiscoverable, total as discoverTotal } from "../terminal/discovery.js";
 import { GROUPS } from "../terminal/groups.js";
 import { countLines } from "../terminal/text.js";
 import { scrollToSection } from "../lib/helperFunctions";
@@ -20,9 +20,10 @@ const role = aboutMe.tagLine.split(" | ").join(" / ");
 const HOME = "avinash@iitg:~$";
 const MAX_LINES = 500;
 const THEME_KEY = "term-theme";
+const NIGHT_KEY = "term-night";
 const SPRING = { type: "spring", stiffness: 300, damping: 30 };
 const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
-const GHOSTS = ["tour", "help", "now", "ssh recruiter@avinash", "deploy", "neofetch", "achievements"];
+const GHOSTS = ["tour", "help", "now", "ssh recruiter@avinash", "deploy", "make chai", "neofetch", "deploy --friday", "achievements", "sl"];
 const mail = socialMedia.find((s) => s.label === "Email (Gmail)")?.link;
 
 // The guided tour: it types each command itself and scrolls the page to the section.
@@ -274,7 +275,7 @@ const Terminal = forwardRef(function Terminal(
     const found = discoverId(id);
     if (!found) return;
     toasts.current.push({ toast: `[unlocked] ${found.label}` });
-    if (getDiscovered().size === discoverTotal) {
+    if (isDiscoverable(id) && coreFound() === discoverTotal) {
       toasts.current.push({
         node: (
           <div>
@@ -316,6 +317,7 @@ const Terminal = forwardRef(function Terminal(
 
   // ── running a line ──
   const runRef = useRef(null);
+  const nightSaid = useRef(false);
 
   // While a replay is running, every line goes to the replay engine instead of the shell.
   const runReplay = useCallback(
@@ -399,6 +401,25 @@ const Terminal = forwardRef(function Terminal(
       histIdx.current = histRef.current.length;
       stick.current = true;
       if (!didClear) push({ prompt: promptNow, cmd: trimmed, node });
+      // Between 01:00 and 05:00 on the visitor's clock: say so, once per session, after the output.
+      if (trimmed) {
+        const now = new Date();
+        let said = false;
+        try {
+          said = sessionStorage.getItem(NIGHT_KEY) === "1";
+        } catch {
+          said = nightSaid.current;
+        }
+        if (!said && !nightSaid.current && now.getHours() >= 1 && now.getHours() < 5) {
+          nightSaid.current = true;
+          try {
+            sessionStorage.setItem(NIGHT_KEY, "1");
+          } catch {
+            /* the ref still keeps it to once */
+          }
+          push({ node: `It's ${now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}. Go to sleep.` });
+        }
+      }
       flushToasts();
     },
     [skip, setCwd, clearScreen, onClose, push, discover, flushToasts, setTheme, runReplay]
@@ -646,7 +667,7 @@ const Terminal = forwardRef(function Terminal(
       if (i + 1 < spec.steps.length) setAsk({ spec, i: i + 1, answers: next });
       else {
         setAsk(null);
-        discover("ssh");
+        discover(spec.discover ?? "ssh"); // `ssh recruiter@avinash` is the default asker
         push({ node: spec.done(next) });
         flushToasts();
       }

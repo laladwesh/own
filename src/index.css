@@ -763,3 +763,21 @@ input:focus-visible {
 .nf-block--on.nf-block--5 { background: color-mix(in srgb, var(--accent) 65%, var(--bg)); }
 .nf-block--on.nf-block--6 { background: color-mix(in srgb, var(--accent) 85%, var(--bg)); }
 .nf-block--on.nf-block--7 { background: var(--accent); }
+
+/* Joke commands: the sliding train and car, and the chai cup. */
+.fun-lane {
+  overflow: hidden;
+}
+
+.fun-sprite,
+.fun-cup {
+  margin: 0;
+  font: inherit;
+  line-height: 1.15;
+  white-space: pre;
+}
+
+.fun-sprite {
+  display: inline-block;
+  will-change: transform;
+}

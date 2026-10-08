@@ -1,6 +1,7 @@
 import { h } from "../h.js";
-import { Lines, Muted } from "../ui.jsx";
+import { Lines, Muted, Run } from "../ui.jsx";
 import { resolve, isDir } from "../fs.js";
+import { incidents, mergedCommand } from "../../lib/incidents.js";
 
 // grep [-i] [-v] [-c] pattern [file]   (also reads piped input)
 // Smart case: a pattern with no capital letters matches case-insensitively.
@@ -16,6 +17,20 @@ export default {
     const rest = args.filter((a) => !/^-[ivc]+$/.test(a));
     const [pattern, file] = rest;
     if (!pattern) return h(Muted, null, "usage: grep [-i] [-v] [-c] <pattern> [file]");
+
+    // `history | grep regret`: the one command everybody regrets, from INC-001.
+    if (!file && ctx.pipedFrom === "history" && /^regret$/i.test(pattern) && !flags.includes("v") && !flags.includes("c")) {
+      const inc = incidents.find((i) => i.id === "INC-001");
+      if (inc) {
+        ctx.discover?.("regret");
+        return h(Lines, {
+          lines: [
+            mergedCommand(inc),
+            h("span", null, "see ", h(Run, { cmd: "open incidents/INC-001", run: ctx.run }, "INC-001")),
+          ],
+        });
+      }
+    }
 
     let text = ctx.stdin;
     if (file) {

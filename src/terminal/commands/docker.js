@@ -1,5 +1,5 @@
 import { h } from "../h.js";
-import { Cell, Lines, Muted, Run } from "../ui.jsx";
+import { Cell, Lines, Muted, Run, Sequence } from "../ui.jsx";
 import { projects } from "../../constants/index.js";
 import { projectStatus, repos } from "../../lib/data.js";
 import { hashOf, slug } from "../../lib/util.js";
@@ -51,6 +51,18 @@ export default {
     const [sub, ...rest] = args;
     if (sub === "ps") return ps(ctx);
     if (sub === "images") return images(rest);
+    if (sub === "run" && rest.includes("avinash")) {
+      // A pretend pull: four layers with progress bars, then the container exits.
+      return h(Sequence, {
+        steps: [
+          { label: "Pulling avinash:latest, layer 1/4 (iit-guwahati)", secs: 3 },
+          { label: "Pulling avinash:latest, layer 2/4 (ece-base)", secs: 3 },
+          { label: "Pulling avinash:latest, layer 3/4 (full-stack)", secs: 4 },
+          { label: "Pulling avinash:latest, layer 4/4 (chai)", secs: 2 },
+        ],
+        outro: "Container exited (0): went to class.",
+      });
+    }
     return h(Muted, null, "usage: docker ps | docker images");
   },
 };

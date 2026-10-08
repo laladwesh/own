@@ -11,8 +11,13 @@ export default {
   run(args, ctx) {
     const all = args.includes("--all");
     const lines = [];
+    // The joke commands are not in the plain `help`; `help --all` lists them under their group.
+    const easter = all ? (ctx.allCommands ?? []).filter((c) => c.easter) : [];
     for (const [key, title] of GROUPS) {
-      const cmds = ctx.commands.filter((c) => c.group === key && !c.hidden && (!c.secret || (all && ctx.unlocked)));
+      const cmds = [
+        ...ctx.commands.filter((c) => c.group === key && !c.hidden && (!c.secret || (all && ctx.unlocked))),
+        ...easter.filter((c) => c.group === key),
+      ];
       if (!cmds.length) continue;
       lines.push(h(Strong, null, title));
       for (const c of cmds) {

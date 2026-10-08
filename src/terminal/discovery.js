@@ -37,6 +37,22 @@ export const DISCOVERABLE = [
   { id: "replay", label: "survived INC-001" },
 ];
 
+// Extras from the joke commands. They show up in `achievements` but are not needed for the full set
+// (the replay unlock still counts only the 31 above).
+export const BONUS = [
+  { id: "chai", label: "made chai" },
+  { id: "teapot", label: "asked a teapot for coffee" },
+  { id: "friday", label: "tried to deploy on a Friday" },
+  { id: "forcepush", label: "almost force pushed" },
+  { id: "chmod", label: "tried chmod 777 /" },
+  { id: "kill", label: "killed some bugs" },
+  { id: "train", label: "found the train" },
+  { id: "car", label: "found the car" },
+  { id: "wifi", label: "blamed the campus Wi-Fi" },
+  { id: "regret", label: "found the regret" },
+  { id: "scan", label: "got scanned" },
+];
+
 const found = new Set();
 try {
   JSON.parse(sessionStorage.getItem(KEY) || "[]").forEach((id) => found.add(id));
@@ -47,10 +63,11 @@ try {
 export const isDiscoverable = (id) => DISCOVERABLE.some((d) => d.id === id);
 export const getDiscovered = () => found;
 export const total = DISCOVERABLE.length;
+export const coreFound = () => DISCOVERABLE.filter((d) => found.has(d.id)).length;
 
 // Returns the discoverable entry if `id` is new this session, otherwise null.
 export const discover = (id) => {
-  const entry = DISCOVERABLE.find((d) => d.id === id);
+  const entry = DISCOVERABLE.find((d) => d.id === id) ?? BONUS.find((d) => d.id === id);
   if (!entry || found.has(id)) return null;
   found.add(id);
   try {

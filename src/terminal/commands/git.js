@@ -69,6 +69,16 @@ export default {
     if (sub === "log") return log(ctx);
     if (sub === "show") return show(rest);
     if (sub === "status") return status();
+    if (sub === "blame") return "100% avinash. Nobody else to blame.";
+    if (sub === "push" && rest.some((a) => a === "--force" || a === "-f")) {
+      ctx.ask({
+        steps: [{ key: "sure", label: "Are you sure? (y/N)" }],
+        discover: "forcepush",
+        done: () => "Good choice.",
+      });
+      return null;
+    }
+    if (sub === "push") return "Everything up-to-date.";
     return h(Muted, null, "usage: git log | git show <hash> | git status");
   },
   subcommands: ["log", "show", "status"],

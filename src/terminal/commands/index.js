@@ -62,6 +62,13 @@ import status from "./status.js";
 import who from "./who.js";
 import presenceCmd from "./presence.js";
 import wall from "./wall.js";
+import kill from "./kill.js";
+import chmod from "./chmod.js";
+import make from "./make.js";
+import sleepCmd from "./sleep.js";
+import attend from "./attend.js";
+import sl from "./sl.js";
+import gti from "./gti.js";
 
 export const commands = [
   help, man, ls, cd, pwd, cat, tree, open, history, clear, exit,
@@ -72,6 +79,7 @@ export const commands = [
   deploy, htop, ssh, tour, ping, curl, hi,
   snake, typespeed, achievements,
   sudo, rm, date, daemonCmd, daemonsay, fortune, vim, overdrive,
+  kill, chmod, make, sleepCmd, attend, sl, gti,
 ];
 
 export const byName = Object.fromEntries(commands.flatMap((c) => [c.name, ...(c.aliases ?? [])].map((n) => [n, c])));

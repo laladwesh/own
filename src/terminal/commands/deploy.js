@@ -31,7 +31,11 @@ export default {
   description:
     "Replays the steps of .github/workflows/deploy.yml (checkout, SSH to the VM, install, build, PM2, the two API proxies, nginx) with progress bars. The timings are invented and always sum to 42s.",
   example: "deploy",
-  run() {
+  run(args, ctx) {
+    if (args.includes("--friday")) {
+      ctx.discover?.("friday");
+      return "Denied. We don't deploy on Fridays.";
+    }
     return h(Sequence, {
       steps,
       outro: h("span", null, `deployed to ${siteDomain} in ${TOTAL}s`, h("br"), h(RealDeployLine)),

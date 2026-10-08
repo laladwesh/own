@@ -1,5 +1,6 @@
 import { h } from "../h.js";
 import { Cell, Lines, Muted, Run } from "../ui.jsx";
+import { Timeline } from "../funUi.jsx";
 import { extraCurricular, projects } from "../../constants/index.js";
 import { describeObject, projectStatus } from "../../lib/data.js";
 import { slug } from "../../lib/util.js";
@@ -78,6 +79,14 @@ export default {
       });
     }
     if (sub === "describe") return describe(rest, ctx);
+    if (sub === "delete" && /^pods?$/.test(rest[0] ?? "") && rest[1] === "avinash") {
+      return h(Timeline, {
+        items: [
+          { at: 0, node: "pod/avinash deleted" },
+          { at: 900, node: "Pod restarted. Status: CrashLoopBackOff (reason: needs chai)" },
+        ],
+      });
+    }
     if (sub === "get") {
       const what = rest[0];
       if (what === "deployments" || what === "deployment" || what === "deploy") return deployments(ctx);
