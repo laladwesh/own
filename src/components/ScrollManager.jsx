@@ -5,7 +5,7 @@ import { scrollToSection } from "../lib/helperFunctions";
 // On a new route: scroll to the top, or to the section named in the hash (/#pipeline).
 // Back/forward keep the browser's own position. Both respect reduced motion.
 // Old homepage anchors for sections that are pages of their own now.
-const MOVED = { incidents: "/incidents", caseStudies: "/case-studies" };
+const MOVED = { incidents: "/incidents" };
 
 const ScrollManager = () => {
   const { pathname, hash } = useLocation();

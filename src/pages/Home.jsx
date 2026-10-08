@@ -7,6 +7,7 @@ import {
   Pipeline,
   Skills,
   Deployments,
+  CaseStudies,
   Images,
   Dashboard,
   Releases,
@@ -31,6 +32,7 @@ const Home = () => {
         <Pipeline />
         <Skills />
         <Deployments />
+        <CaseStudies />
         <Images />
         <Dashboard />
         <Releases />
