@@ -160,6 +160,9 @@ html.has-custom-cursor .term-input{cursor:text !important}`;
         case "snake":
           st.hop = { at: now, count: 2 };
           break;
+        case "hop":
+          st.hop = { at: now, count: 1 };
+          break;
         case "rm":
           st.hideUntil = now + 2000;
           st.peekAt = now + 2000;

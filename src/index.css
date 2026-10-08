@@ -737,3 +737,29 @@ input:focus-visible {
   padding: 1px 4px;
   background: var(--bg);
 }
+
+/* neofetch: the report reveals in place, so text keeps its width and nothing shifts. */
+.nf-info {
+  min-width: 0;
+}
+
+.nf-blocks {
+  display: flex;
+  gap: 0;
+  margin-top: 8px;
+}
+
+.nf-block {
+  width: 2ch;
+  height: 1.1em;
+  background: color-mix(in srgb, var(--text) 10%, var(--surface));
+}
+
+.nf-block--on.nf-block--0 { background: var(--border); }
+.nf-block--on.nf-block--1 { background: var(--faint); }
+.nf-block--on.nf-block--2 { background: var(--muted); }
+.nf-block--on.nf-block--3 { background: var(--text); }
+.nf-block--on.nf-block--4 { background: color-mix(in srgb, var(--accent) 40%, var(--bg)); }
+.nf-block--on.nf-block--5 { background: color-mix(in srgb, var(--accent) 65%, var(--bg)); }
+.nf-block--on.nf-block--6 { background: color-mix(in srgb, var(--accent) 85%, var(--bg)); }
+.nf-block--on.nf-block--7 { background: var(--accent); }
