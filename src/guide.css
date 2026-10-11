@@ -837,6 +837,7 @@ html[data-tune="human"] .explain-btn--dark {
 .mono-link:hover,
 .mono-link:focus-visible {
   color: var(--text);
+  background: none;
 }
 
 /* the sheet lifted off the desk */
