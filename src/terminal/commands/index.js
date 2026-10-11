@@ -62,6 +62,7 @@ import status from "./status.js";
 import who from "./who.js";
 import presenceCmd from "./presence.js";
 import wall from "./wall.js";
+import autoclear from "./autoclear.js";
 import kill from "./kill.js";
 import chmod from "./chmod.js";
 import make from "./make.js";
@@ -71,7 +72,7 @@ import sl from "./sl.js";
 import gti from "./gti.js";
 
 export const commands = [
-  help, man, ls, cd, pwd, cat, tree, open, history, clear, exit,
+  help, man, ls, cd, pwd, cat, tree, open, history, clear, autoclear, exit,
   whoami, neofetch, git, hire, journalctl, incidents, ghostOa, oaCheck, agnigarh, notesCmd, nowCmd, replay, status, who, presenceCmd, wall,
   kubectl, docker, gh, systemctl, helm, terraform, uptime, top,
   scope, resistor, bin, hex, ohm,

@@ -6,6 +6,7 @@ import { aboutMe, socialMedia } from "../constants";
 import { completeInfo, execute, ghostFor, visible } from "../terminal/engine.js";
 import { pathString } from "../terminal/fs.js";
 import { Ext, Lines, Run, Snake } from "../terminal/ui.jsx";
+import { Typewriter } from "../terminal/Typewriter.jsx";
 import { createSession, promptOf, step as replayStep, suggestions as replaySuggestions } from "../terminal/replay.js";
 import { Htop, TypeSpeed, Vim } from "../terminal/modes.jsx";
 import { discover as discoverId, coreFound, isDiscoverable, total as discoverTotal } from "../terminal/discovery.js";
@@ -21,6 +22,7 @@ const HOME = "avinash@iitg:~$";
 const MAX_LINES = 500;
 const THEME_KEY = "term-theme";
 const NIGHT_KEY = "term-night";
+const CLEAR_KEY = "term-autoclear";
 const SPRING = { type: "spring", stiffness: 300, damping: 30 };
 const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
 const GHOSTS = ["tour", "help", "now", "ssh recruiter@avinash", "deploy", "make chai", "neofetch", "deploy --friday", "achievements", "sl"];
@@ -62,7 +64,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // One finished command (or a toast). Memoised, so typing never re-renders the log.
-const Entry = memo(function Entry({ en }) {
+const Entry = memo(function Entry({ en, onBusy }) {
   if (en.toast) return <p className="term-line term-toast">{en.toast}</p>;
   return (
     <div className="term-entry">
@@ -71,7 +73,11 @@ const Entry = memo(function Entry({ en }) {
           <span className="term-prompt">{en.prompt}</span> {en.cmd}
         </p>
       )}
-      {en.node != null && <div className="term-line term-res">{en.node}</div>}
+      {en.node != null && (
+        <div className="term-line term-res">
+          {en.instant ? en.node : <Typewriter id={en.id} node={en.node} onBusy={onBusy} />}
+        </div>
+      )}
     </div>
   );
 });
@@ -193,6 +199,19 @@ const Terminal = forwardRef(function Terminal(
   const [step, setStep] = useState(() => (reduced() ? total : 0));
   const done = step >= total;
   const [cleared, setCleared] = useState(false);
+  const [typing, setTyping] = useState(false); // an output is still being typed out
+  const busy = useRef(0);
+  const setBusy = useCallback((d) => {
+    busy.current = Math.max(0, busy.current + d);
+    setTyping(busy.current > 0);
+  }, []);
+  // Each new command starts on a clean screen (autoclear on, the default).
+  const autoClear = useRef(true);
+  try {
+    if (sessionStorage.getItem(CLEAR_KEY) === "0") autoClear.current = false;
+  } catch {
+    /* sessionStorage can be blocked: stay on */
+  }
   const [entries, setEntries] = useState([]);
   const [cwd, setCwdState] = useState([]);
   const [mode, setMode] = useState(null); // snake | vim | htop | typespeed
@@ -337,7 +356,7 @@ const Terminal = forwardRef(function Terminal(
           </span>
         );
       }
-      push({ prompt: promptOf(cur), cmd: input, node: lines.length ? <Lines lines={lines} /> : null });
+      push({ prompt: promptOf(cur), cmd: input, node: lines.length ? <Lines lines={lines} /> : null, instant: true });
       replayRef.current = res.ended ? null : res.session;
       setReplay(replayRef.current);
       if (res.completed) discover("replay");
@@ -375,6 +394,15 @@ const Terminal = forwardRef(function Terminal(
           theme: themeRef.current,
           setTheme,
           discover,
+          autoClear: autoClear.current,
+          setAutoClear: (on) => {
+            autoClear.current = on;
+            try {
+              sessionStorage.setItem(CLEAR_KEY, on ? "1" : "0");
+            } catch {
+              /* ignore */
+            }
+          },
           scrollTo: (id) => document.getElementById(id) && scrollToSection(id),
           navigate: (path) => navigateRef.current(path),
           openUrl: (u) => window.open(u, "_blank", "noopener,noreferrer"),
@@ -400,6 +428,13 @@ const Terminal = forwardRef(function Terminal(
       }
       histIdx.current = histRef.current.length;
       stick.current = true;
+      // A new command or a click on a link wipes the screen first, so there is nothing to scroll back to.
+      if (!didClear && trimmed && autoClear.current) {
+        setCleared(true);
+        setEntries([]);
+        busy.current = 0;
+        setTyping(false);
+      }
       if (!didClear) push({ prompt: promptNow, cmd: trimmed, node });
       // Between 01:00 and 05:00 on the visitor's clock: say so, once per session, after the output.
       if (trimmed) {
@@ -931,8 +966,8 @@ const Terminal = forwardRef(function Terminal(
               );
             })}
 
-          <div role="log" aria-live="polite">
-            {done && entries.map((en) => <Entry key={en.id} en={en} />)}
+          <div role="log" aria-live="polite" aria-busy={typing}>
+            {done && entries.map((en) => <Entry key={en.id} en={en} onBusy={setBusy} />)}
           </div>
 
           {done && mode === "snake" && <Snake onExit={(score) => exitMode("snake", score)} />}
@@ -941,7 +976,7 @@ const Terminal = forwardRef(function Terminal(
           {done && mode === "typespeed" && <TypeSpeed onExit={(r) => exitMode("typespeed", r)} />}
 
           {done && !mode && (
-            <div ref={lineRef} className="term-line term-cmd term-input-line">
+            <div ref={lineRef} className={`term-line term-cmd term-input-line${typing ? " term-input-line--busy" : ""}`}>
               {search ? (
                 <span aria-hidden="true">
                   <span className="term-prompt">(reverse-i-search)</span>`{search.q}': {searchHit}

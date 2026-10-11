@@ -781,3 +781,8 @@ input:focus-visible {
   display: inline-block;
   will-change: transform;
 }
+
+/* While an output is still being typed the prompt waits (it keeps focus, so a key press still works). */
+.term-input-line--busy {
+  opacity: 0;
+}
