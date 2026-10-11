@@ -333,6 +333,7 @@ html[data-tune="human"] .explain-btn--dark {
 .tmux-tour:hover,
 .tmux-tour:focus-visible {
   color: var(--text);
+  background: none;
 }
 
 .rack-plate-right {
