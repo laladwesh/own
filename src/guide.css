@@ -891,6 +891,14 @@ html[data-tune="human"] .explain-btn--dark {
   text-underline-offset: 2px;
 }
 
+/* the site's global link hover inverts to a dark block; on the paper a link just gets heavier */
+.ds a:hover,
+.ds a:focus-visible {
+  color: #1A1A1A;
+  background: none;
+  text-decoration-thickness: 2px;
+}
+
 .ds-top {
   display: flex;
   justify-content: space-between;
