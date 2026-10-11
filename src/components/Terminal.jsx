@@ -205,12 +205,13 @@ const Terminal = forwardRef(function Terminal(
     busy.current = Math.max(0, busy.current + d);
     setTyping(busy.current > 0);
   }, []);
-  // Each new command starts on a clean screen (autoclear on, the default).
-  const autoClear = useRef(true);
+  // Opt-in (`autoclear on`): each new command starts on a clean screen. By default everything
+  // stays and the frame scrolls to the newest output.
+  const autoClear = useRef(false);
   try {
-    if (sessionStorage.getItem(CLEAR_KEY) === "0") autoClear.current = false;
+    if (sessionStorage.getItem(CLEAR_KEY) === "1") autoClear.current = true;
   } catch {
-    /* sessionStorage can be blocked: stay on */
+    /* sessionStorage can be blocked: stay off */
   }
   const [entries, setEntries] = useState([]);
   const [cwd, setCwdState] = useState([]);
@@ -228,6 +229,10 @@ const Terminal = forwardRef(function Terminal(
   const [palette, setPalette] = useState(false);
   const [ghostIdx, setGhostIdx] = useState(0);
   const [newOutput, setNewOutput] = useState(false);
+  const [more, setMore] = useState(false); // there is more below the visible part
+  const railRef = useRef(null);
+  const trackRef = useRef(null);
+  const thumbRef = useRef(null);
   const [theme, setThemeState] = useState(() => {
     try {
       return sessionStorage.getItem(THEME_KEY) || "amber";
@@ -621,21 +626,57 @@ const Terminal = forwardRef(function Terminal(
     const content = contentRef.current;
     if (!body || !content) return undefined;
     const atBottom = () => body.scrollTop + body.clientHeight >= body.scrollHeight - 24;
+    // The ruler on the right edge: tick marks, a marker for where you are, and arrows that say
+    // which way there is more. It is only shown when the output is taller than the frame.
+    const sync = () => {
+      const rail = railRef.current;
+      const track = trackRef.current;
+      const thumb = thumbRef.current;
+      if (!rail || !track || !thumb) return;
+      const max = body.scrollHeight - body.clientHeight;
+      const over = max > 4;
+      rail.dataset.on = over ? "1" : "0";
+      rail.style.top = `${body.offsetTop + 6}px`;
+      rail.style.height = `${Math.max(0, body.clientHeight - 12)}px`;
+      const th = Math.max(18, track.clientHeight * (body.clientHeight / body.scrollHeight));
+      const y = max > 0 ? (body.scrollTop / max) * (track.clientHeight - th) : 0;
+      thumb.style.height = `${th}px`;
+      thumb.style.transform = `translateY(${y}px)`;
+      rail.dataset.up = body.scrollTop > 4 ? "1" : "0";
+      rail.dataset.down = max - body.scrollTop > 24 ? "1" : "0";
+      setMore(over && max - body.scrollTop > 24);
+    };
     const onScroll = () => {
       stick.current = atBottom();
       if (stick.current) setNewOutput(false);
+      sync();
     };
     const ro = new ResizeObserver(() => {
       if (stick.current) body.scrollTop = body.scrollHeight;
       else setNewOutput(true);
+      sync();
     });
     ro.observe(content);
+    ro.observe(body);
     body.addEventListener("scroll", onScroll, { passive: true });
+    sync();
     return () => {
       ro.disconnect();
       body.removeEventListener("scroll", onScroll);
     };
   }, []);
+
+  // Drag or click the ruler to scroll.
+  const dragRail = (e) => {
+    const body = bodyRef.current;
+    const track = trackRef.current;
+    const thumb = thumbRef.current;
+    if (!body || !track || !thumb || (e.type === "pointermove" && e.buttons !== 1)) return;
+    const rect = track.getBoundingClientRect();
+    const th = thumb.offsetHeight;
+    const ratio = Math.min(1, Math.max(0, (e.clientY - rect.top - th / 2) / Math.max(1, rect.height - th)));
+    body.scrollTop = ratio * (body.scrollHeight - body.clientHeight);
+  };
 
   const jumpToBottom = () => {
     const body = bodyRef.current;
@@ -1038,9 +1079,25 @@ const Terminal = forwardRef(function Terminal(
         </div>
       </div>
 
-      {newOutput && (
+      <div className="term-rail" ref={railRef} data-on="0" data-up="0" data-down="0" aria-hidden="true">
+        <span className="term-rail-arrow term-rail-arrow--up">▲</span>
+        <span
+          className="term-rail-track"
+          ref={trackRef}
+          onPointerDown={(e) => {
+            e.currentTarget.setPointerCapture(e.pointerId);
+            dragRail(e);
+          }}
+          onPointerMove={dragRail}
+        >
+          <span className="term-rail-thumb" ref={thumbRef} />
+        </span>
+        <span className="term-rail-arrow term-rail-arrow--down">▼</span>
+      </div>
+
+      {(newOutput || more) && (
         <button type="button" className="term-newout" onClick={(e) => { e.stopPropagation(); jumpToBottom(); }}>
-          ↓ new output
+          ↓ {newOutput ? "new output" : "more"}
         </button>
       )}
 
