@@ -659,6 +659,7 @@
 .panel-number {
   margin-top: 6px;
   font-family: "Clash Display", "JetBrains Mono", sans-serif;
+  word-spacing: 0.12em;
   font-weight: 600;
   font-size: 40px;
   line-height: 1.1;
@@ -1463,6 +1464,7 @@ a.inc-head:hover .inc-title {
 
 .os-card-name {
   font-family: "Clash Display", "JetBrains Mono", sans-serif;
+  word-spacing: 0.12em;
   font-weight: 600;
   font-size: 22px;
   line-height: 1.2;
@@ -1598,6 +1600,7 @@ a.inc-head:hover .inc-title {
   margin: 24px 0 8px;
   max-width: 24ch;
   font-family: "Clash Display", "JetBrains Mono", sans-serif;
+  word-spacing: 0.12em;
   font-weight: 700;
   font-size: 34px;
   line-height: 1.12;
@@ -1629,6 +1632,7 @@ a.inc-head:hover .inc-title {
 .cs-body h2 {
   margin: 40px 0 12px;
   font-family: "Clash Display", "JetBrains Mono", sans-serif;
+  word-spacing: 0.12em;
   font-weight: 600;
   font-size: 26px;
   line-height: 1.25;
@@ -1746,6 +1750,7 @@ a.inc-head:hover .inc-title {
 .cs-card-title {
   margin: 0;
   font-family: "Clash Display", "JetBrains Mono", sans-serif;
+  word-spacing: 0.12em;
   font-weight: 700;
   font-size: 28px;
   line-height: 1.15;
@@ -1849,6 +1854,7 @@ a.inc-head:hover .inc-title {
 
 .note-title {
   font-family: "Clash Display", "JetBrains Mono", sans-serif;
+  word-spacing: 0.12em;
   font-weight: 600;
   font-size: 24px;
   line-height: 1.25;

@@ -317,6 +317,7 @@ input:focus-visible {
 
 .term-name {
   font-family: "Clash Display", "JetBrains Mono", sans-serif;
+  word-spacing: 0.12em;
   font-weight: 700;
   font-size: 72px;
   line-height: 1.05;
@@ -552,6 +553,7 @@ input:focus-visible {
   background: var(--text);
   color: var(--bg);
   font-family: "Clash Display", "JetBrains Mono", sans-serif;
+  word-spacing: 0.12em;
   font-weight: 700;
   font-size: 34px;
   line-height: 1.15;
@@ -566,6 +568,7 @@ input:focus-visible {
 
 .sub-heading {
   font-family: "Clash Display", "JetBrains Mono", sans-serif;
+  word-spacing: 0.12em;
   font-weight: 600;
   font-size: 24px;
   line-height: 1.25;
