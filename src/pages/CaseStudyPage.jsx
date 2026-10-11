@@ -7,6 +7,11 @@ import { caseStudies } from "../lib/caseStudies";
 import { caseStudyPath, caseStudySeo } from "../lib/seo";
 import { copyText } from "../lib/clipboard";
 import { DRAFT_BANNER } from "../lib/drafts";
+import { GlossScope } from "../components/Gloss";
+import SummaryBox from "../components/SummaryBox";
+import AtHome from "../components/AtHome";
+import { atHomeBySlug } from "../constants/explain";
+import { caseStudySummary } from "../lib/plain";
 import { useSeo } from "../lib/useSeo";
 import NotFound from "./NotFound";
 
@@ -35,6 +40,7 @@ const MetaItem = ({ label, children }) => (
 const CaseStudyView = ({ study }) => {
   const seo = useMemo(() => caseStudySeo(study), [study]);
   const others = Object.values(caseStudies).filter((c) => c.slug !== study.slug);
+  const summary = useMemo(() => caseStudySummary(study), [study]);
   useSeo(seo);
   const [copied, setCopied] = useState("");
   const timer = useRef(0);
@@ -68,6 +74,7 @@ const CaseStudyView = ({ study }) => {
           </span>
         </div>
 
+        <GlossScope>
         <article className="report cs" aria-label={`${study.title} case study`}>
           {study.draft && (
             <p className="draft-banner" role="note">
@@ -84,10 +91,14 @@ const CaseStudyView = ({ study }) => {
 
           <h1 className="cs-title">{study.title}</h1>
 
+          <SummaryBox summary={summary} />
+          <AtHome text={atHomeBySlug[study.slug]} />
+
           <div className="cs-body">
             <Body text={study.body} />
           </div>
         </article>
+        </GlossScope>
 
         {others.length > 0 && (
           <section className="cs-more" aria-label="More case studies">

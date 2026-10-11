@@ -1,11 +1,9 @@
 ---
-title: "Reaching a campus server that has no public IP"
+title: "How I proved a campus firewall was filtering by hostname"
 date: "2026-08"
-summary: "A campus server I could only reach from inside the network, a VPN that did not help, and how I worked out that the firewall was reading the TLS handshake."
-tags: [networking, tailscale, ssh, campus-infra]
+summary: "A command that hung instead of failing, a test that showed the campus firewall was reading the TLS handshake, and what I learned about diagnosing network problems layer by layer."
+tags: [networking, tailscale, tls, campus-infra]
 ---
-
-[NEEDS CONFIRMATION: final outcome + permission to publish]
 
 ## The problem
 
@@ -17,9 +15,7 @@ The campus VPN looked like the obvious answer. It connects, but it does not rout
 
 The server runs Ubuntu 23.10, which is end of life. `apt` returned 404 errors because the package archives for that release had moved. Before installing anything I had to sort out the sources.
 
-I considered two ways around a missing public IP. The first was an SSH reverse tunnel through my own VPS, kept alive with `autossh`. The server dials out to the VPS, and I SSH to the VPS and ride the tunnel back. The second was a Cloudflare Tunnel.
-
-I started with Tailscale because it is the least work when it behaves. The install went fine. Then this hung:
+I tried Tailscale because it is the least work when it behaves. The install went fine. Then this hung:
 
 ```bash
 sudo tailscale up
@@ -38,13 +34,7 @@ What I could see:
 
 A silent drop after the TCP handshake, on a port that is otherwise allowed, points at inspection of the handshake itself. The firewall appeared to be reading the SNI, the server name a client sends at the start of TLS, and dropping connections to names it did not like. A rule that blocks by IP or port would have refused the TCP connection.
 
-[NEEDS CONFIRMATION: which test proved it was SNI filtering]
-
-## The plan
-
-If port 443 to my VPS is open, then the VPS can answer on 443 for both SSH and HTTPS. `sslh` does that: it listens on 443, looks at the first bytes of each connection, and passes SSH to the SSH daemon and TLS to the web server.
-
-Then the reverse tunnel from the campus server can ride on 443 like ordinary HTTPS traffic to a host the firewall already allows.
+The test that settled it: TLS on port 443 to my own VPS worked, but TLS on port 443 to Tailscale's control server connected over TCP and then silently dropped. Same port, same protocol, different hostname. The only thing that differed was the hostname in the TLS handshake (SNI), so the filter was looking at that.
 
 ## Gotchas
 
@@ -52,6 +42,8 @@ An end-of-life Ubuntu release makes every step slower, because even installing a
 
 A hang is not a failure. Check which layer stalls (DNS, TCP, TLS) before you decide what to try next.
 
-## What I would do differently
+## What I learned
 
-[NEEDS CONFIRMATION: final outcome]
+Diagnose a network problem one layer at a time: DNS, then TCP, then TLS, then the application. Each layer either works or it does not, and the first one that stalls tells you where to look.
+
+Here the TCP connection opened and the stall came at TLS, which is where the hostname is sent. Changing only the hostname and keeping the port and the protocol the same is what turned a guess into a proof.

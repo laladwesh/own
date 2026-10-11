@@ -20,7 +20,7 @@ const IncidentsIndex = () => {
   return (
     <main id="content" tabIndex={-1} className={`${styles.paddingX} flex justify-center pt-[128px] pb-[96px]`}>
       <div className={`${styles.boxWidth} page-body`}>
-        <SectionHeading as="h1" command="$ journalctl --priority=crit" title="Incidents" />
+        <SectionHeading as="h1" command="$ journalctl --priority=crit" title="Incidents" explain="incidents" />
         <p className="page-intro">{INDEX_INTRO}</p>
 
         <div className="chips" role="group" aria-label="Filter by kind">

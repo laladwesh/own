@@ -1,9 +1,10 @@
 import { releaseRows as rows } from "../lib/data";
 import SectionHeading from "./SectionHeading";
+import { Gloss } from "./Gloss";
 
 const Releases = () => (
   <section id="releases" className="section">
-    <SectionHeading command="$ gh release list" title="Achievements" />
+    <SectionHeading command="$ gh release list" title="Achievements" explain="releases" />
     <ol className="releases">
       {rows.map((r, i) => (
         <li key={r.id} className="release">
@@ -17,7 +18,9 @@ const Releases = () => (
           <p className="release-org">{r.org}</p>
           <ul className="release-notes">
             {r.notes.map((n, j) => (
-              <li key={j}>{n}</li>
+              <li key={j}>
+                <Gloss text={n} />
+              </li>
             ))}
           </ul>
           {r.project && (

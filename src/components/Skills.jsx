@@ -21,8 +21,9 @@ const List = ({ title, items }) => (
 
 const Skills = () => (
   <section id="skills" className="section">
-    <SectionHeading command="$ cat Dockerfile" title="Skills" />
+    <SectionHeading command="$ cat Dockerfile" title="Skills" explain="skills" />
     <Switchable
+      explain="skills"
       label="Dockerfile"
       yaml={dockerfile}
       wide={

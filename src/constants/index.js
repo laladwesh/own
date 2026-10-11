@@ -64,7 +64,6 @@ export const resumeLink = "/Avinash_Gupta_Off_Campus_CV.pdf";
 export const repoLink = "https://github.com/laladwesh";
 export const leetcodeUrl = "https://leetcode.com/u/ibXDVQOY8i/";
 export const siteDomain = "avinashgupta.in";
-export const callToAction = "https://www.linkedin.com/in/avinash-gupta-58171828a/";
 
 export const navLinks = [
   { id: "about", title: "about.yaml", primary: true },

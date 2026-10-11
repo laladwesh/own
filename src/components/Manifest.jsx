@@ -1,4 +1,7 @@
-import { useState } from "react";
+import ExplainButton from "./ExplainButton";
+import { Gloss, glossHover } from "./Gloss";
+import { useBlockView } from "../guide/blocks";
+import { useHuman } from "../view/store";
 
 import { yamlLines } from "../lib/yaml";
 
@@ -37,23 +40,49 @@ export const Manifest = ({ lines, label }) => (
 const initialMode = () =>
   typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches ? "yaml" : "wide";
 
-export const ModeToggle = ({ mode, setMode, options = ["yaml", "wide"] }) => (
-  <div className="mode-toggle" role="group" aria-label="View">
-    {options.map((o) => (
-      <button key={o} type="button" aria-pressed={mode === o} className="mode-btn" onClick={() => setMode(o)}>
-        [ -o {o} ]
-      </button>
-    ))}
-  </div>
-);
+// Engineer tuning: [ -o yaml ] [ -o wide ]. Human tuning: the same toggle with friendlier names.
+const FRIENDLY = { yaml: "engineer view", wide: "simple view", diagram: "simple view" };
+
+export const ModeToggle = ({ mode, setMode, options = ["yaml", "wide"] }) => {
+  const human = useHuman();
+  return (
+    <div className="mode-toggle" role="group" aria-label="View">
+      {options.map((o) => (
+        <button
+          key={o}
+          type="button"
+          aria-pressed={mode === o}
+          className="mode-btn"
+          onClick={() => setMode(o)}
+          {...(!human && o === "yaml" ? glossHover("yaml") : {})}
+        >
+          {human ? `[ ${FRIENDLY[o] ?? o} ]` : `[ -o ${o} ]`}
+        </button>
+      ))}
+    </div>
+  );
+};
 
 // Shows the YAML view or the plain "wide" view of the same data.
-export const Switchable = ({ yaml, wide, label }) => {
-  const [mode, setMode] = useState(initialMode);
+export const Switchable = ({ yaml, wide, label, explain }) => {
+  const everyone = useHuman();
+  // One shared state per block (see guide/blocks.js): the dial sets the default, a click on this
+  // block's toggle, on its "?" bubble or on the link below overrides it until the dial turns again.
+  const [mode, setMode] = useBlockView(explain ?? label ?? "block", { engineer: initialMode(), human: "wide" });
   return (
     <div>
-      <ModeToggle mode={mode} setMode={setMode} />
-      {mode === "yaml" ? <Manifest lines={yaml} label={label} /> : <div className="wide-view">{wide}</div>}
+      <div className="mode-row">
+        <ModeToggle mode={mode} setMode={setMode} />
+        {explain && <ExplainButton id={explain} />}
+      </div>
+      <div key={mode} className="tune-fade">
+        {mode === "yaml" ? <Manifest lines={yaml} label={label} /> : <div className="wide-view">{wide}</div>}
+      </div>
+      {everyone && (
+        <button type="button" className="engineer-link" onClick={() => setMode(mode === "wide" ? "yaml" : "wide")}>
+          {mode === "wide" ? "show the engineer version" : "show the simple version"}
+        </button>
+      )}
     </div>
   );
 };
@@ -66,7 +95,7 @@ export const Wide = ({ rows }) => (
       .map(([k, v]) => (
         <div key={k} className="wide-row">
           <dt>{k}</dt>
-          <dd>{v}</dd>
+          <dd>{typeof v === "string" ? <Gloss text={v} /> : v}</dd>
         </div>
       ))}
   </dl>

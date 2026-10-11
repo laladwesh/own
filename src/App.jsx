@@ -6,6 +6,9 @@ import ScopeBackground from "./scope/ScopeBackground";
 import Daemon from "./daemon/Daemon";
 import Presence from "./presence/Presence";
 import ScrollManager from "./components/ScrollManager";
+import Guide from "./guide/Guide";
+import "./tune/scopeSync";
+import { GlossHost } from "./components/Gloss";
 import { Navbar, Footer } from "./components";
 import Home from "./pages/Home";
 // Pages other than the homepage load on demand, so the first visit downloads less.
@@ -16,6 +19,7 @@ const NotesIndex = lazy(() => import("./pages/NotesIndex"));
 const CaseStudiesIndex = lazy(() => import("./pages/CaseStudiesIndex"));
 const NotePage = lazy(() => import("./pages/NotePage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const SummaryPage = lazy(() => import("./pages/SummaryPage"));
 
 const App = () => {
   const { pathname } = useLocation();
@@ -27,6 +31,8 @@ const App = () => {
         <Daemon />
         <Presence />
         <ScrollManager />
+        <Guide />
+        <GlossHost />
 
         {/* One 200ms fade on load; nothing slides or zooms. */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }}>
@@ -38,6 +44,7 @@ const App = () => {
             <Route path="/incidents" element={<IncidentsIndex />} />
             <Route path="/incidents/:id" element={<IncidentPage />} />
             <Route path="/case-studies" element={<CaseStudiesIndex />} />
+            <Route path="/summary" element={<SummaryPage />} />
             <Route path="/projects/:slug" element={<CaseStudyPage />} />
             <Route path="/notes" element={<NotesIndex />} />
             <Route path="/notes/:slug" element={<NotePage />} />

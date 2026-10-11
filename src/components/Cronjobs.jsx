@@ -3,7 +3,7 @@ import SectionHeading from "./SectionHeading";
 
 const Cronjobs = () => (
   <section id="cronjobs" className="section">
-    <SectionHeading command="$ kubectl get cronjobs" title="Extra Curricular" />
+    <SectionHeading command="$ kubectl get cronjobs" title="Extra Curricular" explain="cronjobs" />
     <div className="table table--cron" role="table" aria-label="Extra curricular">
       <div className="table-head" role="row">
         <span role="columnheader">NAME</span>

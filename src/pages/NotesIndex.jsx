@@ -17,7 +17,7 @@ const NotesIndex = () => {
   return (
     <main id="content" tabIndex={-1} className={`${styles.paddingX} flex justify-center pt-[128px] pb-[96px]`}>
       <div className={`${styles.boxWidth} page-body`}>
-        <SectionHeading as="h1" command="$ ls notes/" title="Notes" />
+        <SectionHeading as="h1" command="$ ls notes/" title="Notes" explain="notes" />
         <p className="page-intro">{NOTES_INTRO}</p>
 
         {allTags.length > 0 && (

@@ -5,6 +5,7 @@ import App from './App'
 import './index.css'
 import './sections.css'
 import './terminal.css'
+import './guide.css'
 import smoothscroll from 'smoothscroll-polyfill'
 
 smoothscroll.polyfill();

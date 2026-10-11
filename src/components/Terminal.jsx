@@ -16,6 +16,8 @@ import { scrollToSection } from "../lib/helperFunctions";
 import { now } from "../constants/now";
 import { getPresence, subscribePresence } from "../presence/store";
 import { scope } from "../scope/scopeStore";
+import ExplainButton from "./ExplainButton";
+import { guide } from "../guide/store";
 
 const role = aboutMe.tagLine.split(" | ").join(" / ");
 const HOME = "avinash@iitg:~$";
@@ -424,6 +426,8 @@ const Terminal = forwardRef(function Terminal(
           startSnake: () => setMode("snake"),
           startMode: (m) => setMode(m),
           startTour: () => startTourRef.current(),
+          startGuide: () => guide.startTour(),
+          pathname: () => pathRef.current,
           ask: (spec) => setAsk({ spec, i: 0, answers: {} }),
           startReplay: (script) => {
             const s = createSession(script);
@@ -473,6 +477,11 @@ const Terminal = forwardRef(function Terminal(
   );
   runRef.current = run;
   useImperativeHandle(ref, () => ({ run }), [run]);
+  useEffect(() => {
+    const on = (e) => typeof e.detail === "string" && runRef.current(e.detail);
+    window.addEventListener("terminal-run", on);
+    return () => window.removeEventListener("terminal-run", on);
+  }, []);
 
   // ── guided tour ──
   const startTourRef = useRef(null);
@@ -482,6 +491,8 @@ const Terminal = forwardRef(function Terminal(
 
   // /?replay=INC-001 (the link on an incident report) starts that replay in this terminal.
   const location = useLocation();
+  const pathRef = useRef(location.pathname);
+  pathRef.current = location.pathname;
   useEffect(() => {
     const id = new URLSearchParams(location.search).get("replay");
     if (!id) return undefined;
@@ -961,6 +972,7 @@ const Terminal = forwardRef(function Terminal(
               skip
             </button>
           )}
+          <ExplainButton id="terminal" dark />
           <button
             type="button"
             className="term-close"

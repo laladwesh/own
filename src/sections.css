@@ -832,37 +832,6 @@
   color: var(--muted);
 }
 
-/* ───────── Open source graph ───────── */
-.graph {
-  padding: 16px;
-  overflow-x: auto;
-  background: var(--surface);
-  border: 1px solid var(--border);
-}
-
-.graph-line {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  white-space: nowrap;
-}
-
-.graph-glyph {
-  flex: 0 0 4ch;
-  color: var(--accent);
-  white-space: pre;
-}
-
-.graph-title {
-  max-width: 60ch;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.branch {
-  margin-bottom: 8px;
-}
-
 /* ───────── How this site ships ───────── */
 .flow {
   display: flex;
@@ -1003,14 +972,6 @@
   min-width: 0;
   font-weight: 700;
   overflow-wrap: anywhere;
-}
-
-.inc-panel {
-  overflow: hidden;
-}
-
-.inc-panel-inner {
-  padding: 12px 0 0;
 }
 
 /* The printed report: a sheet of paper with an ink border. */

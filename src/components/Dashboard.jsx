@@ -240,7 +240,7 @@ const LeetCodePanels = () => {
 
 const Dashboard = () => (
   <section id="dashboard" className="section">
-    <SectionHeading command="$ open grafana/avinash" title="Dashboard" />
+    <SectionHeading command="$ open grafana/avinash" title="Dashboard" explain="dashboard" />
     <GitHubPanels />
     <LeetCodePanels />
   </section>

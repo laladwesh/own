@@ -42,6 +42,16 @@ export const caseStudySeo = (cs) => ({
 });
 
 export const CASE_INTRO = "Things I built, how they changed along the way, and what I would do differently.";
+export const SUMMARY_INTRO =
+  "A one-page summary in plain English: who I am, three things I built, a few numbers and how to reach me.";
+export const summarySeo = {
+  title: `One-page summary | ${NAME}`,
+  description: SUMMARY_INTRO,
+  path: "/summary",
+  image: ogImage("summary"),
+  imageAlt: "One-page summary: Avinash Gupta",
+};
+
 export const caseStudiesIndexSeo = {
   title: `Case studies | ${NAME}`,
   description: CASE_INTRO,
@@ -91,9 +101,9 @@ export const indexSeo = {
 };
 
 // Every route that gets its own prerendered page, with the tags it needs.
-export const prerenderRoutes = [indexSeo, notesIndexSeo, caseStudiesIndexSeo, ...incidents.map(incidentSeo)];
+export const prerenderRoutes = [indexSeo, notesIndexSeo, caseStudiesIndexSeo, summarySeo, ...incidents.map(incidentSeo)];
 
-export const sitemapPaths = ["/", "/incidents", "/notes", "/case-studies", ...incidents.map((i) => incidentPath(i.id))];
+export const sitemapPaths = ["/", "/incidents", "/notes", "/case-studies", "/summary", ...incidents.map((i) => incidentPath(i.id))];
 
 // ---- structured data (JSON-LD) ----
 export const PERSON = {

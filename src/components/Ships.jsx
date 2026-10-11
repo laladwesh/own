@@ -1,7 +1,11 @@
-import { useState } from "react";
 import deployYml from "../../.github/workflows/deploy.yml?raw";
 import { siteDomain } from "../constants";
 import SectionHeading from "./SectionHeading";
+import { Gloss } from "./Gloss";
+import { useBlockView } from "../guide/blocks";
+import AtHome from "./AtHome";
+import PencilNote from "./PencilNote";
+import { atHome } from "../constants/explain";
 import { Manifest, ModeToggle } from "./Manifest";
 import StatusRack from "./StatusRack";
 import DeployLine from "./DeployLine";
@@ -48,10 +52,10 @@ const toLines = (text) =>
     });
 
 const Ships = () => {
-  const [mode, setMode] = useState("diagram");
+  const [mode, setMode] = useBlockView("ships", { engineer: "diagram", human: "diagram" });
   return (
     <section id="ships" className="section">
-      <SectionHeading command="$ cat .github/workflows/deploy.yml" title="How this site ships" />
+      <SectionHeading command="$ cat .github/workflows/deploy.yml" title="How this site ships" explain="ships" />
       <ModeToggle mode={mode} setMode={setMode} options={["diagram", "yaml"]} />
       {mode === "yaml" ? (
         <Manifest lines={toLines(deployYml)} label="deploy.yml" />
@@ -60,8 +64,12 @@ const Ships = () => {
           <ol className="flow">
             {STEPS.map(([name, note], i) => (
               <li key={name} className="flow-step">
-                <span className="flow-name">{name}</span>
-                <span className="flow-note">{note}</span>
+                <span className="flow-name">
+                  <Gloss text={name} />
+                </span>
+                <span className="flow-note">
+                  <Gloss text={note} />
+                </span>
                 {i < STEPS.length - 1 && (
                   <span className="flow-arrow" aria-hidden="true">
                     {"->"}
@@ -85,7 +93,11 @@ const Ships = () => {
       <p className="ships-live">
         <DeployLine />
       </p>
-      <StatusRack />
+      <div className="rack-wrap">
+        <AtHome text={atHome.status} />
+        <PencilNote id="status" side />
+        <StatusRack />
+      </div>
     </section>
   );
 };

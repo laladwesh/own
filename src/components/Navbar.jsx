@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { close, menu } from "../assets";
 import { navLinks } from "../constants";
 import { scrollToSection } from "../lib/helperFunctions";
+import TuneToggle from "./TuneToggle";
+import { guide } from "../guide/store";
 
 const PRIMARY = navLinks.filter((n) => n.primary);
 const MORE = navLinks.filter((n) => !n.primary);
@@ -96,6 +98,9 @@ const Navbar = () => {
             </ul>
           )}
         </li>
+        <li>
+          <TuneToggle />
+        </li>
       </ul>
 
       <div className="lg:hidden flex items-center">
@@ -109,6 +114,21 @@ const Navbar = () => {
         </button>
         {toggle && (
           <ul className="nav-mobile sidebar">
+            <li>
+              <TuneToggle />
+            </li>
+            <li>
+              <button
+                type="button"
+                className="nav-link"
+                onClick={() => {
+                  setToggle(false);
+                  guide.startTour();
+                }}
+              >
+                take a 60s tour
+              </button>
+            </li>
             {navLinks.map((n) => (
               <li key={n.id}>
                 <button type="button" className={linkCls(n.id)} onClick={() => go(n.id)}>

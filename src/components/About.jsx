@@ -6,9 +6,10 @@ import { Switchable, Wide, yamlLines } from "./Manifest";
 
 const About = () => (
   <section id="about" className="section">
-    <SectionHeading command="$ cat avinash.yaml" title="About" />
+    <SectionHeading command="$ cat avinash.yaml" title="About" explain="about" />
     <div className="about-grid">
       <Switchable
+      explain="about"
         label="avinash.yaml"
         yaml={yamlLines(spec)}
         wide={

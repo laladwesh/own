@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { agoText, loadStatus } from "../lib/status";
 import { siteDomain } from "../constants";
+import ExplainButton from "./ExplainButton";
 
 const POLL_MS = 60_000;
 const VENTS = 7;
@@ -109,8 +110,11 @@ const StatusRack = () => {
       <div className="rack-main">
         <div className="rack-plate">
           <span className="rack-plate-id">RACK-00 / {siteDomain}</span>
-          <span className="rack-plate-ago" role="status">
-            {offline ? "monitoring offline" : loading ? "checking…" : `checked ${agoText(checkedAt, now)}`}
+          <span className="rack-plate-right">
+            <span className="rack-plate-ago" role="status">
+              {offline ? "monitoring offline" : loading ? "checking…" : `checked ${agoText(checkedAt, now)}`}
+            </span>
+            <ExplainButton id="status" dark />
           </span>
         </div>
         <ul className="rack-units">

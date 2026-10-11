@@ -1,11 +1,11 @@
 ---
 title: "Building my own mini Vercel (Onawie)"
 date: "2026-10"
-summary: "I deploy many apps by hand, so I started building a small platform that does it from a GitHub repo. How it works, what is hard about it, and what is still unfinished."
+summary: "I deploy many apps by hand, so I built a small platform that does it from a GitHub repo. How it works, what is hard about it, and where it stands."
 tags: [paas, docker, nginx, projects]
 ---
 
-[NEEDS CONFIRMATION: current status of Onawie, and permission to publish the write-up]
+Onawie is complete: it can take a repo and deploy it end to end. It isn't hosted publicly yet, because I don't have the right infrastructure to run other people's code on it safely.
 
 ## Why I built it
 
@@ -13,7 +13,7 @@ I deploy a lot of apps by hand. The routine is the same every time: SSH into a s
 
 Vercel and Render do all of this when you click a button. I use them without knowing what they actually do between the push and the URL. So I decided to build a small version of one, mostly to find out.
 
-It is called Onawie. This is a work in progress, and I am describing it as it is, not as I would like it to be.
+It is called Onawie. I am describing it as it is, not as I would like it to be.
 
 ## How it works today
 
@@ -59,18 +59,7 @@ Works today:
 - Environment variables, deploy logs, rollbacks, cancel
 - Preview deployments for pull requests
 
-In progress:
-
-- [NEEDS CONFIRMATION: what I am working on right now]
-
-Next, from the gaps I can see in my own code:
-
-- [NEEDS CONFIRMATION: which of these are planned]
-- Reserve ports properly so concurrent deploys cannot collide
-- Serialise Nginx changes
-- Resume or retry jobs after a worker restart
-- Stream the logs of a running app
-- Isolate builds better
+Next: find proper infrastructure to host it.
 
 ## What it taught me
 

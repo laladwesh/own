@@ -5,6 +5,7 @@ import { isRunning, stages } from "../lib/data";
 import { startOf } from "../lib/util.js";
 import { placeicon } from "../assets";
 import SectionHeading from "./SectionHeading";
+import { Gloss } from "./Gloss";
 
 const Job = ({ position, open, onToggle }) => {
   const running = isRunning(position);
@@ -20,7 +21,7 @@ const Job = ({ position, open, onToggle }) => {
         <div className="job-log">
           {position.content.map((c, i) => (
             <p key={i}>
-              <span className="job-log-date">[{date}]</span> {c.text}
+              <span className="job-log-date">[{date}]</span> <Gloss text={c.text} />
               {c.link && (
                 <>
                   {" "}
@@ -82,7 +83,7 @@ const Pipeline = () => {
 
   return (
     <section id="pipeline" className="section">
-      <SectionHeading command="$ gh run view --log" title="Experience" />
+      <SectionHeading command="$ gh run view --log" title="Experience" explain="pipeline" />
       <p className="section-note">
         {stages.length} stages / {stages.reduce((n, s) => n + s.positions.length, 0)} jobs. Click a job to read its log.
       </p>

@@ -9,10 +9,15 @@ export const SCROLL_PX_PER_SEC = 80;
 
 export const WAVES = ["sine", "square", "triangle", "sawtooth"];
 
+// The CH1 trace in ENGINEER tuning ("MODE: RAW") is the scope as it always was: a sine. (A square
+// wave here drew tall rectangle outlines across the page, so it is not the default.) Turning the
+// dial makes the trace ripple for about 600ms while it retunes, then it settles ("MODE: CLEAN").
+export const RAW_WAVE = "sine";
+
 const DEFAULTS = {
   freq: 120, // Hz
   amp: 1.2, // divisions
-  wave: "sine",
+  wave: RAW_WAVE,
   ch2: true,
   running: true,
   fft: false,
@@ -41,6 +46,8 @@ export const scope = {
   params: { ...DEFAULTS },
   smooth: { freq: DEFAULTS.freq, amp: DEFAULTS.amp }, // what is actually drawn
   mouse: { x: 0.5, y: 0.5 }, // 0..1 across the viewport
+  mix: 0, // 0 = the raw wave, 1 = a clean sine (the tuning dial moves it)
+  glitch: 0, // 0..1: a brief ripple while the dial is being turned
   spikes: [],
   offset: 0, // how far the pattern has scrolled, in px
   view: { W: 1440, H: 900, dx: 144, dy: 112.5 },
@@ -81,7 +88,9 @@ export const scope = {
   // CH1 value in divisions at screen x (includes any spikes passing by).
   valueAt(x) {
     const u = this.cycles() * ((x + this.offset) / this.view.W);
-    let v = this.smooth.amp * waveFn(this.params.wave, u);
+    const raw = waveFn(this.params.wave, u);
+    let v = this.smooth.amp * (raw + (Math.sin(2 * Math.PI * u) - raw) * this.mix);
+    if (this.glitch > 0) v += this.smooth.amp * 0.4 * this.glitch * Math.sin(2 * Math.PI * u * 7.3 + this.offset * 0.05);
     for (const s of this.spikes) {
       const d = x - (s.c - this.offset);
       if (d > -40 && d < 40) {

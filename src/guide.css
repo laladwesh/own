@@ -1,0 +1,894 @@
+/* The guide layer: "?" buttons, subtitles, glossary underlines, the guide bubble and sheet, the
+   summary box and the view toggle. Same two fonts and the same paper-and-ink colours as the rest
+   of the site; no gradients, no glow, no emoji. */
+
+/* ───────── "?" buttons ───────── */
+.sh-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.explain-btn {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  min-height: 0;
+  padding: 0;
+  color: var(--faint);
+  background: transparent;
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.explain-btn:hover,
+.explain-btn:focus-visible {
+  color: var(--bg);
+  background: var(--text);
+  border-color: var(--text);
+  outline: none;
+}
+
+/* clearer in human mode */
+html[data-tune="human"] .explain-btn {
+  width: 26px;
+  height: 26px;
+  color: var(--text);
+  border-color: var(--text);
+}
+
+/* inside the dark devices (terminal bar, status rack) */
+.explain-btn--dark {
+  width: 20px;
+  height: 20px;
+  color: #8A8A8A;
+  border-color: #2A2A2A;
+}
+
+html[data-tune="human"] .explain-btn--dark {
+  width: 22px;
+  height: 22px;
+  color: #E6E6E6;
+  border-color: #5A5A5A;
+}
+
+.explain-btn--dark:hover,
+.explain-btn--dark:focus-visible {
+  color: #0D0D0D;
+  background: #E8A33D;
+  border-color: #E8A33D;
+}
+
+.sh-sub {
+  max-width: 60ch;
+  margin: 10px 0 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* the "?" beside a yaml / wide toggle */
+.mode-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ───────── view toggle (navbar) ───────── */
+.view-toggle {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
+  font-size: 13px;
+  white-space: nowrap;
+  color: var(--muted);
+}
+
+.view-toggle-label {
+  margin-right: 6px;
+}
+
+.view-btn {
+  min-height: 0;
+  padding: 1px 2px;
+  font: inherit;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.view-btn:hover {
+  color: var(--text);
+}
+
+.view-btn[aria-pressed="true"] {
+  color: var(--text);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ───────── glossary ───────── */
+.gloss {
+  display: inline;
+  min-height: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  background: none;
+  border: 0;
+  cursor: help;
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.gloss:hover,
+.gloss[aria-expanded="true"] {
+  text-decoration-style: solid;
+}
+
+.gloss:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+.gloss-pop,
+.guide-bubble,
+.guide-sheet {
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--text);
+  box-shadow: 0 20px 40px -12px rgba(26, 26, 26, 0.35), 0 2px 4px rgba(26, 26, 26, 0.15);
+}
+
+.gloss-pop {
+  z-index: 2147483620;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: min(300px, calc(100vw - 16px));
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.gloss-pop a {
+  align-self: flex-start;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ───────── guide bubble and sheet ───────── */
+.guide {
+  font-family: "JetBrains Mono", monospace;
+}
+
+.guide-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2147483630;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  pointer-events: none;
+  transition: transform 0.3s ease-out;
+}
+
+.guide-stage > * {
+  pointer-events: auto;
+}
+
+.guide-bubble {
+  position: relative;
+  width: 320px;
+  max-width: calc(100vw - 72px);
+  padding: 12px 14px;
+  font-size: 15px;
+  line-height: 1.5;
+  animation: guide-in 0.15s ease-out;
+}
+
+@keyframes guide-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.guide-text {
+  margin: 0 0 10px;
+}
+
+.guide-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.guide-meta {
+  margin-right: auto;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.guide-btn {
+  min-height: 0;
+  padding: 3px 10px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--text);
+  cursor: pointer;
+}
+
+.guide-btn:hover,
+.guide-btn:focus-visible {
+  color: var(--bg);
+  background: var(--text);
+  outline: none;
+}
+
+.guide-sheet {
+  position: fixed;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2147483630;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px;
+  font-size: 15px;
+  line-height: 1.5;
+  animation: guide-up 0.15s ease-out;
+}
+
+@keyframes guide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guide-bubble,
+  .guide-sheet {
+    animation: none;
+  }
+
+  .guide-stage {
+    transition: none;
+  }
+}
+
+/* ───────── "the short version" box on incident and case study pages ───────── */
+.summary-box {
+  margin: 0 0 24px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--text);
+}
+
+.summary-title {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.summary-box dl {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.summary-box dt {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.summary-box dd {
+  margin: 0;
+  max-width: 70ch;
+}
+
+/* plain meanings next to technical labels (human mode) */
+.plain-hint {
+  font-weight: 400;
+  color: var(--muted);
+}
+
+/* ───────── small links under the terminal ───────── */
+.tmux-tour {
+  min-height: 0;
+  margin-right: auto;
+  padding: 3px 0;
+  font-size: 12px;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.tmux-tour:hover,
+.tmux-tour:focus-visible {
+  color: var(--text);
+}
+
+.rack-plate-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ═════════ The tuning dial, pencil notes and the rest of human tuning ═════════ */
+
+/* Kalam, used only for the handwritten margin notes. Self-hosted, loaded when a note first needs it. */
+@font-face {
+  font-family: "Kalam";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/Kalam-400.woff2") format("woff2");
+}
+
+/* ───────── the dial (a dark device, like the terminal) ───────── */
+.tune-dial {
+  --td-body: #0D0D0D;
+  --td-plate: #1A1A1A;
+  --td-line: #2A2A2A;
+  --td-text: #E6E6E6;
+  --td-muted: #8A8A8A;
+  --td-accent: #E8A33D;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px 12px;
+  color: var(--td-text);
+  background: var(--td-body);
+  border: 1px solid var(--td-line);
+  border-radius: 4px;
+  box-shadow: 0 20px 40px -12px rgba(26, 26, 26, 0.35), 0 2px 4px rgba(26, 26, 26, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  user-select: none;
+}
+
+.tune-plate {
+  padding: 3px 8px;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  color: var(--td-muted);
+  background: var(--td-plate);
+  box-shadow: inset 0 0 0 1px var(--td-line), inset 0 0 0 3px var(--td-plate), inset 0 0 0 4px #101010;
+}
+
+.tune-knob {
+  display: block;
+  flex: none;
+  cursor: grab;
+  touch-action: none;
+  outline: none;
+}
+
+.tune-knob:active {
+  cursor: grabbing;
+}
+
+.tune-knob:focus-visible {
+  outline: 2px solid var(--td-accent);
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+.tune-pos {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--td-muted);
+}
+
+.tune-pos--on {
+  color: var(--td-accent);
+}
+
+.tune-dial--compact {
+  flex-direction: row;
+  gap: 12px;
+  padding: 6px 12px;
+}
+
+.tune-dial--compact .tune-pos {
+  gap: 10px;
+}
+
+/* the big dial sits beside the terminal on wide screens; the compact one sits under it otherwise */
+.tune-slot--side {
+  position: absolute;
+  top: 50%;
+  left: 24px;
+  z-index: 12;
+  display: none;
+  transform: translateY(-50%);
+}
+
+.tune-slot--under {
+  display: flex;
+  margin-top: 8px;
+}
+
+@media (min-width: 1180px) {
+  .tune-slot--side {
+    display: block;
+  }
+
+  .tune-slot--under {
+    display: none;
+  }
+}
+
+/* ───────── what turns up under the terminal ───────── */
+.tmux-slot {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+}
+
+.hero-suggest {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.suggest-btn {
+  min-height: 0;
+  padding: 3px 10px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--text);
+  cursor: pointer;
+}
+
+.suggest-btn:hover,
+.suggest-btn:focus-visible {
+  color: var(--bg);
+  background: var(--text);
+  outline: none;
+}
+
+.tmux-summary {
+  margin-right: 0;
+}
+
+.engineer-link {
+  display: block;
+  min-height: 0;
+  margin: 6px 0 0;
+  padding: 0;
+  font: inherit;
+  font-size: 13px;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.engineer-link:hover,
+.engineer-link:focus-visible {
+  color: var(--text);
+}
+
+/* the readable version fades in over the engineer one */
+.tune-fade {
+  animation: tune-fade 0.3s ease-out;
+}
+
+@keyframes tune-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ───────── "how I'd explain this at home" ───────── */
+.at-home {
+  max-width: 62ch;
+  margin: 10px 0 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.at-home-label {
+  color: var(--muted);
+}
+
+.cs-card .at-home {
+  margin-top: 0;
+  font-size: 14px;
+}
+
+/* ───────── pencil margin notes ───────── */
+.section-heading,
+.pencil-slot,
+.rack-wrap {
+  position: relative;
+}
+
+.pencil {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  gap: 2px;
+  max-width: 260px;
+  margin: 10px 0 10px;
+  font-family: "Kalam", "Segoe Print", "Bradley Hand", cursive;
+  font-size: 17px;
+  line-height: 1.25;
+  color: #5A5A5A;
+  transform: rotate(-1.5deg);
+  transform-origin: left bottom;
+  pointer-events: none;
+}
+
+.pencil-text {
+  display: block;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.45s ease-out 0.15s;
+}
+
+.pencil-arrow {
+  width: 56px;
+  height: 37px;
+  margin-left: 6px;
+  overflow: visible;
+}
+
+.pencil-arrow path {
+  fill: none;
+  stroke: #5A5A5A;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.4s ease-out;
+}
+
+.pencil[data-state="in"] .pencil-text {
+  clip-path: inset(0 0 0 0);
+}
+
+.pencil[data-state="in"] .pencil-arrow path {
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pencil-text,
+  .pencil-arrow path,
+  .tune-fade {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* wide screens: the note sits in the margin beside the heading, its arrow pointing down at the block */
+@media (min-width: 900px) {
+  .section-heading > .pencil,
+  .pencil-slot > .pencil {
+    position: absolute;
+    top: 30px;
+    right: 6%;
+    margin: 0;
+  }
+
+  .pencil-slot {
+    height: 0;
+  }
+
+  .pencil-slot > .pencil {
+    top: -64px;
+  }
+}
+
+/* the status rack's note sits to the right of the rack, arrow pointing left at it */
+@media (min-width: 1100px) {
+  .rack-wrap > .pencil--side {
+    position: absolute;
+    top: 52px;
+    left: 676px;
+    margin: 0;
+    flex-direction: row-reverse;
+    align-items: center;
+  }
+
+  .rack-wrap > .pencil--side .pencil-arrow {
+    transform: rotate(38deg);
+    margin: 0 6px 0 0;
+  }
+}
+
+/* the terminal's note sits to the right of the terminal on wide screens, above it otherwise */
+.pencil--hero {
+  margin: 0 0 8px;
+}
+
+@media (min-width: 1180px) {
+  .term-hero > .term-col .pencil--hero {
+    position: absolute;
+    top: 38%;
+    right: 40px;
+    max-width: 200px;
+    margin: 0;
+    flex-direction: row-reverse;
+    align-items: center;
+  }
+
+  .term-hero > .term-col .pencil--hero .pencil-arrow {
+    transform: rotate(38deg);
+    margin: 0 6px 0 0;
+  }
+}
+
+/* ───────── the one-page summary ───────── */
+.summary-page {
+  max-width: 720px;
+}
+
+.summary-page h2 {
+  margin: 28px 0 8px;
+  font-family: "Clash Display", "JetBrains Mono", sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.summary-page p,
+.summary-page li {
+  max-width: 68ch;
+  line-height: 1.6;
+}
+
+.summary-page ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.summary-numbers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.summary-numbers strong {
+  display: block;
+  font-family: "Clash Display", "JetBrains Mono", sans-serif;
+  font-size: 30px;
+  line-height: 1.1;
+}
+
+.summary-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0 0;
+}
+
+@media print {
+  .nav-styles,
+  .skip-link,
+  .scope-bg,
+  .daemon-root,
+  .peer-layer,
+  .guide,
+  .gloss-pop,
+  .footer,
+  footer,
+  .summary-toolbar,
+  .crumbs,
+  .incident-more {
+    display: none !important;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  .summary-page {
+    max-width: none;
+    padding: 0 !important;
+  }
+
+  main {
+    padding-top: 0 !important;
+  }
+}
+
+@media (max-width: 599px) {
+  /* the scope readout drops under RUN so it does not run into the channel labels */
+  .scope-hud--mode {
+    top: 34px;
+    right: 24px;
+  }
+}
+
+.summary-page li {
+  margin-bottom: 12px;
+}
+
+.summary-numbers li {
+  margin-bottom: 0;
+}
+
+/* ═════════ the bubble: tty on the left, the text and buttons on the right ═════════ */
+.guide-stage,
+.guide-sheet,
+.gloss-pop {
+  z-index: 2147483640; /* just under the pointer daemon, which stays the cursor over bubbles too */
+}
+
+.guide-bubble {
+  width: 340px;
+  max-width: calc(100vw - 24px);
+  padding: 12px 14px 12px 12px;
+}
+
+.guide-card {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  column-gap: 10px;
+  align-items: start;
+}
+
+.guide-sheet {
+  display: block;
+  padding: 12px;
+}
+
+/* the text keeps its final size from the start, so nothing moves while it types */
+.guide-text {
+  position: relative;
+}
+
+.guide-text-size {
+  display: block;
+  visibility: hidden;
+}
+
+.guide-text-typed {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.guide-main {
+  grid-column: 2;
+  min-width: 0;
+}
+
+.guide-avatar {
+  position: relative;
+  display: block;
+  grid-column: 1;
+}
+
+/* ═════════ tty, the guide's little CRT monitor ═════════ */
+.guide-avatar {
+  width: 40px;
+  height: 40px;
+  padding: 4px;
+}
+
+.tty {
+  display: block;
+  width: 32px;
+  height: 32px;
+  cursor: inherit;
+  image-rendering: pixelated;
+}
+
+.tty svg {
+  display: block;
+  image-rendering: pixelated;
+}
+
+/* idle: the cursor blinks about once a second; the power LED flickers once every ~6 seconds */
+.tty-cursor {
+  animation: tty-blink 1s steps(1) infinite;
+}
+
+.tty-led {
+  animation: tty-led 6s steps(1) infinite;
+}
+
+.tty--bounce {
+  animation: tty-bounce 0.3s ease-out 1;
+}
+
+@keyframes tty-blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes tty-led {
+  0%,
+  92% {
+    opacity: 1;
+  }
+  93%,
+  96% {
+    opacity: 0.25;
+  }
+  97%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes tty-bounce {
+  0% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-2px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tty-cursor,
+  .tty-led,
+  .tty--bounce {
+    animation: none;
+  }
+}
+
+/* the Intern Portal numbers, small, above the featured case study */
+.cs-numbers {
+  margin: 0 0 14px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.cs-numbers strong {
+  color: var(--text);
+  font-weight: 700;
+}

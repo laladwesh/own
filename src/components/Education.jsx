@@ -5,9 +5,10 @@ import { Switchable, Wide, yamlLines } from "./Manifest";
 
 const Education = () => (
   <section id="education" className="section">
-    <SectionHeading command="$ cat education.yaml" title="Education" />
+    <SectionHeading command="$ cat education.yaml" title="Education" explain="education" />
     {educationList.map((e) => (
       <Switchable
+      explain="education"
         key={e.id}
         label="education.yaml"
         yaml={yamlLines(toObject(e))}

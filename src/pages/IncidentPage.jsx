@@ -9,12 +9,13 @@ import { yamlLines } from "../lib/yaml.js";
 import { useSeo } from "../lib/useSeo";
 import { copyText } from "../lib/clipboard";
 import NotFound from "./NotFound";
+import { useBlockView } from "../guide/blocks";
 
 const IncidentView = ({ incident, index }) => {
   const seo = useMemo(() => incidentSeo(incident), [incident]);
   useSeo(seo);
   // The printed report is the default view; -o yaml shows the raw object.
-  const [mode, setMode] = useState("wide");
+  const [mode, setMode] = useBlockView("incident", { engineer: "wide", human: "wide" });
   const [copied, setCopied] = useState("");
   const timer = useRef(0);
 

@@ -68,7 +68,7 @@ const Images = () => {
 
   return (
     <section id="images" className="section">
-      <SectionHeading command="$ docker images" title="Repositories" />
+      <SectionHeading command="$ docker images" title="Repositories" explain="images" />
       <div className="chips" role="group" aria-label="Filter by category">
         {["all", ...categories].map((c) => (
           <button

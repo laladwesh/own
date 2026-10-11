@@ -10,8 +10,9 @@ const mailDraft = `${find("Email (Gmail)")}?subject=${encodeURIComponent("Let us
 
 const Contact = () => (
   <section id="contact" className="section">
-    <SectionHeading command="$ cat service.yaml" title="Contact" />
+    <SectionHeading command="$ cat service.yaml" title="Contact" explain="contact" />
     <Switchable
+      explain="contact"
       label="service.yaml"
       yaml={yamlLines(service)}
       wide={

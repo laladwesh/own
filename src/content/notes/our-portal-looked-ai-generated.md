@@ -1,7 +1,7 @@
 ---
 title: "Users said our portal looked AI-generated, so I audited the design"
 date: "2026-08"
-summary: "The Intern Portal is React with Ant Design and Geist. Users said it looked AI-generated. What gave it away, and the plan for fixing it."
+summary: "The Intern Portal is React with Ant Design and Geist. Users said it looked AI-generated. What gave it away, and the approach I took to the audit."
 tags: [design, react, ant-design, placements]
 ---
 
@@ -31,7 +31,7 @@ First, an audit of the theme tokens in `ConfigProvider`. Ant Design lets you set
 
 Second, I did not ask for a "more formal" look. "Formal" is a request that produces the generic enterprise dashboard, which is the thing I was trying to leave. Instead I picked real formal systems to learn from: a passport application, a court e-filing system, a tax portal. I looked at what those systems do that a SaaS template does not, and used that as the reference.
 
-Third, identifiers. Application and reference IDs are the things students quote when something goes wrong. I set them in Geist Mono so they read as identifiers and are easy to copy without mistakes.
+Third, identifiers. Application and reference IDs are the things students quote when something goes wrong. They should read as identifiers and be easy to copy without mistakes, so the choice was Geist Mono.
 
 ## Gotchas
 
@@ -39,6 +39,8 @@ Changing tokens is quick and fixes less than you expect. The default look comes 
 
 "Make it formal" and "make it professional" are not design briefs. They send you straight to the generic answer.
 
-## What I would do differently
+## What I learned from the audit
 
-[NEEDS CONFIRMATION: what shipped, and the reaction]
+A design reads as "generated" because of small, specific tells: the default blue, components with no styling, the default shell. Naming those tells was more useful than asking for something "more formal".
+
+Grounding the design in a real formal system, such as a passport application, a court e-filing system or a tax portal, gave me a reference to work from instead of an adjective.

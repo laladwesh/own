@@ -3,12 +3,37 @@ import { DRAFT_BANNER } from "../lib/drafts.js";
 import { Link } from "react-router-dom";
 import { findReplay } from "../terminal/replays/index.js";
 import { DIAGRAMS } from "./IncidentDiagrams";
+import { Gloss, GlossScope, useGloss } from "./Gloss";
+import SummaryBox from "./SummaryBox";
+import AtHome from "./AtHome";
+import PencilNote from "./PencilNote";
+import { useHuman } from "../view/store";
+import { atHome, plainKind, plainSeverity, plainStatus, reportHints } from "../constants/explain";
+import { incidentSummary } from "../lib/plain.js";
 
 // `code` in the data becomes an inline code span.
-const Rich = ({ text }) =>
-  text.split("`").map((part, i) => (i % 2 ? <code key={i} className="inc-code">{part}</code> : part));
+const Rich = ({ text }) => {
+  const g = useGloss();
+  return text.split("`").map((part, i) => (i % 2 ? <code key={i} className="inc-code">{part}</code> : <span key={i}>{g(part)}</span>));
+};
 
-const Label = ({ children }) => <p className="inc-label">{children}</p>;
+// In "human" view each label also says, in plain words, what its section holds.
+const Label = ({ children }) => {
+  const everyone = useHuman();
+  const hint = everyone ? reportHints[children] : null;
+  return (
+    <p className="inc-label">
+      {children}
+      {hint && <span className="plain-hint"> ({hint})</span>}
+    </p>
+  );
+};
+
+// A short plain-English meaning next to a technical label, in "human" view only.
+const Plain = ({ text }) => {
+  const everyone = useHuman();
+  return everyone && text ? <span className="plain-hint"> ({text})</span> : null;
+};
 
 // The pasted lines, then what actually ran (line breaks lost, so `cd ~` became a second target).
 const BadCommand = ({ incident }) => {
@@ -43,6 +68,7 @@ const BadCommand = ({ incident }) => {
 export const Report = ({ incident: inc, titleAs: Title = "h1" }) => {
   const Diagram = DIAGRAMS[inc.diagram];
   return (
+  <GlossScope>
   <article className="report" aria-label={`${inc.id} postmortem`}>
     {isDraftIncident(inc) && (
       <p className="draft-banner" role="note">
@@ -52,11 +78,15 @@ export const Report = ({ incident: inc, titleAs: Title = "h1" }) => {
     <p className="report-meta">
       <strong>{inc.id}</strong>
       <span aria-hidden="true">/</span>
-      <span>{inc.severity}</span>
+      <span>
+        {inc.severity}
+        <Plain text={plainSeverity[inc.severity]} />
+      </span>
       {inc.kind && (
         <>
           <span aria-hidden="true">/</span>
           <span className="inc-kind">{inc.kind}</span>
+          <Plain text={plainKind[inc.kind]} />
         </>
       )}
       {inc.duration && (
@@ -68,11 +98,20 @@ export const Report = ({ incident: inc, titleAs: Title = "h1" }) => {
       {inc.status && (
         <>
           <span aria-hidden="true">/</span>
-          <span>STATUS {inc.status}</span>
+          <span>
+            STATUS {inc.status}
+            <Plain text={plainStatus[inc.status]} />
+          </span>
         </>
       )}
     </p>
     <Title className="sub-heading report-title">{inc.title}</Title>
+
+    <SummaryBox summary={incidentSummary(inc)} />
+    <AtHome text={atHome.incident} />
+    <div className="pencil-slot">
+      <PencilNote id="incident" />
+    </div>
 
     {findReplay(inc.id) && (
       <p className="report-replay">
@@ -84,12 +123,16 @@ export const Report = ({ incident: inc, titleAs: Title = "h1" }) => {
 
     <section className="report-sec">
       <Label>IMPACT</Label>
-      <p>{inc.impact}</p>
+      <p>
+        <Gloss text={inc.impact} />
+      </p>
     </section>
 
     <section className="report-sec">
       <Label>SUMMARY</Label>
-      <p>{inc.summary}</p>
+      <p>
+        <Gloss text={inc.summary} />
+      </p>
     </section>
 
     {Diagram && (
@@ -163,7 +206,9 @@ export const Report = ({ incident: inc, titleAs: Title = "h1" }) => {
 
     <section className="report-sec">
       <Label>LESSON</Label>
-      <p className="report-lesson">{inc.lesson}</p>
+      <p className="report-lesson">
+        <Gloss text={inc.lesson} />
+      </p>
     </section>
 
     {inc.credits && (
@@ -175,5 +220,6 @@ export const Report = ({ incident: inc, titleAs: Title = "h1" }) => {
 
     <p className="report-tags">{inc.tags.map((t) => `#${t}`).join("  ")}</p>
   </article>
+  </GlossScope>
   );
 };

@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { caseStudies, shortTitle } from "../lib/caseStudies";
 import SectionHeading from "./SectionHeading";
+import AtHome from "./AtHome";
+import { atHomeBySlug } from "../constants/explain";
 
 // Homepage section: one card per case study in src/content/case-studies/.
 const CaseStudies = () => {
@@ -10,10 +12,15 @@ const CaseStudies = () => {
 
   return (
     <section id="caseStudies" className="section">
-      <SectionHeading command="$ cat case-studies/README.md" title="Case Studies" />
+      <SectionHeading command="$ cat case-studies/README.md" title="Case Studies" explain="caseStudies" />
       <p className="section-note">
         {all.length} {all.length === 1 ? "case study" : "case studies"}: things I built, and how they changed along the way.
       </p>
+      {caseStudies["intern-portal"] && (
+        <p className="cs-numbers">
+          Intern Portal, this season: <strong>1300+</strong> students, <strong>200+</strong> companies, <strong>400+</strong> internships.
+        </p>
+      )}
       <div className="cs-cards cs-cards--one">
         {studies.map((s) => (
           <article key={s.slug} className="cs-card">
@@ -25,6 +32,7 @@ const CaseStudies = () => {
               <Link to={`/projects/${s.slug}`}>{s.title}</Link>
             </h3>
             <p className="cs-card-summary">{s.summary}</p>
+            <AtHome text={atHomeBySlug[s.slug]} />
             <ul className="drawer-stack cs-card-stack" aria-label="Stack">
               {(s.stack ?? []).map((t) => (
                 <li key={t}>{t}</li>

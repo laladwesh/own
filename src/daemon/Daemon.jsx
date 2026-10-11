@@ -36,7 +36,7 @@ export const Pixels = ({ grid, cls }) =>
 
 const SIZE = 32;
 const IDLE_MS = 8000;
-const INTERACTIVE = "a, button, [role='button'], summary, label, .term-run, .term-chip";
+const INTERACTIVE = "a, button, [role='button'], summary, label, .term-run";
 const ROW = "#deployments .table-row, .project-card";
 
 const media = (q) => window.matchMedia(q);
@@ -111,7 +111,10 @@ html.has-custom-cursor .term-input{cursor:text !important}`;
       peekAt: -1e9,
       raf: 0,
       last: performance.now(),
+      uiAt: 0,
+      overUi: false,
     };
+    root.style.transition = "opacity 0.15s";
 
     const touch = () => {
       const now = performance.now();
@@ -235,8 +238,19 @@ html.has-custom-cursor .term-input{cursor:text !important}`;
       root.classList.toggle("dm-terminal", !!t?.closest?.(".term-window"));
       root.style.transform = `translate3d(${st.x}px, ${st.y + peek}px, 0)`;
       sprite.style.transform = `translateY(${dy + (squish < 1 ? 3 : 0)}px) rotate(${rot}deg) scale(${st.face}, ${squish})`;
+      // Over a guide bubble, a glossary popover or a margin note the ghost stays (it is the cursor
+      // everywhere) but drops to 70% so the text under it stays readable.
+      if (now - st.uiAt > 60) {
+        st.uiAt = now;
+        const L = st.px - SIZE / 2 - 4;
+        const T = st.py - SIZE / 2 - 4;
+        st.overUi = [...document.querySelectorAll(".guide, .gloss-pop, .pencil")].some((el) => {
+          const r = el.getBoundingClientRect();
+          return r.width > 0 && L < r.right && L + SIZE + 8 > r.left && T < r.bottom && T + SIZE + 8 > r.top;
+        });
+      }
       const overlay = st.spawned && st.inWindow && !hidden;
-      root.style.opacity = overlay ? "1" : "0";
+      root.style.opacity = overlay ? (st.overUi ? "0.7" : "1") : "0";
       drag.style.display = (onDrag || onResize) && !st.sleeping ? "" : "none";
       const hint = onResize ? "resize" : "drag";
       if (drag.textContent !== hint) drag.textContent = hint;

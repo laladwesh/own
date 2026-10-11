@@ -63,6 +63,10 @@ import who from "./who.js";
 import presenceCmd from "./presence.js";
 import wall from "./wall.js";
 import autoclear from "./autoclear.js";
+import tuneCmd from "./tune.js";
+import tty from "./tty.js";
+import explainCmd from "./explain.js";
+import glossaryCmd from "./glossary.js";
 import kill from "./kill.js";
 import chmod from "./chmod.js";
 import make from "./make.js";
@@ -72,7 +76,7 @@ import sl from "./sl.js";
 import gti from "./gti.js";
 
 export const commands = [
-  help, man, ls, cd, pwd, cat, tree, open, history, clear, autoclear, exit,
+  help, man, ls, cd, pwd, cat, tree, open, history, clear, autoclear, tuneCmd, explainCmd, glossaryCmd, exit,
   whoami, neofetch, git, hire, journalctl, incidents, ghostOa, oaCheck, agnigarh, notesCmd, nowCmd, replay, status, who, presenceCmd, wall,
   kubectl, docker, gh, systemctl, helm, terraform, uptime, top,
   scope, resistor, bin, hex, ohm,
@@ -80,7 +84,7 @@ export const commands = [
   deploy, htop, ssh, tour, ping, curl, hi,
   snake, typespeed, achievements,
   sudo, rm, date, daemonCmd, daemonsay, fortune, vim, overdrive,
-  kill, chmod, make, sleepCmd, attend, sl, gti,
+  kill, chmod, make, sleepCmd, attend, sl, gti, tty,
 ];
 
 export const byName = Object.fromEntries(commands.flatMap((c) => [c.name, ...(c.aliases ?? [])].map((n) => [n, c])));

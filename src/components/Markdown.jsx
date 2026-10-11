@@ -1,6 +1,7 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Fragment } from "react";
+import { Children, Fragment } from "react";
+import { useGloss } from "./Gloss";
 
 // Markdown for case studies and notes. Code blocks are small dark terminal devices, like the
 // bad command in the incident reports.
@@ -23,7 +24,19 @@ const CodeDevice = ({ children }) => {
   );
 };
 
+// Plain strings inside these get the glossary underlines (human mode).
+const glossed = (Tag) => {
+  const Comp = ({ children }) => {
+    const g = useGloss();
+    return <Tag>{Children.map(children, (c) => (typeof c === "string" ? g(c) : c))}</Tag>;
+  };
+  return Comp;
+};
+
 const components = {
+  p: glossed("p"),
+  li: glossed("li"),
+  td: glossed("td"),
   pre: CodeDevice,
   code: ({ className, children }) => <code className={className ?? "inc-code"}>{children}</code>,
   // Links to pages on this site open in the same tab.

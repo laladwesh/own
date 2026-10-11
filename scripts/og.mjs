@@ -124,6 +124,7 @@ try {
     { name: "incidents", label: "$ journalctl --priority=crit", title: "Incidents" },
     ...incidents.map((i) => ({ name: i.id, label: `${i.id} / ${i.severity}`, title: i.title })),
     { name: "home", label: "$ whoami", title: "Avinash Gupta", footer: "avinashgupta.in" },
+    { name: "summary", label: "$ cat summary.txt", title: "One-page summary", footer: "avinashgupta.in/summary" },
     { name: "case-studies", label: "$ ls case-studies/", title: "Case studies", footer: "avinashgupta.in/case-studies" },
     { name: "notes", label: "$ ls notes/", title: "Notes", footer: "avinashgupta.in/notes" },
     ...loadNotes().map((n) => ({ name: `note-${n.slug}`, label: `Note / ${n.date}`, title: n.title, footer: "avinashgupta.in/notes" })),

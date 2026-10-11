@@ -1,6 +1,7 @@
 import styles from "../style";
 import { homeSeo } from "../lib/seo";
 import { useSeo } from "../lib/useSeo";
+import { GlossScope } from "../components/Gloss";
 import {
   Hero,
   About,
@@ -28,19 +29,45 @@ const Home = () => {
 
     <main className={`${styles.paddingX} flex justify-center`}>
       <div className={styles.boxWidth}>
-        <About />
-        <Pipeline />
-        <Skills />
-        <Deployments />
-        <CaseStudies />
-        <Images />
-        <Dashboard />
-        <Releases />
-        <OpenSource />
-        <Education />
-        <Cronjobs />
-        <Ships />
-        <Contact />
+        <GlossScope>
+          <About />
+        </GlossScope>
+        <GlossScope>
+          <Pipeline />
+        </GlossScope>
+        <GlossScope>
+          <Skills />
+        </GlossScope>
+        <GlossScope>
+          <Deployments />
+        </GlossScope>
+        <GlossScope>
+          <CaseStudies />
+        </GlossScope>
+        <GlossScope>
+          <Images />
+        </GlossScope>
+        <GlossScope>
+          <Dashboard />
+        </GlossScope>
+        <GlossScope>
+          <Releases />
+        </GlossScope>
+        <GlossScope>
+          <OpenSource />
+        </GlossScope>
+        <GlossScope>
+          <Education />
+        </GlossScope>
+        <GlossScope>
+          <Cronjobs />
+        </GlossScope>
+        <GlossScope>
+          <Ships />
+        </GlossScope>
+        <GlossScope>
+          <Contact />
+        </GlossScope>
       </div>
     </main>
   </>

@@ -49,7 +49,7 @@ const Deployments = () => {
 
   return (
     <section id="deployments" className="section">
-      <SectionHeading command="$ kubectl get deployments" title="Projects" />
+      <SectionHeading command="$ kubectl get deployments" title="Projects" explain="deployments" />
       <div className="table" role="table" aria-label="Projects">
         <div className="table-head" role="row">
           <span role="columnheader">NAME</span>

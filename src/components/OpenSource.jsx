@@ -236,7 +236,7 @@ const OpenSource = () => {
 
   return (
     <section id="openSource" className="section">
-      <SectionHeading command="$ git log --graph --oneline" title="Open Source" />
+      <SectionHeading command="$ git log --graph --oneline" title="Open Source" explain="openSource" />
 
       {error ? (
         <p className="section-note">

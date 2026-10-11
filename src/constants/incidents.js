@@ -62,6 +62,8 @@ export const incidents = [
   },
   {
     id: "INC-002",
+    plainDid:
+      "Designed Ghost OA with my co-LSC, shipped the backend the same night and ran it by hand, then built a proper screen six days later so coordinators could run it themselves.",
     kind: "operational",
     title: "One online assessment, three roles, one portal that couldn't model it",
     date: "2026-07-10",

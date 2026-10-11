@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import styles from "../style";
 import SectionHeading from "../components/SectionHeading";
+import AtHome from "../components/AtHome";
+import { atHomeBySlug } from "../constants/explain";
 import { caseStudies, shortTitle } from "../lib/caseStudies";
 import { CASE_INTRO, caseStudiesIndexSeo, caseStudyPath } from "../lib/seo";
 import { useSeo } from "../lib/useSeo";
@@ -12,7 +14,7 @@ const CaseStudiesIndex = () => {
   return (
     <main id="content" tabIndex={-1} className={`${styles.paddingX} flex justify-center pt-[128px] pb-[96px]`}>
       <div className={`${styles.boxWidth} page-body`}>
-        <SectionHeading as="h1" command="$ ls case-studies/" title="Case studies" />
+        <SectionHeading as="h1" command="$ ls case-studies/" title="Case studies" explain="caseStudies" />
         <p className="page-intro">{CASE_INTRO}</p>
         <p className="section-note inc-count">
           {studies.length} {studies.length === 1 ? "case study" : "case studies"}.
@@ -29,6 +31,7 @@ const CaseStudiesIndex = () => {
                 <Link to={caseStudyPath(s.slug)}>{s.title}</Link>
               </h2>
               <p className="cs-card-summary">{s.summary}</p>
+              <AtHome text={atHomeBySlug[s.slug]} />
               <ul className="drawer-stack cs-card-stack" aria-label="Stack">
                 {(s.stack ?? []).map((t) => (
                   <li key={t}>{t}</li>

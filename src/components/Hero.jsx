@@ -3,6 +3,10 @@ import { animate, motion, useMotionValue } from "framer-motion";
 import ScopeHud from "../scope/ScopeHud";
 import Terminal from "./Terminal";
 import HeroNav from "./HeroNav";
+import TuneDial from "./TuneDial";
+import PencilNote from "./PencilNote";
+import AtHome from "./AtHome";
+import { atHome } from "../constants/explain";
 
 const SPRING = { type: "spring", stiffness: 300, damping: 30 };
 const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), Math.max(lo, hi));
@@ -189,8 +193,12 @@ const Hero = () => {
       className="term-hero sm:px-16 px-4 flex flex-col items-center justify-center"
     >
       <ScopeHud />
+      <div className="tune-slot tune-slot--side">
+        <TuneDial />
+      </div>
 
       <div className="term-col w-full">
+        <PencilNote id="terminal" hero />
         {win === "closed" && (
           <button type="button" className="term-pill" onClick={() => setWin("open")}>
             open terminal
@@ -232,7 +240,11 @@ const Hero = () => {
             </>
           )}
         </motion.div>
+        <div className="tune-slot tune-slot--under">
+          <TuneDial compact />
+        </div>
         {!hidden && !maximized && <HeroNav />}
+        <AtHome text={atHome.terminal} />
       </div>
 
       {win === "min" && (
