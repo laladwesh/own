@@ -199,6 +199,12 @@ const Terminal = forwardRef(function Terminal(
   const [step, setStep] = useState(() => (reduced() ? total : 0));
   const done = step >= total;
   const [cleared, setCleared] = useState(false);
+  // Tells the page (the section list under the terminal) that the intro has finished.
+  useEffect(() => {
+    if (!done) return;
+    window.__termReady = true;
+    window.dispatchEvent(new Event("terminal-ready"));
+  }, [done]);
   const [typing, setTyping] = useState(false); // an output is still being typed out
   const busy = useRef(0);
   const setBusy = useCallback((d) => {

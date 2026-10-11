@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { animate, motion, useMotionValue } from "framer-motion";
 import ScopeHud from "../scope/ScopeHud";
 import Terminal from "./Terminal";
+import HeroNav from "./HeroNav";
 
 const SPRING = { type: "spring", stiffness: 300, damping: 30 };
 const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), Math.max(lo, hi));
@@ -231,6 +232,7 @@ const Hero = () => {
             </>
           )}
         </motion.div>
+        {!hidden && !maximized && <HeroNav />}
       </div>
 
       {win === "min" && (
