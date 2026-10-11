@@ -474,79 +474,54 @@
   }
 }
 
-/* The section list under the terminal: numbered windows, like a tmux status line. */
-.tmux {
-  --bg: #0D0D0D;
-  --surface: #141414;
-  --border: #2A2A2A;
-  --text: #E6E6E6;
-  --muted: #8A8A8A;
-  --accent: #E8A33D;
+/* "next section" button in the right-hand corner under the terminal. The slot is always there
+   (so nothing moves) but empty until the terminal has finished its intro. */
+.tmux-slot {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 2px 14px;
+  justify-content: flex-end;
   min-height: 30px;
-  margin-top: 8px;
-  padding: 4px 12px;
+  margin-top: 6px;
+}
+
+.tmux-next {
+  min-height: 0;
+  padding: 3px 10px;
   font-size: 12px;
-  color: var(--muted);
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  box-shadow: 0 10px 24px -12px rgba(26, 26, 26, 0.35);
+  color: #0D0D0D;
+  background: #E8A33D;
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
 }
 
-.tmux-session {
-  padding: 1px 8px;
-  color: var(--bg);
-  background: var(--accent);
-  white-space: nowrap;
+.tmux-next:hover,
+.tmux-next:focus-visible {
+  background: #F2B65A;
+  outline: none;
 }
 
-.tmux-windows {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2px 14px;
+/* Phones: a shorter terminal body, so the section list under it is on screen too. */
+@media (max-width: 599px) {
+  .term-hero .term-wrap:not(.term-wrap--max):not(.term-wrap--sized) .term-body {
+    max-height: 44svh;
+  }
+}
+
+/* The tip printed after the intro: what this terminal can do. */
+.term-tip {
+  margin-top: 10px;
+}
+
+.term-tip p {
   margin: 0;
+}
+
+.term-tip ul {
+  margin: 4px 0;
   padding: 0;
   list-style: none;
 }
 
-.tmux-windows button {
-  min-height: 0;
-  padding: 1px 0;
-  font: inherit;
-  color: var(--text);
-  background: none;
-  border: 0;
-  cursor: pointer;
-}
-
-.tmux-windows button:hover,
-.tmux-windows button:focus-visible {
-  color: var(--bg);
-  background: var(--accent);
-  outline: none;
-}
-
-.tmux-hint {
-  margin-left: auto;
-  white-space: nowrap;
-}
-
-@media (max-width: 599px) {
-  .tmux {
-    padding: 4px 10px;
-  }
-
-  /* the first four windows, then the hint on its own line */
-  .tmux-windows li:nth-child(n + 5) {
-    display: none;
-  }
-
-  .tmux-hint {
-    margin-left: 0;
-    flex-basis: 100%;
-  }
+.term-tip li {
+  padding-left: 2ch;
 }

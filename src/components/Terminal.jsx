@@ -51,6 +51,7 @@ const segments = [
   { kind: "out", text: aboutMe.intro, delay: 8 },
   { kind: "cmd", text: "ls", delay: 30 },
   { kind: "ls", text: "x", delay: 200 },
+  { kind: "tip", text: "x", delay: 500 },
 ];
 
 const starts = segments.reduce((acc, _, i) => {
@@ -1006,6 +1007,37 @@ const Terminal = forwardRef(function Terminal(
                     </span>
                     {active && cursor}
                   </p>
+                );
+              }
+              if (seg.kind === "tip") {
+                const run = (c) => runRef.current(c);
+                return (
+                  <div key={i} className="term-line term-res term-tip">
+                    <p className="term-tip-lead">this is a working shell. every section of the page is a command, and some are just for fun. click one:</p>
+                    <ul>
+                      {[
+                        ["make chai", "brew a cup. takes two seconds"],
+                        ["deploy --friday", "ship something on a Friday"],
+                        ["sl", "a typo that goes somewhere"],
+                        ["ping google.com", "check the campus Wi-Fi"],
+                        ["kill -9 bugs", "debugging, the fast way"],
+                        ["git push --force", "live dangerously"],
+                        ["docker run avinash", "run me as a container"],
+                      ].map(([cmd, what]) => (
+                        <li key={cmd}>
+                          <Run cmd={cmd} run={run}>
+                            {cmd}
+                          </Run>
+                          <span className="term-muted"> {what}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="term-muted">
+                      the serious ones: <Run cmd="tour" run={run}>tour</Run>, <Run cmd="help" run={run}>help</Run>,{" "}
+                      <Run cmd="neofetch" run={run}>neofetch</Run>, <Run cmd="ssh recruiter@avinash" run={run}>ssh recruiter@avinash</Run>.
+                      Tab completes, Up/Down walks history, ? opens the command palette.
+                    </p>
+                  </div>
                 );
               }
               if (seg.kind === "ls") {

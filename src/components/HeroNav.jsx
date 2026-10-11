@@ -1,19 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { navLinks } from "../constants";
 import { scrollToSection } from "../lib/helperFunctions";
 
-const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-// The sections and pages as numbered windows, like a tmux status line, hanging under the terminal.
-// It tells a visitor there is more below the terminal and lets them jump straight to it. It stays
-// empty until the terminal has finished its intro, then fills in one window at a time (once).
-const WINDOWS = navLinks.filter((n) => n.primary || n.id === "incidents" || n.id === "notes");
+// A small "next section" button in the corner under the terminal. It stays out of sight while
+// the terminal types its intro, then appears once, and scrolls to the first section below.
+const NEXT = { id: "about", title: "about.yaml" };
 
 const HeroNav = () => {
-  const navigate = useNavigate();
   const [ready, setReady] = useState(() => Boolean(window.__termReady));
-  const [shown, setShown] = useState(() => (window.__termReady || reduced() ? WINDOWS.length + 1 : 0));
 
   useEffect(() => {
     if (ready) return undefined;
@@ -22,36 +15,15 @@ const HeroNav = () => {
     return () => window.removeEventListener("terminal-ready", on);
   }, [ready]);
 
-  // Once ready, the windows appear one after another.
-  useEffect(() => {
-    if (!ready || shown > WINDOWS.length) return undefined;
-    const t = setTimeout(() => setShown((n) => n + 1), reduced() ? 0 : 90);
-    return () => clearTimeout(t);
-  }, [ready, shown]);
-
-  const go = (n) => {
-    if (n.to) navigate(n.to);
-    else scrollToSection(n.id);
-  };
-
+  // The slot keeps its height, so the terminal does not move when the button shows up.
   return (
-    <nav className="tmux" aria-label="Sections below the terminal" data-ready={ready ? "1" : "0"}>
-      <span className="tmux-session" style={{ visibility: shown > 0 ? "visible" : "hidden" }}>
-        [avinash] 0:home*
-      </span>
-      <ul className="tmux-windows">
-        {WINDOWS.map((n, i) => (
-          <li key={n.id} style={{ visibility: shown > i + 1 ? "visible" : "hidden" }}>
-            <button type="button" onClick={() => go(n)}>
-              {i + 1}:{n.title}
-            </button>
-          </li>
-        ))}
-      </ul>
-      <span className="tmux-hint" style={{ visibility: shown > WINDOWS.length ? "visible" : "hidden" }}>
-        scroll for more &darr;
-      </span>
-    </nav>
+    <div className="tmux-slot">
+      {ready && (
+        <button type="button" className="tmux-next" onClick={() => scrollToSection(NEXT.id)} aria-label={`Scroll to the next section: ${NEXT.title}`}>
+          next: {NEXT.title} &darr;
+        </button>
+      )}
+    </div>
   );
 };
 
