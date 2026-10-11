@@ -646,14 +646,26 @@ const Terminal = forwardRef(function Terminal(
       rail.dataset.down = max - body.scrollTop > 24 ? "1" : "0";
       setMore(over && max - body.scrollTop > 24);
     };
+  
+    let ours = false;
     const onScroll = () => {
-      stick.current = atBottom();
-      if (stick.current) setNewOutput(false);
+      if (ours) ours = false;
+      else {
+        stick.current = atBottom();
+        if (stick.current) setNewOutput(false);
+      }
       sync();
     };
+    let lastH = content.offsetHeight;
     const ro = new ResizeObserver(() => {
-      if (stick.current) body.scrollTop = body.scrollHeight;
-      else setNewOutput(true);
+      const grew = content.offsetHeight > lastH;
+      lastH = content.offsetHeight;
+      if (stick.current) {
+        const before = body.scrollTop;
+        body.scrollTop = body.scrollHeight;
+        if (Math.abs(body.scrollTop - before) > 0.5) ours = true;
+        setNewOutput(false);
+      } else if (grew) setNewOutput(true);
       sync();
     });
     ro.observe(content);
