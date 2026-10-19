@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Tty from "../guide/Tty";
+import Invite from "./Invite";
 import { daemonEvent } from "../daemon/state";
 import { discover } from "../terminal/discovery";
 import { GITHUB_URL, GITHUB_USER, useFollowers } from "../lib/follow";
@@ -74,7 +75,7 @@ const FollowDevice = ({ compact = false }) => {
   else view = <span aria-hidden="true">{live}</span>;
 
   return (
-    <div className={`follow${compact ? " follow--compact" : ""}`} role="group" aria-label="GitHub profile">
+    <Invite as="div" priority={1} className={`follow${compact ? " follow--compact" : ""}`} role="group" aria-label="GitHub profile">
       <div className="follow-plate">
         <span className="follow-plate-id">AG-FOLLOW / github.com/{GITHUB_USER}</span>
       </div>
@@ -107,7 +108,7 @@ const FollowDevice = ({ compact = false }) => {
           <span>would make my day :)</span>
         </span>
       )}
-    </div>
+    </Invite>
   );
 };
 

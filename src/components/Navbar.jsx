@@ -5,6 +5,8 @@ import { navLinks } from "../constants";
 import { scrollToSection } from "../lib/helperFunctions";
 import TuneToggle from "./TuneToggle";
 import { guide } from "../guide/store";
+import GithubKey from "./GithubKey";
+import { ghLink, followersText, useFollowers } from "../lib/follow";
 
 const PRIMARY = navLinks.filter((n) => n.primary);
 const MORE = navLinks.filter((n) => !n.primary);
@@ -17,6 +19,7 @@ const Navbar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const moreRef = useRef(null);
+  const followers = useFollowers();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -101,6 +104,9 @@ const Navbar = () => {
         <li>
           <TuneToggle />
         </li>
+        <li>
+          <GithubKey />
+        </li>
       </ul>
 
       <div className="lg:hidden flex items-center">
@@ -136,6 +142,11 @@ const Navbar = () => {
                 </button>
               </li>
             ))}
+            <li>
+              <a className="nav-link" {...ghLink} onClick={() => setToggle(false)}>
+                follow on github{typeof followers === "number" ? ` (${followers})` : ""} &#8599;
+              </a>
+            </li>
           </ul>
         )}
       </div>

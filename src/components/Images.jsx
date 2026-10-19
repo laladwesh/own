@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { repos } from "../lib/data";
+import StarFollow from "./StarFollow";
 import { slug } from "../lib/util.js";
 import SectionHeading from "./SectionHeading";
 
@@ -44,6 +45,7 @@ const Detail = ({ repo, onClose }) => {
           <a href={repo.url} target="_blank" rel="noopener noreferrer">
             repo
           </a>
+          <StarFollow repo={repo.url} />
           {repo.homepage && (
             <a href={repo.homepage} target="_blank" rel="noopener noreferrer">
               homepage

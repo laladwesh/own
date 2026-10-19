@@ -132,11 +132,16 @@ const DataSheet = () => {
           <a href={github}>github.com/laladwesh</a>
         </p>
         <div className="ds-qr">
+          <p className="ds-follow">
+            <a href="https://github.com/laladwesh">github.com/laladwesh</a>: follow for updates
+          </p>
+          <div className="ds-qr-box">
           <svg viewBox={`-1 -1 ${QR_SIZE + 2} ${QR_SIZE + 2}`} role="img" aria-label="QR code for avinashgupta.in" shapeRendering="crispEdges">
             <rect x="-1" y="-1" width={QR_SIZE + 2} height={QR_SIZE + 2} fill="#fff" />
             <path d={QR_PATH} fill="#1A1A1A" />
           </svg>
           <span>full site · 1 / 1</span>
+          </div>
         </div>
       </div>
     </div>

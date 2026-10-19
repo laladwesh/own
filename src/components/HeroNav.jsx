@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { scrollToSection } from "../lib/helperFunctions";
 import { guide } from "../guide/store";
 import { useHuman } from "../view/store";
+import Invite from "./Invite";
+import { ghLink, followersText, useFollowers } from "../lib/follow";
 
 // Under the terminal: the first plain pointers (human tuning), a link to the tour, and a small
 // "next section" button. All of it stays out of sight until the terminal has finished its intro.
@@ -17,6 +19,7 @@ const SUGGEST = [
 
 const HeroNav = () => {
   const human = useHuman();
+  const followers = useFollowers();
   const [ready, setReady] = useState(() => Boolean(window.__termReady));
 
   useEffect(() => {
@@ -30,6 +33,7 @@ const HeroNav = () => {
 
   // The slot keeps its height, so the terminal does not move when the buttons show up.
   return (
+    <>
     <div className="tmux-slot">
       {ready && human && (
         <div className="hero-suggest" role="group" aria-label="Where to start">
@@ -56,6 +60,10 @@ const HeroNav = () => {
         </button>
       )}
     </div>
+    <Invite as="p" priority={3} className={`hero-gh${ready ? "" : " hero-gh--wait"}`}>
+      ~/github &rarr; laladwesh{followersText(followers) && ` (${followersText(followers)})`} [ <a {...ghLink}>follow &#8599;</a> ]
+    </Invite>
+    </>
   );
 };
 

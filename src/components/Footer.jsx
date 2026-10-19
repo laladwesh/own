@@ -2,6 +2,8 @@ import { siteDomain } from "../constants";
 import { useLocation } from "react-router-dom";
 import DeployLine from "./DeployLine";
 import FollowDevice from "./FollowDevice";
+import Invite from "./Invite";
+import { ghLink } from "../lib/follow";
 
 // A pixel heart in the same style as the daemon, drawn in the ink colour.
 const HEART = [
@@ -54,6 +56,10 @@ const Footer = () => {
       {pathname !== "/" && <FollowDevice compact />}
       <p>
         <DeployLine /> / {siteDomain}
+        <Invite priority={4} className="footer-follow">
+          {" "}
+          &middot; built in public &middot; <a {...ghLink}>follow along &#8599;</a>
+        </Invite>
       </p>
       <p className="footer-credit">
         Made with <Heart /> by Avinash and <ClaudeCodeMark />

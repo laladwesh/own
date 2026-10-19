@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "../style";
 import { useSeo } from "../lib/useSeo";
+import { ghLink } from "../lib/follow";
 
 // The terminal says what it always says.
 const NotFound = () => {
@@ -24,6 +25,9 @@ const NotFound = () => {
               <span className="inc-term-prompt">$</span> {pathname}
             </p>
             <p className="inc-term-line inc-term-muted">command not found: {pathname}</p>
+            <p className="inc-term-line inc-term-muted">
+              while you&apos;re lost: <a {...ghLink}>git follow laladwesh &#8599;</a>
+            </p>
           </div>
         </div>
         <p className="nf-links">

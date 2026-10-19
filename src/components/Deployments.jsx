@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { projects } from "../constants";
+import StarFollow from "./StarFollow";
 import { slug } from "../lib/util.js";
 import { describeObject, projectLinks as links, projectStatus } from "../lib/data";
 import { Link } from "react-router-dom";
@@ -30,6 +31,7 @@ const Describe = ({ project }) => (
                     {label}
                   </a>
                 ))}
+                <StarFollow repo={project.github} />
               </span>
             ) : null],
           ]}
