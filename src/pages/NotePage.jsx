@@ -8,6 +8,7 @@ import { noteSeo } from "../lib/seo";
 import { copyText } from "../lib/clipboard";
 import { DRAFT_BANNER } from "../lib/drafts";
 import { useSeo } from "../lib/useSeo";
+import FollowLine from "../components/FollowLine";
 import NotFound from "./NotFound";
 
 const MetaItem = ({ label, children }) => (
@@ -72,6 +73,7 @@ const NoteView = ({ note, index }) => {
           <div className="cs-body">
             <MdWithDiagrams text={note.body} diagrams={NOTE_DIAGRAMS} />
           </div>
+          <FollowLine />
         </article>
 
         <nav className="incident-nav" aria-label="More notes">

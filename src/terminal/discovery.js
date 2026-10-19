@@ -51,6 +51,7 @@ export const BONUS = [
   { id: "wifi", label: "blamed the campus Wi-Fi" },
   { id: "regret", label: "found the regret" },
   { id: "scan", label: "got scanned" },
+  { id: "follow", label: "followed the daemon home" },
 ];
 
 const found = new Set();

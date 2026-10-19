@@ -2,6 +2,7 @@ import { h } from "../h.js";
 import { Lines, Muted, Strong } from "../ui.jsx";
 import { isRunning, releaseRows, stages } from "../../lib/data.js";
 import { startOf } from "../../lib/util.js";
+import { followRun } from "./follow.js";
 
 const runView = (args) => {
   const log = args.includes("--log");
@@ -36,11 +37,12 @@ export default {
   summary: "experience as a pipeline run, achievements as releases",
   usage: "gh run view [--log]   |   gh release list",
   example: "gh run view",
-  subcommands: ["run", "release"],
-  run(args) {
+  subcommands: ["run", "release", "follow"],
+  run(args, ctx) {
     const [sub, action, ...rest] = args;
     if (sub === "run" && action === "view") return runView(rest);
     if (sub === "release" && action === "list") return releaseList();
-    return h(Muted, null, "usage: gh run view [--log] | gh release list");
+    if (sub === "follow") return followRun([action, ...rest].filter(Boolean), ctx);
+    return h(Muted, null, "usage: gh run view [--log] | gh release list | gh follow laladwesh");
   },
 };

@@ -8,6 +8,7 @@ import PencilNote from "./PencilNote";
 import { atHome } from "../constants/explain";
 import { Manifest, ModeToggle } from "./Manifest";
 import StatusRack from "./StatusRack";
+import FollowDevice from "./FollowDevice";
 import DeployLine from "./DeployLine";
 
 // Each step is taken from .github/workflows/deploy.yml and nginx.conf.
@@ -97,6 +98,10 @@ const Ships = () => {
         <AtHome text={atHome.status} />
         <PencilNote id="status" side />
         <StatusRack />
+      </div>
+      <div className="follow-wrap">
+        <FollowDevice />
+        <PencilNote id="follow" side />
       </div>
     </section>
   );

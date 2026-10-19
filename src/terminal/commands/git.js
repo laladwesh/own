@@ -2,6 +2,7 @@ import { h } from "../h.js";
 import { Lines, Muted, Run, Strong, Ext } from "../ui.jsx";
 import { commits } from "../fs.js";
 import { BUILD } from "../../lib/deploy.js";
+import { followRun } from "./follow.js";
 
 const log = (ctx) =>
   h(Lines, {
@@ -61,7 +62,7 @@ export default {
   name: "git",
   group: "me",
   summary: "my career as a commit history",
-  usage: "git log   |   git log -1   |   git show <hash>   |   git status",
+  usage: "git log   |   git log -1   |   git show <hash>   |   git status   |   git follow laladwesh",
   example: "git log",
   run(args, ctx) {
     const [sub, ...rest] = args;
@@ -69,6 +70,7 @@ export default {
     if (sub === "log") return log(ctx);
     if (sub === "show") return show(rest);
     if (sub === "status") return status();
+    if (sub === "follow") return followRun(rest, ctx);
     if (sub === "blame") return "100% avinash. Nobody else to blame.";
     if (sub === "push" && rest.some((a) => a === "--force" || a === "-f")) {
       ctx.ask({
@@ -81,5 +83,5 @@ export default {
     if (sub === "push") return "Everything up-to-date.";
     return h(Muted, null, "usage: git log | git show <hash> | git status");
   },
-  subcommands: ["log", "show", "status"],
+  subcommands: ["log", "show", "status", "follow"],
 };

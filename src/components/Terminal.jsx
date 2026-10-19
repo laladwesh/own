@@ -27,7 +27,7 @@ const NIGHT_KEY = "term-night";
 const CLEAR_KEY = "term-autoclear";
 const SPRING = { type: "spring", stiffness: 300, damping: 30 };
 const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
-const GHOSTS = ["tour", "help", "now", "ssh recruiter@avinash", "deploy", "make chai", "neofetch", "deploy --friday", "achievements", "sl"];
+const GHOSTS = ["tour", "help", "now", "ssh recruiter@avinash", "deploy", "make chai", "neofetch", "deploy --friday", "achievements", "sl", "git follow laladwesh"];
 const mail = socialMedia.find((s) => s.label === "Email (Gmail)")?.link;
 
 // The guided tour: it types each command itself and scrolls the page to the section.

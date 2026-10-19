@@ -1,5 +1,7 @@
 import { siteDomain } from "../constants";
+import { useLocation } from "react-router-dom";
 import DeployLine from "./DeployLine";
+import FollowDevice from "./FollowDevice";
 
 // A pixel heart in the same style as the daemon, drawn in the ink colour.
 const HEART = [
@@ -44,15 +46,20 @@ const Heart = () => (
 );
 
 // Static status line. The deploy date is injected at build time (vite.config.js).
-const Footer = () => (
-  <footer className="site-footer">
-    <p>
-      <DeployLine /> / {siteDomain}
-    </p>
-    <p className="footer-credit">
-      Made with <Heart /> by Avinash and <ClaudeCodeMark />
-    </p>
-  </footer>
-);
+// The follow device sits with the status rack on the homepage; on every other page a compact one lives here.
+const Footer = () => {
+  const { pathname } = useLocation();
+  return (
+    <footer className="site-footer">
+      {pathname !== "/" && <FollowDevice compact />}
+      <p>
+        <DeployLine /> / {siteDomain}
+      </p>
+      <p className="footer-credit">
+        Made with <Heart /> by Avinash and <ClaudeCodeMark />
+      </p>
+    </footer>
+  );
+};
 
 export default Footer;

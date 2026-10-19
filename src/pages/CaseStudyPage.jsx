@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import styles from "../style";
 import { CASE_DIAGRAMS } from "../components/CaseStudyDiagrams";
 import { Md } from "../components/Markdown";
+import FollowLine from "../components/FollowLine";
 import { caseStudies } from "../lib/caseStudies";
 import { caseStudyPath, caseStudySeo } from "../lib/seo";
 import { copyText } from "../lib/clipboard";
@@ -97,6 +98,7 @@ const CaseStudyView = ({ study }) => {
           <div className="cs-body">
             <Body text={study.body} />
           </div>
+          <FollowLine />
         </article>
         </GlossScope>
 
