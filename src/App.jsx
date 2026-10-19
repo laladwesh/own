@@ -4,6 +4,7 @@ import { motion, MotionConfig } from "framer-motion";
 import styles from "./style";
 import ScopeBackground from "./scope/ScopeBackground";
 import Daemon from "./daemon/Daemon";
+import FollowSign from "./daemon/FollowSign";
 import Presence from "./presence/Presence";
 import ScrollManager from "./components/ScrollManager";
 import Guide from "./guide/Guide";

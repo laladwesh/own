@@ -1,6 +1,7 @@
 import { useLayoutEffect, useMemo, useRef } from "react";
 import { scope } from "../scope/scopeStore.js";
 import { daemonEvent } from "../daemon/state.js";
+import { GITHUB_URL, followersText } from "../lib/follow.js";
 
 // The `neofetch` report, with a short reveal (about 1.5s):
 //   logo glyphs lock in from left to right -> header types, divider draws -> one row every 60ms

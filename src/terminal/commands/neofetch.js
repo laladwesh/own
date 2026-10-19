@@ -2,6 +2,7 @@ import { h } from "../h.js";
 import Neofetch, { newNeofetchId } from "../Neofetch.jsx";
 import { aboutMe, projects, skills } from "../../constants/index.js";
 import { incidents } from "../../lib/incidents.js";
+import { cachedFollowers } from "../../lib/follow.js";
 
 export default {
   name: "neofetch",
@@ -17,6 +18,7 @@ export default {
       role: aboutMe.tagLine.split(" | ")[0],
       projects: projects.length,
       incidents: incidents.length,
+      followers: cachedFollowers(),
     };
     return h(Neofetch, { id: newNeofetchId(), info });
   },
