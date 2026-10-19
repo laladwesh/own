@@ -84,6 +84,8 @@ const buildRows = (info, up) => [
       { k: "text", text: " companies" },
     ],
   ],
+  // The profile link; the count is only there if it is already known, so nothing is shown that is not real.
+  ["GitHub", [{ k: "text", text: `laladwesh${info.followers ? ` · ${followersText(info.followers)}` : ""} (+ you?)`, href: GITHUB_URL }]],
 ];
 
 let nextId = 1;
@@ -350,17 +352,21 @@ const Neofetch = ({ id, info }) => {
                 refs.current.rows[ri].label = el;
               }}
             >{`${label}: `}</strong>
-            {parts.map((p, pi) => (
-              <span
-                key={pi}
-                ref={(el) => {
-                  refs.current.rows[ri] = refs.current.rows[ri] ?? { label: null, parts: [] };
-                  refs.current.rows[ri].parts[pi] = el;
-                }}
-              >
-                {p.k === "num" ? `${p.n}${p.s}` : p.text}
-              </span>
-            ))}
+            {parts.map((p, pi) => {
+              const Tag = p.href ? "a" : "span";
+              return (
+                <Tag
+                  key={pi}
+                  {...(p.href ? { href: p.href, target: "_blank", rel: "noopener noreferrer" } : {})}
+                  ref={(el) => {
+                    refs.current.rows[ri] = refs.current.rows[ri] ?? { label: null, parts: [] };
+                    refs.current.rows[ri].parts[pi] = el;
+                  }}
+                >
+                  {p.k === "num" ? `${p.n}${p.s}` : p.text}
+                </Tag>
+              );
+            })}
           </div>
         ))}
         <div className="nf-blocks">
