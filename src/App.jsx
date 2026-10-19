@@ -30,6 +30,7 @@ const App = () => {
         <a href={pathname === "/" ? "#home" : "#content"} className="skip-link">Skip to content</a>
         <ScopeBackground />
         <Daemon />
+        <FollowSign />
         <Presence />
         <ScrollManager />
         <Guide />

@@ -1047,10 +1047,22 @@ html[data-tune="human"] .explain-btn--dark {
 
 .ds-qr {
   display: flex;
+  align-items: flex-end;
+  gap: 8pt;
+  flex: none;
+}
+
+.ds-qr-box {
+  display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2pt;
-  flex: none;
+}
+
+.ds-follow {
+  max-width: 110pt;
+  font-size: 7.5pt;
+  text-align: right;
 }
 
 .ds-qr svg {
@@ -1479,6 +1491,145 @@ html[data-tune="human"] .explain-btn--dark {
 @media print {
   .follow,
   .follow-line {
+    display: none !important;
+  }
+}
+
+/* ═════════ follow invites: the same quiet mono links everywhere ═════════ */
+.invite-quiet {
+  visibility: hidden;
+}
+
+/* navbar: a mini device key with a tooltip */
+.gh-key-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.gh-key {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 12px;
+  color: #E6E6E6;
+  text-decoration: none;
+  background: #1A1A1A;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 2px 0 #0A0A0A;
+}
+
+.gh-key:hover,
+.gh-key:focus-visible {
+  color: #E6E6E6;
+  background: #2E2E2E;
+  text-decoration: none;
+}
+
+.gh-key:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 #0A0A0A;
+}
+
+.gh-key-tip {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  padding: 4px 8px;
+  font-size: 12px;
+  white-space: nowrap;
+  color: #E6E6E6;
+  background: #141414;
+  border: 1px solid #2A2A2A;
+  border-radius: 3px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gh-key:hover + .gh-key-tip,
+.gh-key:focus-visible + .gh-key-tip {
+  opacity: 1;
+}
+
+/* the hero's tiny line under the terminal */
+.hero-gh {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.hero-gh--wait {
+  visibility: hidden;
+}
+
+.star-follow,
+.contact-follow,
+.footer-follow {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.star-follow {
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+.contact-follow {
+  margin: 12px 0 0;
+}
+
+.guide-follow {
+  margin: 6px 0 0;
+  font-size: 12px;
+}
+
+/* the daemon's sign: a small dark plate on a stick, shown for four seconds, once */
+.daemon-sign {
+  position: fixed;
+  z-index: 9990;
+  display: block;
+  padding: 6px 10px;
+  font-size: 13px;
+  color: #E6E6E6;
+  text-decoration: none;
+  background: #141414;
+  border: 1px solid #2A2A2A;
+  box-shadow: 0 10px 24px -10px rgba(26, 26, 26, 0.5);
+  animation: sign-up 0.2s ease-out 1;
+}
+
+.daemon-sign::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 100%;
+  width: 3px;
+  height: 22px;
+  background: #141414;
+}
+
+.daemon-sign:hover {
+  color: #E6E6E6;
+  background: #2E2E2E;
+  text-decoration: none;
+}
+
+@keyframes sign-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media print {
+  .gh-key-wrap,
+  .hero-gh,
+  .star-follow,
+  .contact-follow,
+  .footer-follow,
+  .daemon-sign {
     display: none !important;
   }
 }

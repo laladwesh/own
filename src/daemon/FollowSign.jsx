@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { daemon } from "./state";
-import { daemonEvent } from "./state";
+import { daemon, daemonEvent } from "./state";
 import { ghLink } from "../lib/follow";
 
 // The daemon's one sign, once per session: after the visitor has spent 90 seconds on the site (tab
@@ -19,17 +18,6 @@ const used = () => {
     return false;
   }
 };
-
-// A small signboard on a stick, in the daemon's own pixel style (1 px = 2 css px).
-const SIGN = [
-  "XXXXXXXXXXXXXXXXXX",
-  "X................X",
-  "X................X",
-  "X................X",
-  "XXXXXXXXXXXXXXXXXX",
-  "........XX........",
-  "........XX........",
-];
 
 const FollowSign = () => {
   const [at, setAt] = useState(null);
@@ -93,9 +81,6 @@ const FollowSign = () => {
       onClick={() => setAt(null)}
       aria-label="Follow Avinash on GitHub (opens in a new tab)"
     >
-      <svg viewBox="0 0 18 7" width="72" height="28" shapeRendering="crispEdges" aria-hidden="true" className="daemon-sign-board">
-        {SIGN.flatMap((row, y) => [...row].map((c, x) => (c === "X" ? <rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" /> : null)))}
-      </svg>
       <span className="daemon-sign-text" aria-hidden="true">
         follow? &#8599;
       </span>
