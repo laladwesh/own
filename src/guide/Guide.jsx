@@ -7,6 +7,7 @@ import { explain } from "../constants/explain";
 import { tourEnd, tourSteps } from "../constants/guideTour";
 import { getTune, setTune } from "../view/store";
 import { getGuide, guide, useGuide } from "./store";
+import { ghLink } from "../lib/follow";
 
 // The guide: a speech bubble with tty (a tiny CRT monitor) docked in the top-left corner. The bubble
 // text types in, tty "talks" while it does, and a bubble opened from a "?" appears beside it
@@ -223,6 +224,9 @@ const Guide = () => {
       ]);
     }
     buttons.push(["Got it", close]);
+  } else if (g.kind === "closing") {
+    text = g.text;
+    buttons = [["Close", close]];
   } else if (g.kind === "tour") {
     if (g.step >= tourSteps.length) {
       text = tourEnd;
@@ -240,6 +244,8 @@ const Guide = () => {
       ];
     }
   }
+  // After the tour and after a replay, one more line: a plain link to my GitHub profile.
+  const invite = g.kind === "closing" || (g.kind === "tour" && g.step >= tourSteps.length);
   const { shown, typing } = useTyped(text);
 
   // ── where the bubble stands, once it has a size ──
@@ -310,6 +316,11 @@ const Guide = () => {
             {shown}
           </span>
         </p>
+        {invite && (
+          <p className="guide-follow">
+            <a {...ghLink}>if you enjoyed that, follow me on GitHub &#8599;</a>
+          </p>
+        )}
         <div className="guide-actions">
           {meta && <span className="guide-meta">{meta}</span>}
           {buttons.map(([label, fn], i) => (

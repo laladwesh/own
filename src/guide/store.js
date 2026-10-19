@@ -3,7 +3,7 @@
 // command) can open it without props.
 import { useSyncExternalStore } from "react";
 
-let state = { kind: null, id: null, anchor: null, step: 0, from: null };
+let state = { kind: null, id: null, anchor: null, step: 0, from: null, text: "" };
 const listeners = new Set();
 
 const set = (next) => {
@@ -31,6 +31,8 @@ export const guide = {
   openTourOffer: () => set({ kind: "tourOffer", id: null, anchor: null, from: null }),
   startTour: () => set({ kind: "tour", id: null, anchor: null, step: 0, from: focused() }),
   tourTo: (step) => set({ step }),
+  // tty's closing words after something finished (a replay). Never takes focus.
+  openClosing: (text) => set({ kind: "closing", id: null, anchor: null, text, from: null }),
   close: () => {
     const { from } = state;
     set({ kind: null, id: null, anchor: null, from: null });

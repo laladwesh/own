@@ -373,7 +373,10 @@ const Terminal = forwardRef(function Terminal(
       push({ prompt: promptOf(cur), cmd: input, node: lines.length ? <Lines lines={lines} /> : null, instant: true });
       replayRef.current = res.ended ? null : res.session;
       setReplay(replayRef.current);
-      if (res.completed) discover("replay");
+      if (res.completed) {
+        discover("replay");
+        guide.openClosing("Replay finished.");
+      }
       flushToasts();
     },
     [push, discover, flushToasts]
