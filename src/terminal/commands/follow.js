@@ -25,7 +25,7 @@ const Out = () => {
     };
   }, []);
 
-  const shown = count === undefined ? "" : count === null ? "--" : count;
+  const shown = count === undefined ? "" : count === null ? "unavailable" : count;
   return h(
     "span",
     null,
