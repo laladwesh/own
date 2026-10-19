@@ -6,7 +6,7 @@ import { scrollToSection } from "../lib/helperFunctions";
 import TuneToggle from "./TuneToggle";
 import { guide } from "../guide/store";
 import GithubKey from "./GithubKey";
-import { ghLink, followersText, useFollowers } from "../lib/follow";
+import { ghLink, useFollowers } from "../lib/follow";
 
 const PRIMARY = navLinks.filter((n) => n.primary);
 const MORE = navLinks.filter((n) => !n.primary);
