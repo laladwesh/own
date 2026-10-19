@@ -10,17 +10,18 @@ const Out = () => {
   const [step, setStep] = useState(0);
   const [count, setCount] = useState(undefined);
 
+  // Each line waits for the one before it: resolving, then the count, then the hint.
   useEffect(() => {
     let live = true;
-    const t = setTimeout(() => live && setStep(1), 250);
-    loadFollowers().then((n) => {
+    const pause = new Promise((r) => setTimeout(r, 250));
+    pause.then(() => live && setStep(1));
+    Promise.all([pause, loadFollowers()]).then(([, n]) => {
       if (!live) return;
       setCount(n);
       setTimeout(() => live && setStep(2), 150);
     });
     return () => {
       live = false;
-      clearTimeout(t);
     };
   }, []);
 
