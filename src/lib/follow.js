@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import { getJson } from "./api";
 import { repoLink } from "../constants";
 
@@ -51,4 +51,86 @@ export const useFollowers = () => {
     };
   }, []);
   return n;
+};
+
+// Props for every invite link: it only opens the profile in a new tab.
+export const ghLink = { href: GITHUB_URL, target: "_blank", rel: "noopener noreferrer" };
+
+// The count if it is already known (no request), otherwise null. Used where output is typed once.
+export const cachedFollowers = () => {
+  try {
+    const hit = JSON.parse(sessionStorage.getItem(KEY) || "null");
+    if (hit && Number.isInteger(hit.n)) return hit.n;
+  } catch {
+    /* ignore */
+  }
+  return null;
+};
+
+// "42 followers" / "1 follower", or "" when the count is not known (the number is then left out).
+export const followersText = (n) => (typeof n === "number" ? `${n} ${n === 1 ? "follower" : "followers"}` : "");
+
+// ───────────── at most two invites in one viewport ─────────────
+// Every invite registers its element and a priority (lower is more relevant). Of the ones on screen
+// only the two most relevant stay visible; the others get `visibility: hidden`, so nothing moves.
+const items = new Map(); // id -> { el, p, vis, order }
+const subs = new Set();
+let version = 0;
+let order = 0;
+let io = null;
+const bump = () => {
+  version += 1;
+  subs.forEach((fn) => fn());
+};
+const observer = () => {
+  if (!io && typeof IntersectionObserver !== "undefined") {
+    io = new IntersectionObserver((entries) => {
+      let changed = false;
+      for (const e of entries) {
+        for (const it of items.values()) {
+          if (it.el === e.target && it.vis !== e.isIntersecting) {
+            it.vis = e.isIntersecting;
+            changed = true;
+          }
+        }
+      }
+      if (changed) bump();
+    });
+  }
+  return io;
+};
+const shown = () =>
+  new Set(
+    [...items.entries()]
+      .filter(([, v]) => v.vis)
+      .sort((a, b) => a[1].p - b[1].p || a[1].order - b[1].order)
+      .slice(0, 2)
+      .map(([id]) => id)
+  );
+
+const subscribe = (fn) => {
+  subs.add(fn);
+  return () => subs.delete(fn);
+};
+const getVersion = () => version;
+
+// Returns a ref for the invite's element and whether it should stay quiet right now.
+export const useInvite = (priority) => {
+  const id = useId();
+  const ref = useRef(null);
+  useSyncExternalStore(subscribe, getVersion);
+  useEffect(() => {
+    const el = ref.current;
+    const o = observer();
+    if (!el || !o) return undefined;
+    items.set(id, { el, p: priority, vis: false, order: (order += 1) });
+    o.observe(el);
+    return () => {
+      o.unobserve(el);
+      items.delete(id);
+      bump();
+    };
+  }, [id, priority]);
+  const it = items.get(id);
+  return [ref, Boolean(it?.vis) && !shown().has(id)];
 };
