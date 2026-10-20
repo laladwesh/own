@@ -1625,7 +1625,7 @@ html[data-tune="human"] .explain-btn--dark {
   }
 }
 
-/* ═════════ page backgrounds: faint, printed, still (see src/background/Backdrop.jsx) ═════════ */
+/* ═════════ page backgrounds: still, ink on paper (see src/background/Backdrop.jsx) ═════════ */
 .bg-layer {
   position: absolute;
   top: 0;
@@ -1637,7 +1637,8 @@ html[data-tune="human"] .explain-btn--dark {
   pointer-events: none;
 }
 
-/* the three versions sit on top of each other and cross-fade in 300ms */
+/* the two versions sit on top of each other. Leaving fades in 250ms; the git graph arrives with no fade
+   (it draws itself instead). */
 .bg-mode {
   position: absolute;
   top: 0;
@@ -1646,89 +1647,57 @@ html[data-tune="human"] .explain-btn--dark {
   left: 0;
   visibility: hidden;
   opacity: 0;
-  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
 }
 
 .bg-mode--on {
   visibility: visible;
   opacity: 1;
-  transition: opacity 0.3s ease, visibility 0s;
+  transition: opacity 0.25s ease, visibility 0s;
 }
 
-/* plain: graph paper, a minor line every 8px and a major one every 40px */
+.bg-mode--git.bg-mode--on {
+  transition: none;
+}
+
+/* paper: a minor line every 8px at about 6% ink, a major one every 40px at about 12% */
 .bg-grid {
   background-image:
-    repeating-linear-gradient(0deg, rgba(26, 26, 26, 0.06) 0 1px, transparent 1px 40px),
-    repeating-linear-gradient(90deg, rgba(26, 26, 26, 0.06) 0 1px, transparent 1px 40px),
-    repeating-linear-gradient(0deg, rgba(26, 26, 26, 0.03) 0 1px, transparent 1px 8px),
-    repeating-linear-gradient(90deg, rgba(26, 26, 26, 0.03) 0 1px, transparent 1px 8px);
+    repeating-linear-gradient(0deg, rgba(26, 26, 26, 0.12) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(90deg, rgba(26, 26, 26, 0.12) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(0deg, rgba(26, 26, 26, 0.06) 0 1px, transparent 1px 8px),
+    repeating-linear-gradient(90deg, rgba(26, 26, 26, 0.06) 0 1px, transparent 1px 8px);
 }
 
-/* ink on paper: lines about 11%, labels about 18% */
+/* the git graph: lines 1.5px at about 28% ink, dots 7px at about 35%, labels 12px at about 45% */
 .bg-ln {
   fill: none;
-  stroke: rgba(26, 26, 26, 0.11);
-  stroke-width: 1;
+  stroke: rgba(26, 26, 26, 0.28);
+  stroke-width: 1.5;
 }
 
 .bg-dot {
-  fill: rgba(26, 26, 26, 0.14);
+  fill: rgba(26, 26, 26, 0.35);
 }
 
 .bg-tx {
-  fill: rgba(26, 26, 26, 0.18);
+  fill: rgba(26, 26, 26, 0.45);
   font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+}
+
+.bg-tx--head {
   font-size: 11px;
 }
 
-.bg-tx--edge,
-.bg-tx--git {
-  font-size: 10px;
+.bg-box {
+  fill: none;
+  stroke: rgba(26, 26, 26, 0.4);
+  stroke-width: 1;
 }
 
-.bg-g {
-  position: absolute;
-  max-width: calc(100% - 128px);
-  height: auto;
-  overflow: visible;
-}
-
-.bg-g--l {
-  left: 64px;
-}
-
-.bg-g--r {
-  right: 64px;
-}
-
-.bg-title {
-  position: absolute;
-  right: 64px;
-  bottom: 170px;
-}
-
-/* the words on the infra map: technical, or plain English when the reading mode is plain */
-.bg-t,
-.bg-p {
-  transition: opacity 0.4s ease;
-}
-
-.bg-p {
-  opacity: 0;
-}
-
-html[data-tune="human"] .bg-t {
-  opacity: 0;
-}
-
-html[data-tune="human"] .bg-p {
-  opacity: 1;
-}
-
-/* the git graph */
 .bg-gt-box {
   position: absolute;
-  width: 64px;
   overflow: hidden;
 }
 
@@ -1744,54 +1713,94 @@ html[data-tune="human"] .bg-p {
   display: block;
 }
 
-.bg-git-note {
-  position: absolute;
-  top: 96px;
-  left: 44px;
-  margin: 0;
-  font-size: 10px;
-  color: rgba(26, 26, 26, 0.18);
-  writing-mode: vertical-rl;
-  opacity: 0;
-  transition: opacity 0.4s ease;
+/* paper -> git: the lines on screen draw down the page, the dots and labels pop in as it reaches them.
+   Two copies of each keyframe so a second switch restarts the animation. */
+.bg-ln--0,
+.bg-ln--1 {
+  stroke-dasharray: 1;
+  animation-duration: 0.45s;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
 }
 
-html[data-tune="human"] .bg-git-note {
-  opacity: 1;
+.bg-ln--0 {
+  animation-name: bg-draw-0;
 }
 
-@media (max-width: 619px) {
-  .bg-g--l {
-    left: 24px;
-  }
+.bg-ln--1 {
+  animation-name: bg-draw-1;
+}
 
-  .bg-g--r {
-    right: 24px;
-  }
+.bg-dot--0,
+.bg-dot--1,
+.bg-tx--0,
+.bg-tx--1,
+.bg-lbl--0,
+.bg-lbl--1 {
+  animation-duration: 0.12s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
 
-  .bg-g {
-    max-width: calc(100% - 48px);
-  }
+.bg-dot--0,
+.bg-tx--0,
+.bg-lbl--0 {
+  animation-name: bg-pop-0;
+}
 
-  .bg-title {
-    right: 24px;
-  }
+.bg-dot--1,
+.bg-tx--1,
+.bg-lbl--1 {
+  animation-name: bg-pop-1;
+}
 
-  .bg-gt-box {
-    width: 24px;
+@keyframes bg-draw-0 {
+  from {
+    stroke-dashoffset: 1;
   }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
 
-  .bg-git-note {
-    left: 28px;
+@keyframes bg-draw-1 {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes bg-pop-0 {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bg-pop-1 {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* wider side margins on wide screens, so the graph has room beside the content */
+@media (min-width: 1200px) {
+  .page-gutter {
+    padding-left: max(64px, calc((100% - 1040px) / 2)) !important;
+    padding-right: max(64px, calc((100% - 1040px) / 2)) !important;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .bg-mode,
-  .bg-mode--on,
-  .bg-t,
-  .bg-p,
-  .bg-git-note {
+  .bg-mode--on {
     transition: none;
   }
 }
@@ -1802,38 +1811,109 @@ html[data-tune="human"] .bg-git-note {
   }
 }
 
-/* the dial's hint, and the footer's background switch */
+/* the backdrop switch in the navbar: a tiny slide switch, like the ones on a circuit board */
+.bd {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  line-height: 1;
+}
+
+.bd-title {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.bd-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bd-pos {
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.bd-pos--on {
+  color: var(--text);
+}
+
+.bd-body {
+  position: relative;
+  width: 64px;
+  height: 22px;
+  min-height: 0;
+  padding: 0;
+  background: #141414;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+}
+
+.bd-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 28px;
+  height: 16px;
+  background: #E6E6E6;
+  border-radius: 4px;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.5);
+  transition: transform 0.15s ease-out;
+}
+
+.bd-body[aria-checked="true"] .bd-knob {
+  transform: translateX(30px);
+}
+
+.bd-body:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+.bd-tip {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  padding: 3px 8px;
+  font-size: 11px;
+  white-space: nowrap;
+  color: #E6E6E6;
+  background: #141414;
+  border: 1px solid #2A2A2A;
+  border-radius: 3px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+.bd-body:hover .bd-tip,
+.bd-body:focus-visible .bd-tip {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bd-knob {
+    transition: none;
+  }
+}
+
+/* the dial's hint */
 .tune-hint {
   font-size: 9px;
   letter-spacing: 0.08em;
   color: var(--td-muted);
 }
 
-.footer-bg {
-  flex-basis: 100%;
-  margin: 0;
-  font-size: 12px;
-}
-
-.footer-bg-link {
-  min-height: 0;
-  padding: 0;
-  font: inherit;
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  background: none;
-  border: 0;
-  cursor: pointer;
-}
-
-.footer-bg-link:hover,
-.footer-bg-link:focus-visible {
-  color: var(--text);
-}
-
-.footer-bg-on {
-  padding: 0 6px;
-  color: var(--bg);
-  background: var(--text);
+/* the navbar never wraps its words */
+.nav-ctx,
+.nav-link,
+.gh-key,
+.view-toggle {
+  white-space: nowrap;
 }

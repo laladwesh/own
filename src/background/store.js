@@ -1,25 +1,28 @@
-// Which page background is showing: "infra" (the default), "git" or "plain". Remembered for the
-// session. Nothing else reads the mouse, the scroll or the keyboard: the backgrounds are still.
+// Which page background is showing: "git" (the default, a git graph down the side margins) or "paper"
+// (graph paper). Remembered for the session. The infra map that used to be a third choice was retired;
+// "infra" and "plain" are still understood so old values and old habits do not break.
 import { useSyncExternalStore } from "react";
 
-export const BACKGROUNDS = ["infra", "git", "plain"];
+export const BACKGROUNDS = ["git", "paper"];
+export const ALIASES = { plain: "paper" };
 const KEY = "site-bg";
 
 const stored = () => {
   try {
     const v = sessionStorage.getItem(KEY);
-    return BACKGROUNDS.includes(v) ? v : null;
+    return BACKGROUNDS.includes(v) ? v : ALIASES[v] ?? null;
   } catch {
     return null;
   }
 };
 
-let current = stored() ?? "infra";
+let current = stored() ?? "git";
 const listeners = new Set();
 
 export const getBg = () => current;
 
 export const setBg = (next) => {
+  next = ALIASES[next] ?? next;
   if (!BACKGROUNDS.includes(next) || next === current) return;
   current = next;
   try {
