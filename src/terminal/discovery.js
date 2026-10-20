@@ -17,7 +17,7 @@ export const DISCOVERABLE = [
   { id: "systemctl", label: "checked a service" },
   { id: "helm", label: "installed a chart" },
   { id: "terraform", label: "planned an engineer" },
-  { id: "scope", label: "met the retired scope" },
+  { id: "scope", label: "tuned the scope" },
   { id: "resistor", label: "decoded a resistor" },
   { id: "snake", label: "played snake" },
   { id: "sudo", label: "tried sudo" },

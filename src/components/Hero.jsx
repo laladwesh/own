@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { animate, motion, useMotionValue } from "framer-motion";
+import ScopeHud from "../scope/ScopeHud";
 import Terminal from "./Terminal";
 import HeroNav from "./HeroNav";
 import TuneDial from "./TuneDial";
@@ -191,11 +192,13 @@ const Hero = () => {
       ref={heroRef}
       className="term-hero sm:px-16 px-4 flex flex-col items-center justify-center"
     >
+      <ScopeHud />
       <div className="tune-slot tune-slot--side">
         <TuneDial />
       </div>
 
       <div className="term-col w-full">
+        <PencilNote id="terminal" hero />
         {win === "closed" && (
           <button type="button" className="term-pill" onClick={() => setWin("open")}>
             open terminal
@@ -237,7 +240,6 @@ const Hero = () => {
             </>
           )}
         </motion.div>
-        <PencilNote id="terminal" />
         <div className="tune-slot tune-slot--under">
           <TuneDial compact />
         </div>

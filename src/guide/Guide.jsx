@@ -197,10 +197,10 @@ const Guide = () => {
   let meta = "";
   let buttons = [];
   if (g.kind === "offer") {
-    text = "Can't read YAML? Switch the reading mode to plain English.";
+    text = "Can't read YAML? Turn this.";
     buttons = [
-      ["Plain English, please", () => (setTune("human"), guide.openTourOffer())],
-      ["Keep it technical", () => (setFlag("sessionStorage", DECLINED_KEY), close())],
+      ["Turn it for me", () => (setTune("human"), guide.openTourOffer())],
+      ["I'm an engineer", () => (setFlag("sessionStorage", DECLINED_KEY), close())],
     ];
   } else if (g.kind === "tourOffer") {
     text = "Need a tour?";
@@ -216,7 +216,7 @@ const Guide = () => {
     if (e?.simple) {
       const simple = blockMode === "wide";
       buttons.push([
-        simple ? "Show technical version" : "Show simple view",
+        simple ? "Show engineer version" : "Show simple view",
         () => {
           setBlockView(g.id, simple ? "yaml" : "wide");
           setHop((h) => h + 1);

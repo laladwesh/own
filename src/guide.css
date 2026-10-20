@@ -537,42 +537,39 @@ html[data-tune="human"] .explain-btn--dark {
   font-size: 14px;
 }
 
-/* ───────── pencil margin notes ─────────
-   Placed by src/lib/pencilPlace.js: each note sits in a layer on the page, next to its target, and its
-   arrow ends on the target's edge. */
-.pencil-anchor {
-  display: block;
-  width: 0;
-  height: 0;
+/* ───────── pencil margin notes ───────── */
+.section-heading,
+.pencil-slot,
+.rack-wrap {
+  position: relative;
 }
 
 .pencil {
-  position: absolute;
-  z-index: 6;
-  margin: 0;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  gap: 2px;
+  max-width: 260px;
+  margin: 10px 0 10px;
   font-family: "Kalam", "Segoe Print", "Bradley Hand", cursive;
   font-size: 17px;
   line-height: 1.25;
   color: #5A5A5A;
+  transform: rotate(-1.5deg);
+  transform-origin: left bottom;
   pointer-events: none;
 }
 
 .pencil-text {
   display: block;
-  transform: rotate(-1.5deg);
-  transform-origin: left center;
   clip-path: inset(0 100% 0 0);
   transition: clip-path 0.45s ease-out 0.15s;
 }
 
-.pencil[data-side="left"] .pencil-text {
-  transform-origin: right center;
-}
-
 .pencil-arrow {
-  position: absolute;
-  width: 28px;
-  height: 20px;
+  width: 56px;
+  height: 37px;
+  margin-left: 6px;
   overflow: visible;
 }
 
@@ -595,12 +592,6 @@ html[data-tune="human"] .explain-btn--dark {
   stroke-dashoffset: 0;
 }
 
-@media (max-width: 639px) {
-  .pencil {
-    font-size: 15px;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .pencil-text,
   .pencil-arrow path,
@@ -609,6 +600,73 @@ html[data-tune="human"] .explain-btn--dark {
     animation: none;
   }
 }
+
+/* wide screens: the note sits in the margin beside the heading, its arrow pointing down at the block */
+@media (min-width: 900px) {
+  .section-heading > .pencil,
+  .pencil-slot > .pencil {
+    position: absolute;
+    top: 30px;
+    right: 6%;
+    margin: 0;
+  }
+
+  .pencil-slot {
+    height: 0;
+  }
+
+  .pencil-slot > .pencil {
+    top: -64px;
+  }
+}
+
+/* the status rack's note sits to the right of the rack, arrow pointing left at it */
+@media (min-width: 1100px) {
+  .rack-wrap > .pencil--side {
+    position: absolute;
+    top: 52px;
+    left: 676px;
+    margin: 0;
+    flex-direction: row-reverse;
+    align-items: center;
+  }
+
+  .rack-wrap > .pencil--side .pencil-arrow {
+    transform: rotate(38deg);
+    margin: 0 6px 0 0;
+  }
+}
+
+/* the terminal's note sits to the right of the terminal on wide screens, above it otherwise */
+.pencil--hero {
+  margin: 0 0 8px;
+}
+
+@media (min-width: 1180px) {
+  .term-hero > .term-col .pencil--hero {
+    position: absolute;
+    top: 38%;
+    right: 40px;
+    max-width: 200px;
+    margin: 0;
+    flex-direction: row-reverse;
+    align-items: center;
+  }
+
+  .term-hero > .term-col .pencil--hero .pencil-arrow {
+    transform: rotate(38deg);
+    margin: 0 6px 0 0;
+  }
+}
+
+@media (max-width: 599px) {
+  /* the scope readout drops under RUN so it does not run into the channel labels */
+  .scope-hud--mode {
+    top: 34px;
+    right: 24px;
+  }
+}
+
 
 /* ═════════ the bubble: tty on the left, the text and buttons on the right ═════════ */
 .guide-stage,
@@ -1398,6 +1456,20 @@ html[data-tune="human"] .explain-btn--dark {
   }
 }
 
+/* the note beside the device on wide screens, above it on small ones */
+@media (min-width: 760px) {
+  .follow-wrap > .pencil--side {
+    margin: 0;
+    flex-direction: row-reverse;
+    align-items: center;
+  }
+
+  .follow-wrap > .pencil--side .pencil-arrow {
+    transform: rotate(38deg);
+    margin: 0 6px 0 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .follow-roll--up,
   .follow-bubble {
@@ -1560,160 +1632,4 @@ html[data-tune="human"] .explain-btn--dark {
   .daemon-sign {
     display: none !important;
   }
-}
-
-/* ═════════ the page background: graph paper, with the real git history in the left margin ═════════
-   (see src/background/Backdrop.jsx and GitGraph.jsx). Still: nothing moves, nothing reacts. */
-.bg-layer {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-/* graph paper: a minor line every 8px at about 6% ink, a major one every 40px at about 12% */
-.bg-grid {
-  background-image:
-    repeating-linear-gradient(0deg, rgba(26, 26, 26, 0.12) 0 1px, transparent 1px 40px),
-    repeating-linear-gradient(90deg, rgba(26, 26, 26, 0.12) 0 1px, transparent 1px 40px),
-    repeating-linear-gradient(0deg, rgba(26, 26, 26, 0.06) 0 1px, transparent 1px 8px),
-    repeating-linear-gradient(90deg, rgba(26, 26, 26, 0.06) 0 1px, transparent 1px 8px);
-}
-
-/* the graph sits in the left margin, above the page so its dots can be hovered, but it only takes the
-   pointer on the dots themselves */
-.git-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 3;
-  pointer-events: none;
-}
-
-.git-svg {
-  display: block;
-  overflow: visible;
-}
-
-/* lines 1.5px at about 28% ink, dots 7px at about 35%, labels 12px at about 45% */
-.bg-ln {
-  fill: none;
-  stroke: rgba(26, 26, 26, 0.28);
-  stroke-width: 1.5;
-}
-
-.bg-dot {
-  fill: rgba(26, 26, 26, 0.35);
-}
-
-/* a merge commit: a slightly larger hollow dot */
-.bg-dot--merge {
-  fill: var(--bg);
-  stroke: rgba(26, 26, 26, 0.35);
-  stroke-width: 1.5;
-}
-
-.bg-tx {
-  fill: rgba(26, 26, 26, 0.45);
-  font-family: "JetBrains Mono", monospace;
-  font-size: 12px;
-}
-
-.bg-tx--muted {
-  fill: rgba(26, 26, 26, 0.3);
-}
-
-.bg-tx--tag {
-  font-size: 11px;
-}
-
-.bg-box {
-  fill: none;
-  stroke: rgba(26, 26, 26, 0.4);
-  stroke-width: 1;
-}
-
-.git-dot {
-  pointer-events: all;
-  outline: none;
-}
-
-.git-dot:focus-visible .bg-dot {
-  stroke: var(--text);
-  stroke-width: 2;
-}
-
-/* the note about the dots, in plain-English mode only */
-.git-note {
-  position: absolute;
-  display: none;
-  margin: 0;
-  font-size: 10px;
-  line-height: 1.4;
-  color: rgba(26, 26, 26, 0.45);
-}
-
-html[data-tune="human"] .git-note {
-  display: block;
-}
-
-/* the card for the dot under the pointer or focus */
-.git-card {
-  position: absolute;
-  z-index: 20;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  max-width: 300px;
-  padding: 6px 10px;
-  font-size: 12px;
-  line-height: 1.35;
-  color: #E6E6E6;
-  background: #141414;
-  border: 1px solid #2A2A2A;
-  border-radius: 3px;
-  box-shadow: 0 10px 24px -10px rgba(26, 26, 26, 0.5);
-  pointer-events: none;
-}
-
-.git-card-hash {
-  color: #E8A33D;
-}
-
-.git-card-date {
-  color: #8A8A8A;
-}
-
-/* wider side margins on wide screens, so the graph has room beside the content */
-@media (min-width: 1200px) {
-  .page-gutter {
-    padding-left: max(64px, calc((100% - 1040px) / 2)) !important;
-    padding-right: max(64px, calc((100% - 1040px) / 2)) !important;
-  }
-}
-
-@media print {
-  .bg-layer,
-  .git-overlay {
-    display: none !important;
-  }
-}
-
-/* the dial's hint */
-.tune-hint {
-  font-size: 9px;
-  letter-spacing: 0.08em;
-  color: var(--td-muted);
-}
-
-/* the navbar never wraps its words */
-.nav-ctx,
-.nav-link,
-.gh-key,
-.view-toggle {
-  white-space: nowrap;
 }

@@ -1,11 +1,14 @@
+import { scope } from "../../scope/scopeStore.js";
+
 // Unlocked by the konami code; only listed in `help --all`.
 export default {
   name: "overdrive",
   group: "fun",
   secret: true,
-  summary: "secret: it used to push the scope to its limits",
+  summary: "secret: push the scope to its limits",
   usage: "overdrive",
   run() {
-    return "nothing left to overdrive: the scope was retired. try `bg`.";
+    scope.set({ wave: "square", freq: 240, amp: 2.4, ch2: true, running: true, fft: false });
+    return "overdrive engaged. try 'scope reset' to calm it down.";
   },
 };

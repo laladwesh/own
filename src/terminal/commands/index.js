@@ -75,7 +75,6 @@ import attend from "./attend.js";
 import sl from "./sl.js";
 import gti from "./gti.js";
 import follow from "./follow.js";
-import bg from "./bg.js";
 
 export const commands = [
   help, man, ls, cd, pwd, cat, tree, open, history, clear, autoclear, tuneCmd, explainCmd, glossaryCmd, exit,
@@ -86,7 +85,7 @@ export const commands = [
   deploy, htop, ssh, tour, ping, curl, hi,
   snake, typespeed, achievements,
   sudo, rm, date, daemonCmd, daemonsay, fortune, vim, overdrive,
-  kill, chmod, make, sleepCmd, attend, sl, gti, tty, follow, bg,
+  kill, chmod, make, sleepCmd, attend, sl, gti, tty, follow,
 ];
 
 export const byName = Object.fromEntries(commands.flatMap((c) => [c.name, ...(c.aliases ?? [])].map((n) => [n, c])));

@@ -96,12 +96,12 @@ const Ships = () => {
       </p>
       <div className="rack-wrap">
         <AtHome text={atHome.status} />
-        <PencilNote id="status" />
+        <PencilNote id="status" side />
         <StatusRack />
       </div>
       <div className="follow-wrap">
         <FollowDevice />
-        <PencilNote id="follow" />
+        <PencilNote id="follow" side />
       </div>
     </section>
   );

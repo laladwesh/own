@@ -10,7 +10,7 @@ const styles = {
   flexStart: "flex justify-center items-start",
   flexEnd: "flex md:justify-end items-center",
 
-  paddingX: "sm:px-16 px-6 page-gutter",
+  paddingX: "sm:px-16 px-6",
   paddingY: "sm:py-16 py-6",
   padding: "sm:px-16 px-6 sm:py-12 py-4",
 

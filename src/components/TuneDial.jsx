@@ -1,21 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { setTune, useTune } from "../view/store";
 
-// The reading-mode dial: a small dark device with a round knob and two engraved positions,
-// TECHNICAL and PLAIN ENGLISH. Click, drag or use the arrow keys; the knob swings to the new
-// position with a short spring. It is a proper switch for screen readers. A tiny "turn me" under
-// it goes away after the first turn (remembered for the session).
+// The tuning dial: a small dark device with a round knob and two engraved positions, ENGINEER
+// (the raw signal) and HUMAN (the clean one). Click, drag or use the arrow keys; the knob swings
+// to the new position with a short spring. It is a proper switch for screen readers.
 const ANGLE = { engineer: -42, human: 42 };
 const SPRING = "transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)";
 const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const TURNED = "dial-turned";
-const wasTurned = () => {
-  try {
-    return sessionStorage.getItem(TURNED) === "1";
-  } catch {
-    return false;
-  }
-};
 
 const Knob = ({ size, tune, drag, onPointerDown, onPointerMove, onPointerUp, onKeyDown }) => {
   const human = tune === "human";
@@ -28,7 +19,7 @@ const Knob = ({ size, tune, drag, onPointerDown, onPointerMove, onPointerUp, onK
       viewBox="0 0 100 100"
       role="switch"
       aria-checked={human}
-      aria-label="Reading mode: technical or plain English"
+      aria-label="Tune the site for humans"
       tabIndex={0}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
@@ -58,20 +49,7 @@ const Knob = ({ size, tune, drag, onPointerDown, onPointerMove, onPointerUp, onK
 const TuneDial = ({ compact = false }) => {
   const tune = useTune();
   const [drag, setDrag] = useState(null);
-  const [turned, setTurned] = useState(wasTurned);
   const gesture = useRef(null);
-  const first = useRef(tune);
-
-  // Any turn, from this dial, the navbar or the terminal, retires the hint.
-  useEffect(() => {
-    if (tune === first.current) return;
-    setTurned(true);
-    try {
-      sessionStorage.setItem(TURNED, "1");
-    } catch {
-      /* ignore */
-    }
-  }, [tune]);
 
   const toggle = () => setTune(tune === "human" ? "engineer" : "human");
 
@@ -115,27 +93,25 @@ const TuneDial = ({ compact = false }) => {
   );
   const labels = (
     <span className="tune-pos" aria-hidden="true">
-      <span className={tune === "engineer" ? "tune-pos--on" : undefined}>TECHNICAL</span>
-      <span className={tune === "human" ? "tune-pos--on" : undefined}>PLAIN ENGLISH</span>
+      <span className={tune === "engineer" ? "tune-pos--on" : undefined}>ENGINEER</span>
+      <span className={tune === "human" ? "tune-pos--on" : undefined}>HUMAN</span>
     </span>
   );
 
   if (compact) {
     return (
       <div className="tune-dial tune-dial--compact">
-        <span className="tune-plate">READING MODE</span>
+        <span className="tune-plate">SIGNAL / AG-TUNE</span>
         {knob(40)}
         {labels}
-        {!turned && <span className="tune-hint">turn me</span>}
       </div>
     );
   }
   return (
     <div className="tune-dial">
-      <span className="tune-plate">READING MODE</span>
+      <span className="tune-plate">SIGNAL / AG-TUNE</span>
       {knob(96)}
       {labels}
-      {!turned && <span className="tune-hint">turn me</span>}
     </div>
   );
 };

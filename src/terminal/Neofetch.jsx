@@ -1,11 +1,12 @@
 import { useLayoutEffect, useMemo, useRef } from "react";
+import { scope } from "../scope/scopeStore.js";
 import { daemonEvent } from "../daemon/state.js";
 import { GITHUB_URL, followersText } from "../lib/follow.js";
 
 // The `neofetch` report, with a short reveal (about 1.5s):
 //   logo glyphs lock in from left to right -> header types, divider draws -> one row every 60ms
-//   (label, then value; numbers count up) -> eight colour blocks light up -> one hop
-//   from the daemon.
+//   (label, then value; numbers count up) -> eight colour blocks light up -> one blip on the scope
+//   trace and one hop from the daemon.
 // React renders the finished report once. The reveal then changes the DOM text directly from a
 // single requestAnimationFrame loop, so nothing re-renders per frame and nothing shifts: hidden
 // text keeps its width, numbers sit in fixed-width boxes. Any key or click jumps to the end. With
@@ -184,6 +185,7 @@ const Neofetch = ({ id, info }) => {
       finalise();
       played.add(id);
       if (!skip) {
+        scope.spike(); // one blip on CH1
         daemonEvent("hop"); // one happy hop
       }
       startTicking();
