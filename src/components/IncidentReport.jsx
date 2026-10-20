@@ -109,9 +109,7 @@ export const Report = ({ incident: inc, titleAs: Title = "h1" }) => {
 
     <SummaryBox summary={incidentSummary(inc)} />
     <AtHome text={atHome.incident} />
-    <div className="pencil-slot">
-      <PencilNote id="incident" />
-    </div>
+    <PencilNote id="incident" />
 
     {findReplay(inc.id) && (
       <p className="report-replay">

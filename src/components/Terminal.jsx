@@ -601,7 +601,8 @@ const Terminal = forwardRef(function Terminal(
     if (done) return undefined;
     const onKey = (e) => {
       if (e.metaKey || e.ctrlKey || e.altKey) return;
-      if (e.key.length === 1 && e.key !== " ") pending.current += e.key;
+      // only plain command characters, typed on the page itself, are kept for the prompt
+      if (/^[A-Za-z0-9._~/-]$/.test(e.key) && (e.target === document.body || e.target === document.documentElement)) pending.current += e.key;
       if (e.key.length === 1 || e.key === "Enter") skip();
     };
     window.addEventListener("keydown", onKey);
@@ -611,10 +612,9 @@ const Terminal = forwardRef(function Terminal(
   // The prompt is focused as soon as the intro ends.
   useEffect(() => {
     if (!done || mode) return;
-    if (pending.current) {
-      setInput(pending.current);
-      pending.current = "";
-    }
+    // a buffer with no letters or digits in it (a stray "[" and the like) is dropped: the prompt starts empty
+    if (/[A-Za-z0-9]/.test(pending.current)) setInput(pending.current);
+    pending.current = "";
     if (!touch) inputRef.current?.focus({ preventScroll: true });
   }, [done, mode, touch, setInput]);
 
@@ -1125,8 +1125,10 @@ const Terminal = forwardRef(function Terminal(
                 value={value}
                 onChange={(e) => {
                   if (search) return;
-                  setValue(e.target.value);
-                  setCaret(e.target.selectionStart);
+                  // a paste that carries terminal escape codes (ESC [ 200~ and the like) must not leave a stray "["
+                  const clean = e.target.value.replace(/\x1b\[[0-9;?]*[ -/]*[@-~]|\x1b/g, "");
+                  setValue(clean);
+                  setCaret(Math.min(e.target.selectionStart, clean.length));
                 }}
                 onSelect={(e) => setCaret(e.target.selectionStart)}
                 onKeyDown={onKeyDown}

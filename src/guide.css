@@ -537,39 +537,42 @@ html[data-tune="human"] .explain-btn--dark {
   font-size: 14px;
 }
 
-/* ───────── pencil margin notes ───────── */
-.section-heading,
-.pencil-slot,
-.rack-wrap {
-  position: relative;
+/* ───────── pencil margin notes ─────────
+   Placed by src/lib/pencilPlace.js: each note sits in a layer on the page, next to its target, and its
+   arrow ends on the target's edge. */
+.pencil-anchor {
+  display: block;
+  width: 0;
+  height: 0;
 }
 
 .pencil {
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: flex-start;
-  gap: 2px;
-  max-width: 260px;
-  margin: 10px 0 10px;
+  position: absolute;
+  z-index: 6;
+  margin: 0;
   font-family: "Kalam", "Segoe Print", "Bradley Hand", cursive;
   font-size: 17px;
   line-height: 1.25;
   color: #5A5A5A;
-  transform: rotate(-1.5deg);
-  transform-origin: left bottom;
   pointer-events: none;
 }
 
 .pencil-text {
   display: block;
+  transform: rotate(-1.5deg);
+  transform-origin: left center;
   clip-path: inset(0 100% 0 0);
   transition: clip-path 0.45s ease-out 0.15s;
 }
 
+.pencil[data-side="left"] .pencil-text {
+  transform-origin: right center;
+}
+
 .pencil-arrow {
-  width: 56px;
-  height: 37px;
-  margin-left: 6px;
+  position: absolute;
+  width: 28px;
+  height: 20px;
   overflow: visible;
 }
 
@@ -592,70 +595,18 @@ html[data-tune="human"] .explain-btn--dark {
   stroke-dashoffset: 0;
 }
 
+@media (max-width: 639px) {
+  .pencil {
+    font-size: 15px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .pencil-text,
   .pencil-arrow path,
   .tune-fade {
     transition: none;
     animation: none;
-  }
-}
-
-/* wide screens: the note sits in the margin beside the heading, its arrow pointing down at the block */
-@media (min-width: 900px) {
-  .section-heading > .pencil,
-  .pencil-slot > .pencil {
-    position: absolute;
-    top: 30px;
-    right: 6%;
-    margin: 0;
-  }
-
-  .pencil-slot {
-    height: 0;
-  }
-
-  .pencil-slot > .pencil {
-    top: -64px;
-  }
-}
-
-/* the status rack's note sits to the right of the rack, arrow pointing left at it */
-@media (min-width: 1100px) {
-  .rack-wrap > .pencil--side {
-    position: absolute;
-    top: 52px;
-    left: 676px;
-    margin: 0;
-    flex-direction: row-reverse;
-    align-items: center;
-  }
-
-  .rack-wrap > .pencil--side .pencil-arrow {
-    transform: rotate(38deg);
-    margin: 0 6px 0 0;
-  }
-}
-
-/* the terminal's note sits to the right of the terminal on wide screens, above it otherwise */
-.pencil--hero {
-  margin: 0 0 8px;
-}
-
-@media (min-width: 1180px) {
-  .term-hero > .term-col .pencil--hero {
-    position: absolute;
-    top: 38%;
-    right: 40px;
-    max-width: 200px;
-    margin: 0;
-    flex-direction: row-reverse;
-    align-items: center;
-  }
-
-  .term-hero > .term-col .pencil--hero .pencil-arrow {
-    transform: rotate(38deg);
-    margin: 0 6px 0 0;
   }
 }
 
@@ -1444,20 +1395,6 @@ html[data-tune="human"] .explain-btn--dark {
     bottom: calc(100% + 10px);
     transform: none;
     animation: none;
-  }
-}
-
-/* the note beside the device on wide screens, above it on small ones */
-@media (min-width: 760px) {
-  .follow-wrap > .pencil--side {
-    margin: 0;
-    flex-direction: row-reverse;
-    align-items: center;
-  }
-
-  .follow-wrap > .pencil--side .pencil-arrow {
-    transform: rotate(38deg);
-    margin: 0 6px 0 0;
   }
 }
 

@@ -196,7 +196,6 @@ const Hero = () => {
       </div>
 
       <div className="term-col w-full">
-        <PencilNote id="terminal" hero />
         {win === "closed" && (
           <button type="button" className="term-pill" onClick={() => setWin("open")}>
             open terminal
@@ -238,6 +237,7 @@ const Hero = () => {
             </>
           )}
         </motion.div>
+        <PencilNote id="terminal" />
         <div className="tune-slot tune-slot--under">
           <TuneDial compact />
         </div>
