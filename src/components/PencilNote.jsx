@@ -67,6 +67,22 @@ const PencilNote = ({ id }) => {
     }
     let raf = 0;
     let last = "";
+    // When a note has to sit below its target it makes the room itself: a spacer after the target, so
+    // the note never lands on whatever comes next.
+    let spacer = null;
+    const room = (target, need) => {
+      if (need <= 0) {
+        if (spacer) spacer.style.height = "0px";
+        return;
+      }
+      if (!spacer) {
+        spacer = document.createElement("div");
+        spacer.setAttribute("aria-hidden", "true");
+        spacer.className = "pencil-spacer";
+      }
+      if (spacer.previousElementSibling !== target) target.after(spacer);
+      spacer.style.height = `${Math.round(need)}px`;
+    };
     const measure = (w) => {
       const el = box.current;
       if (!el) return 40;
@@ -97,6 +113,7 @@ const PencilNote = ({ id }) => {
         return "none";
       }
       placedRects.set(id, { left: p.x, top: p.y, right: p.x + p.w, bottom: p.y + p.h });
+      if (!isTerminal) room(t.el, p.side === "below" ? p.h + GAP + 14 - (parseFloat(getComputedStyle(t.el).marginBottom) || 0) : 0);
       const sig = [p.side, Math.round(p.x), Math.round(p.y), Math.round(p.w), Math.round(p.arrow.x), Math.round(p.arrow.y)].join();
       setPos((old) => (old && old.sig === sig ? old : { ...p, sig }));
       return sig;
@@ -129,6 +146,7 @@ const PencilNote = ({ id }) => {
       window.removeEventListener("resize", settle);
       ro?.disconnect();
       mo?.disconnect();
+      spacer?.remove();
       placedRects.delete(id);
     };
   }, [on, id, isTerminal]);

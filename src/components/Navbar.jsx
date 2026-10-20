@@ -6,7 +6,6 @@ import { scrollToSection } from "../lib/helperFunctions";
 import TuneToggle from "./TuneToggle";
 import { guide } from "../guide/store";
 import GithubKey from "./GithubKey";
-import BackdropSwitch from "./BackdropSwitch";
 import { ghLink, useFollowers } from "../lib/follow";
 
 const PRIMARY = navLinks.filter((n) => n.primary);
@@ -78,7 +77,7 @@ const Navbar = () => {
         ctx: avinash@prod
       </Link>
 
-      <ul className="list-none min-[1400px]:flex hidden items-center gap-4">
+      <ul className="list-none lg:flex hidden items-center gap-5">
         {PRIMARY.map((n) => (
           <li key={n.id}>
             <button type="button" className={linkCls(n.id)} aria-current={active === n.id ? "true" : undefined} onClick={() => go(n.id)}>
@@ -103,9 +102,6 @@ const Navbar = () => {
           )}
         </li>
         <li>
-          <BackdropSwitch />
-        </li>
-        <li>
           <TuneToggle />
         </li>
         <li>
@@ -113,8 +109,7 @@ const Navbar = () => {
         </li>
       </ul>
 
-      <div className="min-[1400px]:hidden flex items-center gap-3">
-        <BackdropSwitch />
+      <div className="lg:hidden flex items-center">
         <button
           type="button"
           aria-label={toggle ? "Close menu" : "Open menu"}

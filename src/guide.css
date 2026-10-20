@@ -1562,7 +1562,8 @@ html[data-tune="human"] .explain-btn--dark {
   }
 }
 
-/* ═════════ page backgrounds: still, ink on paper (see src/background/Backdrop.jsx) ═════════ */
+/* ═════════ the page background: graph paper, with the real git history in the left margin ═════════
+   (see src/background/Backdrop.jsx and GitGraph.jsx). Still: nothing moves, nothing reacts. */
 .bg-layer {
   position: absolute;
   top: 0;
@@ -1574,30 +1575,7 @@ html[data-tune="human"] .explain-btn--dark {
   pointer-events: none;
 }
 
-/* the two versions sit on top of each other. Leaving fades in 250ms; the git graph arrives with no fade
-   (it draws itself instead). */
-.bg-mode {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
-}
-
-.bg-mode--on {
-  visibility: visible;
-  opacity: 1;
-  transition: opacity 0.25s ease, visibility 0s;
-}
-
-.bg-mode--git.bg-mode--on {
-  transition: none;
-}
-
-/* paper: a minor line every 8px at about 6% ink, a major one every 40px at about 12% */
+/* graph paper: a minor line every 8px at about 6% ink, a major one every 40px at about 12% */
 .bg-grid {
   background-image:
     repeating-linear-gradient(0deg, rgba(26, 26, 26, 0.12) 0 1px, transparent 1px 40px),
@@ -1606,7 +1584,22 @@ html[data-tune="human"] .explain-btn--dark {
     repeating-linear-gradient(90deg, rgba(26, 26, 26, 0.06) 0 1px, transparent 1px 8px);
 }
 
-/* the git graph: lines 1.5px at about 28% ink, dots 7px at about 35%, labels 12px at about 45% */
+/* the graph sits in the left margin, above the page so its dots can be hovered, but it only takes the
+   pointer on the dots themselves */
+.git-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.git-svg {
+  display: block;
+  overflow: visible;
+}
+
+/* lines 1.5px at about 28% ink, dots 7px at about 35%, labels 12px at about 45% */
 .bg-ln {
   fill: none;
   stroke: rgba(26, 26, 26, 0.28);
@@ -1617,13 +1610,24 @@ html[data-tune="human"] .explain-btn--dark {
   fill: rgba(26, 26, 26, 0.35);
 }
 
+/* a merge commit: a slightly larger hollow dot */
+.bg-dot--merge {
+  fill: var(--bg);
+  stroke: rgba(26, 26, 26, 0.35);
+  stroke-width: 1.5;
+}
+
 .bg-tx {
   fill: rgba(26, 26, 26, 0.45);
   font-family: "JetBrains Mono", monospace;
   font-size: 12px;
 }
 
-.bg-tx--head {
+.bg-tx--muted {
+  fill: rgba(26, 26, 26, 0.3);
+}
+
+.bg-tx--tag {
   font-size: 11px;
 }
 
@@ -1633,98 +1637,55 @@ html[data-tune="human"] .explain-btn--dark {
   stroke-width: 1;
 }
 
-.bg-gt-box {
+.git-dot {
+  pointer-events: all;
+  outline: none;
+}
+
+.git-dot:focus-visible .bg-dot {
+  stroke: var(--text);
+  stroke-width: 2;
+}
+
+/* the note about the dots, in plain-English mode only */
+.git-note {
   position: absolute;
-  overflow: hidden;
+  display: none;
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.4;
+  color: rgba(26, 26, 26, 0.45);
 }
 
-.bg-gt-box--l {
-  left: 0;
-}
-
-.bg-gt-box--r {
-  right: 0;
-}
-
-.bg-gt {
+html[data-tune="human"] .git-note {
   display: block;
 }
 
-/* paper -> git: the lines on screen draw down the page, the dots and labels pop in as it reaches them.
-   Two copies of each keyframe so a second switch restarts the animation. */
-.bg-ln--0,
-.bg-ln--1 {
-  stroke-dasharray: 1;
-  animation-duration: 0.45s;
-  animation-timing-function: linear;
-  animation-fill-mode: both;
+/* the card for the dot under the pointer or focus */
+.git-card {
+  position: absolute;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 300px;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #E6E6E6;
+  background: #141414;
+  border: 1px solid #2A2A2A;
+  border-radius: 3px;
+  box-shadow: 0 10px 24px -10px rgba(26, 26, 26, 0.5);
+  pointer-events: none;
 }
 
-.bg-ln--0 {
-  animation-name: bg-draw-0;
+.git-card-hash {
+  color: #E8A33D;
 }
 
-.bg-ln--1 {
-  animation-name: bg-draw-1;
-}
-
-.bg-dot--0,
-.bg-dot--1,
-.bg-tx--0,
-.bg-tx--1,
-.bg-lbl--0,
-.bg-lbl--1 {
-  animation-duration: 0.12s;
-  animation-timing-function: ease-out;
-  animation-fill-mode: both;
-}
-
-.bg-dot--0,
-.bg-tx--0,
-.bg-lbl--0 {
-  animation-name: bg-pop-0;
-}
-
-.bg-dot--1,
-.bg-tx--1,
-.bg-lbl--1 {
-  animation-name: bg-pop-1;
-}
-
-@keyframes bg-draw-0 {
-  from {
-    stroke-dashoffset: 1;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes bg-draw-1 {
-  from {
-    stroke-dashoffset: 1;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes bg-pop-0 {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes bg-pop-1 {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.git-card-date {
+  color: #8A8A8A;
 }
 
 /* wider side margins on wide screens, so the graph has room beside the content */
@@ -1735,108 +1696,10 @@ html[data-tune="human"] .explain-btn--dark {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .bg-mode,
-  .bg-mode--on {
-    transition: none;
-  }
-}
-
 @media print {
-  .bg-layer {
+  .bg-layer,
+  .git-overlay {
     display: none !important;
-  }
-}
-
-/* the backdrop switch in the navbar: a tiny slide switch, like the ones on a circuit board */
-.bd {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  line-height: 1;
-}
-
-.bd-title {
-  font-size: 9px;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-}
-
-.bd-row {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.bd-pos {
-  font-size: 9px;
-  letter-spacing: 0.06em;
-  color: var(--muted);
-}
-
-.bd-pos--on {
-  color: var(--text);
-}
-
-.bd-body {
-  position: relative;
-  width: 64px;
-  height: 22px;
-  min-height: 0;
-  padding: 0;
-  background: #141414;
-  border: 1px solid #2A2A2A;
-  border-radius: 6px;
-  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 255, 255, 0.35);
-  cursor: pointer;
-}
-
-.bd-knob {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 28px;
-  height: 16px;
-  background: #E6E6E6;
-  border-radius: 4px;
-  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.5);
-  transition: transform 0.15s ease-out;
-}
-
-.bd-body[aria-checked="true"] .bd-knob {
-  transform: translateX(30px);
-}
-
-.bd-body:focus-visible {
-  outline: 2px solid var(--text);
-  outline-offset: 2px;
-}
-
-.bd-tip {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 50%;
-  padding: 3px 8px;
-  font-size: 11px;
-  white-space: nowrap;
-  color: #E6E6E6;
-  background: #141414;
-  border: 1px solid #2A2A2A;
-  border-radius: 3px;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateX(-50%);
-}
-
-.bd-body:hover .bd-tip,
-.bd-body:focus-visible .bd-tip {
-  opacity: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bd-knob {
-    transition: none;
   }
 }
 

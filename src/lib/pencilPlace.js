@@ -10,7 +10,7 @@ const PAD = 6; // breathing room kept around other content
 
 // Things a note must not cover.
 const OBSTACLES =
-  "p,h1,h2,h3,h4,h5,h6,li,a,button,pre,code,td,th,img,input,label,dt,dd,summary,.manifest,.table,.stat,.panel,.rack,.follow,.tune-dial,.term-window,.summary-box,.pencil-abs";
+  "p,h1,h2,h3,h4,h5,h6,li,a,button,pre,code,td,th,img,input,label,dt,dd,summary,.manifest,.table,.stat,.panel,.rack,.follow,.tune-dial,.term-window,.summary-box,.pencil-abs,.git-overlay text,.git-note";
 
 export const docRect = (el) => {
   const r = el.getBoundingClientRect();
