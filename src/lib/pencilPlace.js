@@ -35,10 +35,6 @@ const obstaclesNear = (target, box, skip) => {
 
 const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
 
-// opts: { target: Element, anchorY?: number (page y the arrow should end at), belowX?: number (page x the
-//   note lines up with when it goes below), prefer: ["right","left","below"], measure(w) -> height,
-//   skip: the note's own element, others: rects of the other notes }
-// Returns { side, x, y, w, h, arrow: { x, y } } (page coordinates) or null when the target is not showing.
 export const placeNote = ({ target, anchorY, belowX, prefer, measure, skip, others = [] }) => {
   const t = docRect(target);
   if (t.width < 2 || t.height < 2) return null;
