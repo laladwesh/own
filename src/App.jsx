@@ -2,13 +2,12 @@ import { lazy, Suspense } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { motion, MotionConfig } from "framer-motion";
 import styles from "./style";
-import ScopeBackground from "./scope/ScopeBackground";
+import Backdrop from "./background/Backdrop";
 import Daemon from "./daemon/Daemon";
 import FollowSign from "./daemon/FollowSign";
 import Presence from "./presence/Presence";
 import ScrollManager from "./components/ScrollManager";
 import Guide from "./guide/Guide";
-import "./tune/scopeSync";
 import { GlossHost } from "./components/Gloss";
 import { Navbar, Footer } from "./components";
 import Home from "./pages/Home";
@@ -26,9 +25,9 @@ const App = () => {
   const { pathname } = useLocation();
   return (
     <MotionConfig reducedMotion="user">
-      <div className="w-full">
+      <div className="w-full relative">
         <a href={pathname === "/" ? "#home" : "#content"} className="skip-link">Skip to content</a>
-        <ScopeBackground />
+        <Backdrop />
         <Daemon />
         <FollowSign />
         <Presence />

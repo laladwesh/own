@@ -407,36 +407,6 @@ input:focus-visible {
   .sidebar { animation: none; }
 }
 
-/* ───────── Oscilloscope background ───────── */
-.scope-bg {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: var(--bg);
-}
-
-.scope-bg canvas {
-  position: absolute;
-  inset: 0;
-}
-
-.scope-hud {
-  position: absolute;
-  z-index: 5;
-  font-size: 13px;
-  line-height: 1.4;
-  color: var(--muted);
-  white-space: pre;
-  pointer-events: none;
-}
-
-.scope-hud--tl { top: 16px; left: 24px; }
-.scope-hud--tr { top: 16px; right: 24px; }
-.scope-hud--mode { top: 16px; right: 88px; }
-.scope-hud--bl { bottom: 16px; left: 24px; }
-.scope-hud--br { bottom: 16px; right: 24px; }
-
 /* ───────── Terminal output ───────── */
 .term-run,
 .term-ext {

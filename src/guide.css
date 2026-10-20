@@ -659,15 +659,6 @@ html[data-tune="human"] .explain-btn--dark {
   }
 }
 
-@media (max-width: 599px) {
-  /* the scope readout drops under RUN so it does not run into the channel labels */
-  .scope-hud--mode {
-    top: 34px;
-    right: 24px;
-  }
-}
-
-
 /* ═════════ the bubble: tty on the left, the text and buttons on the right ═════════ */
 .guide-stage,
 .guide-sheet,
@@ -1632,4 +1623,217 @@ html[data-tune="human"] .explain-btn--dark {
   .daemon-sign {
     display: none !important;
   }
+}
+
+/* ═════════ page backgrounds: faint, printed, still (see src/background/Backdrop.jsx) ═════════ */
+.bg-layer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* the three versions sit on top of each other and cross-fade in 300ms */
+.bg-mode {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.bg-mode--on {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.3s ease, visibility 0s;
+}
+
+/* plain: graph paper, a minor line every 8px and a major one every 40px */
+.bg-grid {
+  background-image:
+    repeating-linear-gradient(0deg, rgba(26, 26, 26, 0.06) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(90deg, rgba(26, 26, 26, 0.06) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(0deg, rgba(26, 26, 26, 0.03) 0 1px, transparent 1px 8px),
+    repeating-linear-gradient(90deg, rgba(26, 26, 26, 0.03) 0 1px, transparent 1px 8px);
+}
+
+/* ink on paper: lines about 11%, labels about 18% */
+.bg-ln {
+  fill: none;
+  stroke: rgba(26, 26, 26, 0.11);
+  stroke-width: 1;
+}
+
+.bg-dot {
+  fill: rgba(26, 26, 26, 0.14);
+}
+
+.bg-tx {
+  fill: rgba(26, 26, 26, 0.18);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+}
+
+.bg-tx--edge,
+.bg-tx--git {
+  font-size: 10px;
+}
+
+.bg-g {
+  position: absolute;
+  max-width: calc(100% - 128px);
+  height: auto;
+  overflow: visible;
+}
+
+.bg-g--l {
+  left: 64px;
+}
+
+.bg-g--r {
+  right: 64px;
+}
+
+.bg-title {
+  position: absolute;
+  right: 64px;
+  bottom: 170px;
+}
+
+/* the words on the infra map: technical, or plain English when the reading mode is plain */
+.bg-t,
+.bg-p {
+  transition: opacity 0.4s ease;
+}
+
+.bg-p {
+  opacity: 0;
+}
+
+html[data-tune="human"] .bg-t {
+  opacity: 0;
+}
+
+html[data-tune="human"] .bg-p {
+  opacity: 1;
+}
+
+/* the git graph */
+.bg-gt-box {
+  position: absolute;
+  width: 64px;
+  overflow: hidden;
+}
+
+.bg-gt-box--l {
+  left: 0;
+}
+
+.bg-gt-box--r {
+  right: 0;
+}
+
+.bg-gt {
+  display: block;
+}
+
+.bg-git-note {
+  position: absolute;
+  top: 96px;
+  left: 44px;
+  margin: 0;
+  font-size: 10px;
+  color: rgba(26, 26, 26, 0.18);
+  writing-mode: vertical-rl;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+html[data-tune="human"] .bg-git-note {
+  opacity: 1;
+}
+
+@media (max-width: 619px) {
+  .bg-g--l {
+    left: 24px;
+  }
+
+  .bg-g--r {
+    right: 24px;
+  }
+
+  .bg-g {
+    max-width: calc(100% - 48px);
+  }
+
+  .bg-title {
+    right: 24px;
+  }
+
+  .bg-gt-box {
+    width: 24px;
+  }
+
+  .bg-git-note {
+    left: 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-mode,
+  .bg-mode--on,
+  .bg-t,
+  .bg-p,
+  .bg-git-note {
+    transition: none;
+  }
+}
+
+@media print {
+  .bg-layer {
+    display: none !important;
+  }
+}
+
+/* the dial's hint, and the footer's background switch */
+.tune-hint {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--td-muted);
+}
+
+.footer-bg {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 12px;
+}
+
+.footer-bg-link {
+  min-height: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.footer-bg-link:hover,
+.footer-bg-link:focus-visible {
+  color: var(--text);
+}
+
+.footer-bg-on {
+  padding: 0 6px;
+  color: var(--bg);
+  background: var(--text);
 }

@@ -1,5 +1,7 @@
 import { siteDomain } from "../constants";
+import { Fragment } from "react";
 import { useLocation } from "react-router-dom";
+import { BACKGROUNDS, setBg, useBg } from "../background/store";
 import DeployLine from "./DeployLine";
 import FollowDevice from "./FollowDevice";
 import Invite from "./Invite";
@@ -51,6 +53,7 @@ const Heart = () => (
 // The follow device sits with the status rack on the homepage; on every other page a compact one lives here.
 const Footer = () => {
   const { pathname } = useLocation();
+  const bg = useBg();
   return (
     <footer className="site-footer">
       {pathname !== "/" && <FollowDevice compact />}
@@ -63,6 +66,23 @@ const Footer = () => {
       </p>
       <p className="footer-credit">
         Made with <Heart /> by Avinash and <ClaudeCodeMark />
+      </p>
+      <p className="footer-bg">
+        background:{" "}
+        {BACKGROUNDS.map((b, i) => (
+          <Fragment key={b}>
+            {i > 0 && " · "}
+            {b === bg ? (
+              <span className="footer-bg-on" aria-current="true">
+                {b}
+              </span>
+            ) : (
+              <button type="button" className="footer-bg-link" onClick={() => setBg(b)}>
+                {b}
+              </button>
+            )}
+          </Fragment>
+        ))}
       </p>
     </footer>
   );

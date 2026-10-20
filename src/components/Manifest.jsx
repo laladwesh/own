@@ -41,7 +41,7 @@ const initialMode = () =>
   typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches ? "yaml" : "wide";
 
 // Engineer tuning: [ -o yaml ] [ -o wide ]. Human tuning: the same toggle with friendlier names.
-const FRIENDLY = { yaml: "engineer view", wide: "simple view", diagram: "simple view" };
+const FRIENDLY = { yaml: "technical view", wide: "simple view", diagram: "simple view" };
 
 export const ModeToggle = ({ mode, setMode, options = ["yaml", "wide"] }) => {
   const human = useHuman();
@@ -80,7 +80,7 @@ export const Switchable = ({ yaml, wide, label, explain }) => {
       </div>
       {everyone && (
         <button type="button" className="engineer-link" onClick={() => setMode(mode === "wide" ? "yaml" : "wide")}>
-          {mode === "wide" ? "show the engineer version" : "show the simple version"}
+          {mode === "wide" ? "show the technical version" : "show the simple version"}
         </button>
       )}
     </div>

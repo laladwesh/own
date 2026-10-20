@@ -15,7 +15,6 @@ import { countLines } from "../terminal/text.js";
 import { scrollToSection } from "../lib/helperFunctions";
 import { now } from "../constants/now";
 import { getPresence, subscribePresence } from "../presence/store";
-import { scope } from "../scope/scopeStore";
 import ExplainButton from "./ExplainButton";
 import { guide } from "../guide/store";
 
@@ -790,7 +789,6 @@ const Terminal = forwardRef(function Terminal(
     const mod = e.ctrlKey || e.metaKey;
     markTyping();
     if (e.key.length === 1 || e.key === "Backspace") {
-      scope.spike();
       hasTyped.current = true;
     }
 

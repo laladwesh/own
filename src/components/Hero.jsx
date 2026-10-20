@@ -1,6 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { animate, motion, useMotionValue } from "framer-motion";
-import ScopeHud from "../scope/ScopeHud";
 import Terminal from "./Terminal";
 import HeroNav from "./HeroNav";
 import TuneDial from "./TuneDial";
@@ -192,7 +191,6 @@ const Hero = () => {
       ref={heroRef}
       className="term-hero sm:px-16 px-4 flex flex-col items-center justify-center"
     >
-      <ScopeHud />
       <div className="tune-slot tune-slot--side">
         <TuneDial />
       </div>

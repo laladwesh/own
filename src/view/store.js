@@ -1,11 +1,13 @@
-// How the site is tuned: "engineer" (the site as it always was) or "human" (the same site, with
-// plain-English help). The choice lives for the session. Links can set it: `?tune=human` or
-// `?tune=engineer`. The older `?view=everyone` and `?view=engineer` links still work as aliases.
+// The reading mode: "engineer" = TECHNICAL (the site as it always was) or "human" = PLAIN ENGLISH (the
+// same site, with plain-English help). The internal names stay; only the words people see changed. The
+// choice lives for the session. Links can set it: `?tune=human`, `?tune=engineer` (or technical/plain).
+// The older `?view=everyone` and `?view=engineer` links still work as aliases.
 import { useSyncExternalStore } from "react";
 
 const KEY = "site-tune";
 const MODES = ["engineer", "human"];
-const ALIAS = { engineer: "engineer", human: "human", everyone: "human" };
+// The names people see are "technical" and "plain English"; the old names keep working.
+const ALIAS = { engineer: "engineer", technical: "engineer", human: "human", plain: "human", everyone: "human" };
 
 const fromUrl = () => {
   try {
