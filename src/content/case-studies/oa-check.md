@@ -69,6 +69,10 @@ The app list kept growing with it. Every OA turned up something new, and today i
 
 We're still updating it.
 
+## By the numbers
+
+[DIAGRAM: oa-check-numbers]
+
 ## What I learned
 
 Start with identity. The first version checked laptops; the second checked students' laptops, and that difference mattered more than any app on the list. Understand exactly how a delivery method like `irm | iex` behaves before handing it to hundreds of people. And test on the oldest, cheapest laptops you can find before every release.

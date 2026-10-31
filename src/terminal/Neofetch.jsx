@@ -1,6 +1,7 @@
 import { useLayoutEffect, useMemo, useRef } from "react";
 import { scope } from "../scope/scopeStore.js";
 import { daemonEvent } from "../daemon/state.js";
+import { fmtNum, oaCheckStats, passPct } from "../constants/oaCheck.js";
 import { GITHUB_URL, followersText } from "../lib/follow.js";
 
 // The `neofetch` report, with a short reveal (about 1.5s):
@@ -85,6 +86,7 @@ const buildRows = (info, up) => [
       { k: "text", text: " companies" },
     ],
   ],
+  ["OA checks", [{ k: "text", text: `${fmtNum(oaCheckStats.total)} (${passPct()}% clean)` }]],
   // The profile link; the count is only there if it is already known, so nothing is shown that is not real.
   ["GitHub", [{ k: "text", text: `laladwesh${info.followers ? ` · ${followersText(info.followers)}` : ""} (+ you?)`, href: GITHUB_URL }]],
 ];

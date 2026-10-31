@@ -4,6 +4,7 @@ import styles from "../style";
 import PixelPrinter from "../components/PixelPrinter";
 import { aboutMe, experiences, socialMedia } from "../constants";
 import { now } from "../constants/now";
+import { fmtNum, oaCheckStats } from "../constants/oaCheck";
 import { atHomeBySlug } from "../constants/explain";
 import { QR_PATH, QR_SIZE } from "../constants/qr";
 import { caseStudies, shortTitle } from "../lib/caseStudies";
@@ -85,7 +86,7 @@ const DataSheet = () => {
           {built.map((s) => (
             <li key={s.slug}>
               <p>
-                <strong>{shortTitle(s)}.</strong> {s.summary}
+                <strong>{shortTitle(s)}.</strong> {s.summary}{s.slug === "oa-check" ? ` ${fmtNum(oaCheckStats.total)} laptop checks run.` : ""}
               </p>
               <p className="ds-home">{atHomeBySlug[s.slug]}</p>
             </li>

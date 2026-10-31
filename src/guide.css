@@ -1633,3 +1633,251 @@ html[data-tune="human"] .explain-btn--dark {
     display: none !important;
   }
 }
+
+/* ═════════ OA Check, "By the numbers": a tally counter, 100 pixel laptops and a printed test report ═════════ */
+.oa-nums {
+  margin: 28px 0 8px;
+}
+
+.oa-nums-text {
+  margin: 0 0 24px;
+}
+
+.oa-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 28px 40px;
+}
+
+.oa-tally-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* the tally counter: a dark device with mechanical wheels in inset windows */
+.tally {
+  width: max-content;
+  max-width: 100%;
+  padding: 8px;
+  color: #E6E6E6;
+  background: #141414;
+  border: 1px solid #2A2A2A;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 20px 40px -12px rgba(26, 26, 26, 0.35), 0 2px 4px rgba(26, 26, 26, 0.15);
+}
+
+.tally-plate {
+  padding: 6px 10px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  color: #E6E6E6;
+  background: #1A1A1A;
+  box-shadow: inset 0 0 0 1px #2A2A2A, inset 0 0 0 3px #1A1A1A, inset 0 0 0 4px #101010;
+}
+
+.tally-wheels {
+  display: flex;
+  gap: 3px;
+  margin-top: 8px;
+  padding: 6px;
+  background: #050505;
+  border-radius: 2px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.tally-wheel {
+  position: relative;
+  display: block;
+  width: 30px;
+  height: 44px;
+  overflow: hidden;
+  background: #0D0D0D;
+  box-shadow: inset 0 0 0 1px #000, inset 0 6px 6px -4px rgba(0, 0, 0, 0.9), inset 0 -6px 6px -4px rgba(0, 0, 0, 0.9);
+}
+
+.tally-strip {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+
+.tally-strip span {
+  display: block;
+  height: 44px;
+  font-size: 28px;
+  line-height: 44px;
+  text-align: center;
+}
+
+.tally-asof {
+  margin: 8px 2px 0;
+  font-size: 12px;
+  color: #8A8A8A;
+}
+
+/* the 100 pixel laptops */
+.laptop-grid {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 8px 4px;
+  max-width: 460px;
+  margin-top: 28px;
+}
+
+.lap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  min-height: 0;
+  color: var(--text);
+  background: none;
+  border: 0;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+  transition-delay: calc(var(--i) * 8ms);
+}
+
+.oa-nums--on .lap {
+  opacity: 1;
+}
+
+.lap svg {
+  display: block;
+  image-rendering: pixelated;
+  shape-rendering: crispEdges;
+}
+
+.lap--flag {
+  cursor: help;
+}
+
+.lap--flag:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+.lap-tip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  z-index: 8;
+  width: 200px;
+  padding: 4px 8px;
+  font-size: 11px;
+  line-height: 1.35;
+  text-align: left;
+  color: #E6E6E6;
+  background: #141414;
+  border: 1px solid #2A2A2A;
+  border-radius: 3px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+.lap:nth-child(10n + 1) .lap-tip,
+.lap:nth-child(10n + 2) .lap-tip {
+  left: 0;
+  transform: none;
+}
+
+.lap:nth-child(10n) .lap-tip,
+.lap:nth-child(10n + 9) .lap-tip {
+  right: 0;
+  left: auto;
+  transform: none;
+}
+
+.lap--flag:hover .lap-tip,
+.lap--flag:focus-visible .lap-tip {
+  opacity: 1;
+}
+
+.laptop-cap {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* the printed test report: a narrow paper receipt with torn edges */
+.receipt {
+  position: relative;
+  width: min(100%, 330px);
+  padding: 22px 18px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #1A1A1A;
+  background: #FBF9F3;
+  transform: rotate(-0.6deg);
+  filter: drop-shadow(0 6px 10px rgba(26, 26, 26, 0.18));
+}
+
+.receipt::before,
+.receipt::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background-size: 12px 8px;
+}
+
+.receipt::before {
+  bottom: 100%;
+  background-image: linear-gradient(135deg, transparent 75%, #FBF9F3 75%), linear-gradient(225deg, transparent 75%, #FBF9F3 75%);
+  background-position: 0 0;
+}
+
+.receipt::after {
+  top: 100%;
+  background-image: linear-gradient(315deg, transparent 75%, #FBF9F3 75%), linear-gradient(45deg, transparent 75%, #FBF9F3 75%);
+}
+
+.receipt p {
+  margin: 0;
+}
+
+.receipt-head {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+}
+
+.receipt-rule {
+  margin: 8px 0;
+  border: 0;
+  border-top: 1px dashed #1A1A1A;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.receipt-bar {
+  margin-bottom: 6px;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.receipt-note {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.cs-card-stat {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lap {
+    opacity: 1;
+    transition: none;
+  }
+}

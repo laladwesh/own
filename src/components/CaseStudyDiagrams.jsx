@@ -1,6 +1,8 @@
 // Printed schematics for case studies: ink on paper, plain SVG, no colour.
 // Same drawing style as the incident diagrams. Picked by the `[DIAGRAM: id]` marker in the markdown.
 
+import OaCheckNumbers from "./OaCheckNumbers";
+
 const INK = "currentColor";
 
 const Arrow = ({ id }) => (
@@ -325,6 +327,7 @@ const StatusMonitor = () => (
 
 export const CASE_DIAGRAMS = {
   "oa-check-flow": OaCheckFlow,
+  "oa-check-numbers": OaCheckNumbers,
   "dday-flow": DdayFlow,
   "intern-portal-roles": InternPortalRoles,
   "status-monitor": StatusMonitor,

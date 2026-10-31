@@ -133,6 +133,7 @@ export const notes = {
   incidents: "things that broke, and how I fixed them",
   incident: "nobody is blamed: it is about what changed",
   notes: "short notes, written while I still remembered",
+  oaCounter: "every one of these is a student's laptop, checked before a real test",
   follow: "if you like what I build, this is how you keep up with it \u2192",
 };
 

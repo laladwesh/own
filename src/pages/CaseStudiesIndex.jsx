@@ -1,3 +1,4 @@
+import { fmtNum, oaCheckStats } from "../constants/oaCheck";
 import { Link } from "react-router-dom";
 import styles from "../style";
 import SectionHeading from "../components/SectionHeading";
@@ -31,6 +32,7 @@ const CaseStudiesIndex = () => {
                 <Link to={caseStudyPath(s.slug)}>{s.title}</Link>
               </h2>
               <p className="cs-card-summary">{s.summary}</p>
+            {s.slug === "oa-check" && <p className="cs-card-stat">{fmtNum(oaCheckStats.total)} checks run</p>}
               <AtHome text={atHomeBySlug[s.slug]} />
               <ul className="drawer-stack cs-card-stack" aria-label="Stack">
                 {(s.stack ?? []).map((t) => (

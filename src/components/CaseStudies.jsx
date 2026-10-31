@@ -1,3 +1,4 @@
+import { fmtNum, oaCheckStats } from "../constants/oaCheck";
 import { Link } from "react-router-dom";
 import { caseStudies, shortTitle } from "../lib/caseStudies";
 import SectionHeading from "./SectionHeading";
@@ -32,6 +33,7 @@ const CaseStudies = () => {
               <Link to={`/projects/${s.slug}`}>{s.title}</Link>
             </h3>
             <p className="cs-card-summary">{s.summary}</p>
+            {s.slug === "oa-check" && <p className="cs-card-stat">{fmtNum(oaCheckStats.total)} checks run</p>}
             <AtHome text={atHomeBySlug[s.slug]} />
             <ul className="drawer-stack cs-card-stack" aria-label="Stack">
               {(s.stack ?? []).map((t) => (
