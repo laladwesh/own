@@ -3,9 +3,9 @@
 // summary and neofetch) follows. The percentages and the flagged count are worked out here, not typed.
 export const oaCheckStats = {
   asOf: "2026-10-31",
-  total: 30000,
+  total: 31589,
   passed: 27412,
-  failed: 2588,
+  failed: 31589 - 27412, // the balance: 4,177
 };
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
