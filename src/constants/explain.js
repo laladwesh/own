@@ -133,6 +133,7 @@ export const notes = {
   incidents: "things that broke, and how I fixed them",
   incident: "nobody is blamed: it is about what changed",
   notes: "short notes, written while I still remembered",
+  oaGap: "the check now remembers the last two hours, and comes back during the test",
   oaCounter: "every one of these is a student's laptop, checked before a real test",
   follow: "if you like what I build, this is how you keep up with it \u2192",
 };
@@ -149,6 +150,7 @@ export const atHome = {
 
 // The same, one per case study.
 export const atHomeBySlug = {
+  "oa-check-gap": "It's like checking bags at the door, then also asking what was handed over in the last two hours, and checking again halfway through the exam.",
   "oa-check": "OA Check is like a guard checking bags before an exam, except it checks laptops.",
   "intern-portal": "The Intern Portal is like one office window that every student, company and coordinator shares during internship season.",
   "dday-live-portal": "D-Day is like a live scoreboard at a stadium, except it shows placement offers as they happen.",

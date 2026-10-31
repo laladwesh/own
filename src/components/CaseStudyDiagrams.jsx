@@ -2,6 +2,7 @@
 // Same drawing style as the incident diagrams. Picked by the `[DIAGRAM: id]` marker in the markdown.
 
 import OaCheckNumbers from "./OaCheckNumbers";
+import OaGapPlain from "./OaGapPlain";
 
 const INK = "currentColor";
 
@@ -37,11 +38,11 @@ const Box = ({ x, y, w, h, a, b, dashed, fs = 13 }) => (
 
 const Line = ({ d, marker }) => <path d={d} fill="none" stroke={INK} strokeWidth="1.5" markerEnd={`url(#${marker})`} />;
 
-const LOOP = ["scan", "fix", "close background apps", "re-scan"];
+const LOOP = ["scan", "look back 2h", "fix", "close background apps", "re-scan"];
 
-// Wide: v1 above, then the v2 flow in three rows.
+// Wide: v1 above, then the v2 flow in rows, then the admin side's timeline.
 const Wide = () => (
-  <svg className="diag-svg diag-wide" viewBox="0 0 800 380" aria-hidden="true">
+  <svg className="diag-svg diag-wide" viewBox="0 0 800 478" aria-hidden="true">
     <defs>
       <Arrow id="oaa-w" />
     </defs>
@@ -62,30 +63,50 @@ const Wide = () => (
     <Line d="M675 162 L675 188" marker="oaa-w" />
 
     {/* the script's loop */}
-    <rect x="10" y="190" width="780" height="78" fill="none" stroke={INK} strokeWidth="1" strokeDasharray="5 4" />
+    <rect x="10" y="190" width="780" height="98" fill="none" stroke={INK} strokeWidth="1" strokeDasharray="5 4" />
     <text x="22" y="206" fontSize="11" fill="var(--muted)">
       on the laptop
     </text>
     {LOOP.map((t, i) => (
       <g key={t}>
-        <Box x={22 + i * 198} y={214} w={168} h={42} a={t} fs={12} />
-        {i < LOOP.length - 1 && <Line d={`M${190 + i * 198} 235 L${218 + i * 198} 235`} marker="oaa-w" />}
+        <Box x={22 + i * 152} y={214} w={140} h={42} a={t} fs={11} />
+        {i < LOOP.length - 1 && <Line d={`M${162 + i * 152} 235 L${172 + i * 152} 235`} marker="oaa-w" />}
       </g>
     ))}
-    <Line d="M125 268 L125 308" marker="oaa-w" />
+    <text x="174" y="276" fontSize="11" fill="var(--muted)">
+      recent → fail / older → note for admins
+    </text>
+    <Line d="M125 288 L125 316" marker="oaa-w" />
 
     {/* result and the portal */}
-    <Box x={10} y={310} w={230} h={52} a="Result" />
-    <Box x={285} y={310} w={270} h={52} a="Portal shows" b="Device clear / Issues detected" />
-    <Box x={585} y={310} w={205} h={52} a="Coordinator dashboard" b="+ OA Report" />
-    <Line d="M240 336 L283 336" marker="oaa-w" />
-    <Line d="M555 336 L583 336" marker="oaa-w" />
+    <Box x={10} y={318} w={230} h={52} a="Result" />
+    <Box x={285} y={318} w={270} h={52} a="Portal shows" b="Device clear / Issues detected" />
+    <Box x={585} y={318} w={205} h={52} a="Admin Desk" b="OA Checks + OA Report" />
+    <Line d="M240 344 L283 344" marker="oaa-w" />
+    <Line d="M555 344 L583 344" marker="oaa-w" />
+
+    {/* the admin side's timeline for one OA */}
+    <text x="10" y="406" fontSize="11" fill="var(--muted)">
+      in the admin desk, per OA
+    </text>
+    <line x1="120" x2="700" y1="432" y2="432" stroke={INK} strokeWidth="1.5" />
+    <rect x="113" y="420" width="14" height="24" fill={INK} />
+    <rect x="360" y="420" width="240" height="24" fill="var(--bg)" stroke={INK} strokeWidth="1.5" strokeDasharray="5 4" />
+    <text x="113" y="464" fontSize="12" fontWeight="700" fill={INK}>
+      OA start ±5 min
+    </text>
+    <text x="360" y="464" fontSize="12" fontWeight="700" fill={INK}>
+      1.5–3 h: spot-checks
+    </text>
+    <text x="10" y="437" fontSize="11" fill="var(--muted)">
+      time
+    </text>
   </svg>
 );
 
 // Narrow: the same flow, top to bottom.
 const Narrow = () => (
-  <svg className="diag-svg diag-narrow" viewBox="0 0 340 740" aria-hidden="true">
+  <svg className="diag-svg diag-narrow" viewBox="0 0 340 970" aria-hidden="true">
     <defs>
       <Arrow id="oaa-n" />
     </defs>
@@ -103,7 +124,7 @@ const Narrow = () => (
     <Box x={45} y={248} w={250} h={46} a="Laptop runs script" b="served compressed, in memory" />
     <Line d="M170 294 L170 314" marker="oaa-n" />
 
-    <rect x="20" y="316" width="300" height="214" fill="none" stroke={INK} strokeWidth="1" strokeDasharray="5 4" />
+    <rect x="20" y="316" width="300" height="284" fill="none" stroke={INK} strokeWidth="1" strokeDasharray="5 4" />
     <text x="30" y="332" fontSize="11" fill="var(--muted)">
       on the laptop
     </text>
@@ -113,13 +134,29 @@ const Narrow = () => (
         {i < LOOP.length - 1 && <Line d={`M170 ${376 + i * 48} L170 ${390 + i * 48}`} marker="oaa-n" />}
       </g>
     ))}
-    <Line d="M170 530 L170 552" marker="oaa-n" />
-
-    <Box x={45} y={554} w={250} h={46} a="Result" />
+    <text x="45" y="588" fontSize="11" fill="var(--muted)">
+      look back: recent → fail / older → note for admins
+    </text>
     <Line d="M170 600 L170 622" marker="oaa-n" />
-    <Box x={45} y={624} w={250} h={46} a="Portal shows" b="Device clear / Issues detected" />
-    <Line d="M170 670 L170 688" marker="oaa-n" />
-    <Box x={45} y={690} w={250} h={46} a="Coordinator dashboard" b="+ OA Report" />
+
+    <Box x={45} y={624} w={250} h={46} a="Result" />
+    <Line d="M170 670 L170 692" marker="oaa-n" />
+    <Box x={45} y={694} w={250} h={46} a="Portal shows" b="Device clear / Issues detected" />
+    <Line d="M170 740 L170 758" marker="oaa-n" />
+    <Box x={45} y={760} w={250} h={46} a="Admin Desk" b="OA Checks + OA Report" />
+
+    <text x="20" y="846" fontSize="11" fill="var(--muted)">
+      in the admin desk, per OA
+    </text>
+    <line x1="30" x2="300" y1="876" y2="876" stroke={INK} strokeWidth="1.5" />
+    <rect x="30" y="864" width="8" height="24" fill={INK} />
+    <rect x="135" y="864" width="105" height="24" fill="var(--bg)" stroke={INK} strokeWidth="1.5" strokeDasharray="5 4" />
+    <text x="30" y="910" fontSize="12" fontWeight="700" fill={INK}>
+      OA start ±5 min
+    </text>
+    <text x="135" y="930" fontSize="12" fontWeight="700" fill={INK}>
+      1.5–3 h: spot-checks
+    </text>
   </svg>
 );
 
@@ -127,7 +164,7 @@ const OaCheckFlow = () => (
   <figure
     className="diagram"
     role="img"
-    aria-label="OA Check flow. Version 1 was a public script run with irm or bash, with results not tied to an account. On 14 August it moved into the portal: the student logs in and generates a command with a one-time token, the laptop runs the script, which scans, fixes, closes background apps and scans again, the result goes back, the portal shows Device clear or Issues detected, and the coordinator dashboard and OA Report use it."
+    aria-label="OA Check flow. Version 1 was a public script run with irm or bash, with results not tied to an account. On 14 August it moved into the portal: the student logs in and generates a command with a one-time token, the laptop runs the script, which scans, looks back two hours (recent findings fail the check, older ones become a note for admins), fixes, closes background apps and scans again, the result goes back, the portal shows Device clear or Issues detected, and the Admin Desk shows it in OA Checks and the OA Report. For each OA the start check counts inside a window of five minutes either side of the start, and spot-checks run between one and a half and three hours in."
   >
     <Wide />
     <Narrow />
@@ -328,6 +365,7 @@ const StatusMonitor = () => (
 export const CASE_DIAGRAMS = {
   "oa-check-flow": OaCheckFlow,
   "oa-check-numbers": OaCheckNumbers,
+  "oa-gap-human": OaGapPlain,
   "dday-flow": DdayFlow,
   "intern-portal-roles": InternPortalRoles,
   "status-monitor": StatusMonitor,

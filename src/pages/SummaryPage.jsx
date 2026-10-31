@@ -86,7 +86,7 @@ const DataSheet = () => {
           {built.map((s) => (
             <li key={s.slug}>
               <p>
-                <strong>{shortTitle(s)}.</strong> {s.summary}{s.slug === "oa-check" ? ` ${fmtNum(oaCheckStats.total)} laptop checks run.` : ""}
+                <strong>{shortTitle(s)}.</strong> {s.summary}{s.slug === "oa-check" ? ` ${fmtNum(oaCheckStats.total)} laptop checks run; looks back 2h, start window + spot-checks.` : ""}
               </p>
               <p className="ds-home">{atHomeBySlug[s.slug]}</p>
             </li>
