@@ -1881,3 +1881,8 @@ html[data-tune="human"] .explain-btn--dark {
     transition: none;
   }
 }
+
+/* the wheels are moved by script every frame: keep them on their own layer */
+.tally-strip {
+  backface-visibility: hidden;
+}

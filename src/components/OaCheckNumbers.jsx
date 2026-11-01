@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import PencilNote from "./PencilNote";
 import { asOfLong, asOfShort, cleanOfHundred, failPct, fmtNum, oaCheckStats as S, passPct } from "../constants/oaCheck";
 
@@ -12,30 +12,36 @@ const ROLL_MS = 1200;
 
 // ───────────── the tally counter ─────────────
 // Each wheel is a strip of 0-9 and a 0 again; wheel k shows (value / 10^k) mod 10, so the units wheel
-// spins fastest, like an odometer.
+// spins fastest, like an odometer. The wheels are moved straight on the page (transform only, from one
+// animation loop), so React does not re-render anything while they roll.
 const STRIP = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 
-const Tally = ({ value }) => (
+const setWheels = (strips, value) => {
+  strips.forEach((el, i) => {
+    if (!el) return;
+    const place = 10 ** (WHEELS - 1 - i);
+    const pos = (value / place) % 10;
+    el.style.transform = `translate3d(0, ${((-pos * 100) / 11).toFixed(3)}%, 0)`;
+  });
+};
+
+const Tally = memo(({ strips }) => (
   <div className="tally" role="group" aria-label={`${fmtNum(S.total)} OA checks run`}>
     <div className="tally-plate">AG-COUNT / OA CHECKS RUN</div>
     <div className="tally-wheels" aria-hidden="true">
-      {Array.from({ length: WHEELS }, (_, i) => {
-        const place = 10 ** (WHEELS - 1 - i);
-        const pos = (value / place) % 10;
-        return (
-          <span key={i} className="tally-wheel">
-            <span className="tally-strip" style={{ transform: `translateY(${(-pos * 100) / 11}%)` }}>
-              {STRIP.map((d, j) => (
-                <span key={j}>{d}</span>
-              ))}
-            </span>
+      {Array.from({ length: WHEELS }, (_, i) => (
+        <span key={i} className="tally-wheel">
+          <span className="tally-strip" ref={(el) => (strips.current[i] = el)}>
+            {STRIP.map((d, j) => (
+              <span key={j}>{d}</span>
+            ))}
           </span>
-        );
-      })}
+        </span>
+      ))}
     </div>
     <p className="tally-asof">as of {asOfShort()}</p>
   </div>
-);
+));
 
 // ───────────── the pixel laptops ─────────────
 // A laptop is 12x8 pixels: a lid with a screen, and a base. Clean: a ">_" prompt on the screen.
@@ -157,13 +163,17 @@ const Receipt = () => (
 // ───────────── the section ─────────────
 const OaCheckNumbers = () => {
   const ref = useRef(null);
+  const strips = useRef([]);
   const [on, setOn] = useState(() => reduced());
-  const [value, setValue] = useState(() => (reduced() ? S.total : 0));
+
+  // before anything shows, the wheels read 00000 (or the total, with reduced motion)
+  useLayoutEffect(() => {
+    setWheels(strips.current, reduced() ? S.total : 0);
+  }, []);
 
   useEffect(() => {
     if (on || typeof IntersectionObserver === "undefined") {
       setOn(true);
-      setValue(S.total);
       return undefined;
     }
     const io = new IntersectionObserver(([e]) => {
@@ -176,23 +186,30 @@ const OaCheckNumbers = () => {
     return () => io.disconnect();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // the wheels roll once, ease-out, then stop
+  // the wheels roll once, ease-out, then stop. It starts a moment after the laptops begin to boot so the
+  // two do not compete for the first frames.
   useEffect(() => {
-    if (!on || value === S.total || reduced()) {
-      if (on && reduced()) setValue(S.total);
+    if (!on) return undefined;
+    if (reduced()) {
+      setWheels(strips.current, S.total);
       return undefined;
     }
     let raf = 0;
-    const t0 = performance.now();
-    const step = (now) => {
-      const t = Math.min(1, (now - t0) / ROLL_MS);
-      setValue(S.total * (1 - (1 - t) ** 3));
-      if (t < 1) raf = requestAnimationFrame(step);
-      else setValue(S.total);
+    let t0 = 0;
+    const delay = setTimeout(() => {
+      const step = (now) => {
+        if (!t0) t0 = now;
+        const t = Math.min(1, (now - t0) / ROLL_MS);
+        setWheels(strips.current, S.total * (1 - (1 - t) ** 4));
+        if (t < 1) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    }, 120);
+    return () => {
+      clearTimeout(delay);
+      cancelAnimationFrame(raf);
     };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [on]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [on]);
 
   return (
     <figure ref={ref} className={`oa-nums${on ? " oa-nums--on" : ""}`}>
@@ -202,7 +219,7 @@ const OaCheckNumbers = () => {
       <div className="oa-top">
         <div className="oa-tally-wrap">
           <PencilNote id="oaCounter" />
-          <Tally value={value} />
+          <Tally strips={strips} />
         </div>
         <Receipt />
       </div>
